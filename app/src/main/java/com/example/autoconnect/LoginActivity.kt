@@ -8,7 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-//import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.FirebaseDatabase
 
 class LoginActivity : AppCompatActivity() {
 
@@ -81,9 +81,9 @@ class LoginActivity : AppCompatActivity() {
         adminRef.get().addOnCompleteListener { adminTask ->
             if (adminTask.isSuccessful) {
                 if (adminTask.result != null && adminTask.result.exists()) {
-                    val intent = Intent(this, AdminPanelActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    //val intent = Intent(this, AdminPanelActivity::class.java)
+                    //startActivity(intent)
+                    //finish()
                     showToast("Admin sign in successfull")
                 } else {
                     // user is a customer
