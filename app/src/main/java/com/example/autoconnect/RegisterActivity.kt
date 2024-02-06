@@ -83,7 +83,7 @@ class RegisterActivity : AppCompatActivity() {
             showToast("Please enter a password between 8 and 20 characters without spaces.")
             return false
         }
-
+        //comment test for github
         // All inputs are valid
         return true
     }
