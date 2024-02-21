@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val buttonGoToMenu: Button = findViewById(R.id.buttonGoToMenu)
+        val buttonGoToMenu: Button = findViewById(R.id.buttonVehicleSearch)
         val buttonLeaveReview: Button = findViewById(R.id.buttonLeaveReview)
         val buttonViewOrders: Button = findViewById(R.id.buttonViewOrders)
         val buttonSignOut: Button = findViewById(R.id.buttonSignOut)

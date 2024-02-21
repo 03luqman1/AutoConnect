@@ -14,58 +14,43 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-condensed"
-        android:text="AUTO CONNECT"
+        android:text="Vehicle Search"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="105sp"
         android:textStyle="bold" />
 
-    <!-- Button to Go to Menu -->
-    <Button
-        android:id="@+id/buttonVehicleSearch"
+    <!-- Input field for VRN -->
+    <EditText
+        android:id="@+id/editTextVRN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Vehicle Search"
-        android:textSize="18sp"
-        android:textColor="#73B1AA"
-        android:background="@drawable/rounded_button"
+        android:hint="Enter Vehicle Registration Number"
+        android:textColorHint="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
         android:layout_below="@id/textViewTitle"
         android:layout_marginTop="16dp"/>
 
-    <!-- Button to Leave a Review -->
+    <!-- Button to perform search -->
     <Button
-        android:id="@+id/buttonLeaveReview"
+        android:id="@+id/buttonSearchVehicle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Leave a Review"
+        android:text="Search Vehicle"
         android:textSize="18sp"
         android:textColor="#73B1AA"
         android:background="@drawable/rounded_button"
-        android:layout_below="@id/buttonVehicleSearch"
+        android:layout_below="@id/editTextVRN"
         android:layout_marginTop="16dp"/>
 
-
-    <!-- Button to View Orders -->
-    <Button
-        android:id="@+id/buttonViewOrders"
-        android:layout_width="match_parent"
+    <!-- Placeholder for displaying vehicle details -->
+    <TextView
+        android:id="@+id/textViewVehicleDetails"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Orders"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
-        android:textColor="#73B1AA"
-        android:background="@drawable/rounded_button"
-        android:layout_below="@id/buttonLeaveReview"
-        android:layout_marginTop="16dp"/>
-
-    <!-- Button to Sign Out -->
-    <Button
-        android:id="@+id/buttonSignOut"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sign Out"
-        android:textSize="18sp"
-        android:textColor="#73B1AA"
-        android:background="@drawable/rounded_button"
-        android:layout_below="@id/buttonViewOrders"
+        android:layout_below="@id/buttonSearchVehicle"
         android:layout_marginTop="16dp"/>
 </RelativeLayout>

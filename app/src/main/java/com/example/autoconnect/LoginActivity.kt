@@ -55,6 +55,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signIn(email: String, password: String) {
+
+        val intent = Intent(this, SearchVehicleActivity::class.java)
+        startActivity(intent)
+
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
