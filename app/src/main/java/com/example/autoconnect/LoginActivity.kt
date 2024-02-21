@@ -7,124 +7,48 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.autoconnect.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
-    private var currentToast: Toast? = null
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        auth = FirebaseAuth.getInstance()
 
-        val buttonSignIn = findViewById<Button>(R.id.buttonSignIn)
-        val editTextEmailSignIn = findViewById<EditText>(R.id.editTextEmailSignIn)
-        val editTextPassword = findViewById<EditText>(R.id.editTextPassword)
-        val textViewSignUp = findViewById<TextView>(R.id.textViewSignUp)
-
-        buttonSignIn.setOnClickListener {
-            val email = editTextEmailSignIn.text.toString()
-            val password = editTextPassword.text.toString()
-
-            if (validateInputs(email, password)) {
-                signIn(email, password)
-            }
-        }
-
-        textViewSignUp.setOnClickListener {
+        firebaseAuth = FirebaseAuth.getInstance()
+        binding.textViewSignUp.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
-    }
 
-    private fun validateInputs(email: String, password: String): Boolean {
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            showToast("Please enter a valid email address.")
-            return false
-        }
+        binding.buttonSignIn.setOnClickListener {
+            val email = binding.editTextEmailSignIn.text.toString()
+            val pass = binding.editTextPassword.text.toString()
 
-        if (password.length < 8 || password.length > 20 || password.contains(" ")) {
-            showToast("Please enter a valid password")
-            return false
-        }
-        return true
-    }
+            if (email.isNotEmpty() && pass.isNotEmpty()) {
 
-    private fun signIn(email: String, password: String) {
-
-        val intent = Intent(this, SearchVehicleActivity::class.java)
-        startActivity(intent)
-
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    if (user != null) {
-                        val userId = user.uid
-
-                        // Check the user type (Admin or Customer) based on the user ID
-                        checkUserType(userId)
+                firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
                     } else {
-                        // Handle the case where the user is unexpectedly null
-                        showToast("Authentication failed. User is null.")
-                    }
-                } else {
-                    showToast("Authentication failed. Check your credentials.")
-                }
-            }
-    }
+                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
 
-    private fun checkUserType(userId: String) {
-        val adminRef = FirebaseDatabase.getInstance().getReference("Admin").child(userId)
-        val customerRef = FirebaseDatabase.getInstance().getReference("Customers").child(userId)
-
-        adminRef.get().addOnCompleteListener { adminTask ->
-            if (adminTask.isSuccessful) {
-                if (adminTask.result != null && adminTask.result.exists()) {
-                    //val intent = Intent(this, AdminPanelActivity::class.java)
-                    //startActivity(intent)
-                    //finish()
-                    showToast("Admin sign in successfull")
-                } else {
-                    // user is a customer
-                    customerRef.get().addOnCompleteListener { customerTask ->
-                        if (customerTask.isSuccessful) {
-                            if (customerTask.result != null && customerTask.result.exists()) {
-                                // User is a customer
-                                val intent = Intent(this, MainActivity::class.java)
-                                startActivity(intent)
-                                finish()
-                            } else {
-                                showToast("User not found in database.")
-                            }
-                        } else {
-                            showToast("Error checking customer user type.")
-                        }
                     }
                 }
             } else {
-                showToast("Error checking admin user type.")
+                Toast.makeText(this, "Empty Fields Are not Allowed !!", Toast.LENGTH_SHORT).show()
+
             }
         }
     }
 
 
-
-    private fun showToast(message: String) {
-        currentToast?.cancel()
-        currentToast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
-        currentToast?.show()
-    }
-
-    @Suppress("MissingSuperCall")
-    override fun onBackPressed() {
-        val intent = Intent(this, StartActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
 }
-

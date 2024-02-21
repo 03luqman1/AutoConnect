@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,22 +14,20 @@ class MainActivity : AppCompatActivity() {
 
         val buttonGoToMenu: Button = findViewById(R.id.buttonVehicleSearch)
         val buttonLeaveReview: Button = findViewById(R.id.buttonLeaveReview)
-        val buttonViewOrders: Button = findViewById(R.id.buttonViewOrders)
         val buttonSignOut: Button = findViewById(R.id.buttonSignOut)
 
         buttonGoToMenu.setOnClickListener {
             //startActivity(Intent(this, MenuActivity::class.java))
+            startActivity(Intent(this, SearchVehicleActivity::class.java))
         }
 
         buttonLeaveReview.setOnClickListener {
-            //startActivity(Intent(this, ReviewActivity::class.java))
+            startActivity(Intent(this, ReviewActivity::class.java))
         }
 
-        buttonViewOrders.setOnClickListener {
-            //startActivity(Intent(this, OrdersActivity::class.java))
-        }
 
         buttonSignOut.setOnClickListener {
+            Firebase.auth.signOut()
             startActivity(Intent(this, StartActivity::class.java))
             finish()
         }

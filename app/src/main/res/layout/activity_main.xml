@@ -17,7 +17,7 @@
         android:text="AUTO CONNECT"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
-        android:textSize="90sp"
+        android:textSize="70sp"
         android:textStyle="bold" />
 
     <!-- Button to Go to Menu -->
@@ -45,18 +45,6 @@
         android:layout_marginTop="16dp"/>
 
 
-    <!-- Button to View Orders -->
-    <Button
-        android:id="@+id/buttonViewOrders"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="View Orders"
-        android:textSize="18sp"
-        android:textColor="#297BA6"
-        android:background="@drawable/rounded_button"
-        android:layout_below="@id/buttonLeaveReview"
-        android:layout_marginTop="16dp"/>
-
     <!-- Button to Sign Out -->
     <Button
         android:id="@+id/buttonSignOut"
@@ -66,6 +54,6 @@
         android:textSize="18sp"
         android:textColor="#297BA6"
         android:background="@drawable/rounded_button"
-        android:layout_below="@id/buttonViewOrders"
+        android:layout_below="@id/buttonLeaveReview"
         android:layout_marginTop="16dp"/>
 </RelativeLayout>

@@ -36,6 +36,9 @@
         <activity
             android:name=".SearchVehicleActivity"
             android:exported="true" />
+        <activity
+            android:name=".ReviewActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
