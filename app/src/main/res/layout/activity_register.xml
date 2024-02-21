@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#73B1AA">
+    android:background="#297BA6">
 
     <TextView
         android:id="@+id/textViewTitle"
@@ -38,7 +38,7 @@
         android:hint="Full Name"
         android:textColorHint="#CCCCCC"
         android:background="@drawable/rounded_textbox"
-        android:textColor="#73B1AA"
+        android:textColor="#297BA6"
         android:padding="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -54,7 +54,7 @@
         android:hint="Username"
         android:textColorHint="#CCCCCC"
         android:background="@drawable/rounded_textbox"
-        android:textColor="#73B1AA"
+        android:textColor="#297BA6"
         android:padding="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -71,7 +71,7 @@
         android:inputType="textEmailAddress"
         android:textColorHint="#CCCCCC"
         android:background="@drawable/rounded_textbox"
-        android:textColor="#73B1AA"
+        android:textColor="#297BA6"
         android:padding="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -87,7 +87,7 @@
         android:inputType="phone"
         android:textColorHint="#CCCCCC"
         android:background="@drawable/rounded_textbox"
-        android:textColor="#73B1AA"
+        android:textColor="#297BA6"
         android:padding="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -103,7 +103,7 @@
         android:inputType="textPassword"
         android:textColorHint="#CCCCCC"
         android:background="@drawable/rounded_textbox"
-        android:textColor="#73B1AA"
+        android:textColor="#297BA6"
         android:padding="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -118,7 +118,7 @@
         android:text="Register"
         android:textSize="20sp"
         android:background="@drawable/rounded_button"
-        android:textColor="#73B1AA"
+        android:textColor="#297BA6"
         android:padding="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"/>

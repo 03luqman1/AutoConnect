@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#73B1AA"
+    android:background="#297BA6"
     android:padding="16dp">
 
     <!-- Title -->
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:text="Vehicle Search"
         android:textSize="18sp"
-        android:textColor="#73B1AA"
+        android:textColor="#297BA6"
         android:background="@drawable/rounded_button"
         android:layout_below="@id/textViewTitle"
         android:layout_marginTop="16dp"/>
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:text="Leave a Review"
         android:textSize="18sp"
-        android:textColor="#73B1AA"
+        android:textColor="#297BA6"
         android:background="@drawable/rounded_button"
         android:layout_below="@id/buttonVehicleSearch"
         android:layout_marginTop="16dp"/>
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:text="View Orders"
         android:textSize="18sp"
-        android:textColor="#73B1AA"
+        android:textColor="#297BA6"
         android:background="@drawable/rounded_button"
         android:layout_below="@id/buttonLeaveReview"
         android:layout_marginTop="16dp"/>
@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:text="Sign Out"
         android:textSize="18sp"
-        android:textColor="#73B1AA"
+        android:textColor="#297BA6"
         android:background="@drawable/rounded_button"
         android:layout_below="@id/buttonViewOrders"
         android:layout_marginTop="16dp"/>

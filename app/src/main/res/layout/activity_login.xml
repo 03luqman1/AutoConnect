@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#73B1AA">
+    android:background="#297BA6">
 
     <TextView
         android:id="@+id/textViewTitle"
@@ -31,7 +30,7 @@
         android:inputType="text"
         android:padding="16dp"
         android:singleLine="true"
-        android:textColor="#73B1AA"
+        android:textColor="#297BA6"
         android:textColorHint="#CCCCCC" />
 
     <EditText
@@ -39,30 +38,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/editTextEmailSignIn"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_textbox"
         android:hint="Password"
         android:inputType="textPassword"
-        android:textColorHint="#CCCCCC"
-        android:background="@drawable/rounded_textbox"
-        android:textColor="#73B1AA"
         android:padding="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:textColor="#297BA6"
+        android:textColorHint="#CCCCCC" />
 
     <Button
         android:id="@+id/buttonSignIn"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_below="@id/editTextPassword"
-        android:layout_marginTop="32dp"
-        android:text="Sign In"
-        android:textSize="20sp"
-        android:background="@drawable/rounded_button"
-        android:textColor="#73B1AA"
-        android:padding="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_button"
+        android:padding="16dp"
+        android:text="Sign In"
+        android:textColor="#297BA6"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/textViewSignUp"
@@ -74,5 +73,5 @@
         android:text="Don't have an account? Sign Up"
         android:textColor="#ffffff"
         android:textSize="16sp"
-        android:textStyle="italic"/>
+        android:textStyle="italic" />
 </RelativeLayout>

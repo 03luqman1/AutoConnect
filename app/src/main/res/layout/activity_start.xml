@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#73B1AA">
+    android:background="#297BA6">
 
     <TextView
         android:id="@+id/textViewTitle"
@@ -34,7 +34,7 @@
             android:text="Login"
             android:textSize="20sp"
             android:background="@drawable/rounded_button"
-            android:textColor="#73B1AA"
+            android:textColor="#297BA6"
             android:layout_marginBottom="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"/>
@@ -46,7 +46,7 @@
             android:text="Sign Up"
             android:textSize="20sp"
             android:background="@drawable/rounded_button"
-            android:textColor="#73B1AA"
+            android:textColor="#297BA6"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"/>
     </LinearLayout>
