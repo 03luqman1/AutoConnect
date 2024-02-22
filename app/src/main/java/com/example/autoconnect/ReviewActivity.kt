@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.RatingBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.autoconnect.dataclasses.Review
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -83,8 +84,3 @@ class ReviewActivity : AppCompatActivity() {
 }
 
 
-data class Review(
-    val userId: String?,
-    val rating: Float,
-    val comments: String
-)

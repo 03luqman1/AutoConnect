@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.autoconnect.dataclasses.VehicleInfo2
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
@@ -110,22 +111,5 @@ class AddVehicleActivity : AppCompatActivity() {
     }
 }
 
-// Data class to represent vehicle information
-data class VehicleInfo2(
-    val registrationNumber: String,
-    val taxStatus: String,
-    val taxDueDate: String,
-    val motStatus: String,
-    val make: String,
-    val yearOfManufacture: Int,
-    val engineCapacity: Int,
-    val co2Emissions: Int,
-    val fuelType: String,
-    val markedForExport: Boolean,
-    val colour: String,
-    val typeApproval: String,
-    val dateOfLastV5CIssued: String,
-    val motExpiryDate: String,
-    val wheelplan: String,
-    val monthOfFirstRegistration: String
-)
+
+
