@@ -45,6 +45,9 @@
         <activity
             android:name=".GarageActivity"
             android:exported="true" />
+        <activity
+            android:name=".AddVehicleActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
