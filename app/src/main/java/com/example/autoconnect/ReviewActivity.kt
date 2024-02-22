@@ -23,6 +23,8 @@ class ReviewActivity : AppCompatActivity() {
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 
+
+
         // Get references to the views
         val ratingBar: RatingBar = findViewById(R.id.ratingBar)
         val editTextComments: EditText = findViewById(R.id.editTextComments)
@@ -40,7 +42,7 @@ class ReviewActivity : AppCompatActivity() {
                 if (rating > 0) {
                     // Add review details to the Realtime Database
                     addReviewToDatabase(rating, comments)
-                    showToast("Rating Submitted - Thanks for the review!")
+
                     startActivity(Intent(this, MainActivity::class.java))
                 } else {
                     // Display a toast indicating that a rating must be selected
@@ -70,6 +72,7 @@ class ReviewActivity : AppCompatActivity() {
                 reviewsRef.child(it).setValue(review)
             }
         }
+        showToast("Review Submitted - Thanks for the review!")
     }
 
     private fun showToast(message: String) {

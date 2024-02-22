@@ -39,6 +39,12 @@
         <activity
             android:name=".ReviewActivity"
             android:exported="true" />
+        <activity
+            android:name=".SocialActivity"
+            android:exported="true" />
+        <activity
+            android:name=".GarageActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

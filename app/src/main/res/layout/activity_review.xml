@@ -17,7 +17,7 @@
         android:text="Auto Connect"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
-        android:textSize="105sp"
+        android:textSize="70sp"
         android:textStyle="bold" />
 
     <!-- Title: LEAVE A REVIEW -->

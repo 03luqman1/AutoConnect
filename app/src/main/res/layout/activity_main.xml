@@ -20,7 +20,7 @@
         android:textSize="70sp"
         android:textStyle="bold" />
 
-    <!-- Button to Go to Menu -->
+    <!-- Button to Go to search-->
     <Button
         android:id="@+id/buttonVehicleSearch"
         android:layout_width="match_parent"
@@ -32,6 +32,30 @@
         android:layout_below="@id/textViewTitle"
         android:layout_marginTop="16dp"/>
 
+    <!-- Button to Go to My Garage -->
+    <Button
+        android:id="@+id/buttonGarage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Garage"
+        android:textSize="18sp"
+        android:textColor="#297BA6"
+        android:background="@drawable/rounded_button"
+        android:layout_below="@id/buttonVehicleSearch"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Button for Social -->
+    <Button
+        android:id="@+id/buttonSocial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Social"
+        android:textSize="18sp"
+        android:textColor="#297BA6"
+        android:background="@drawable/rounded_button"
+        android:layout_below="@id/buttonGarage"
+        android:layout_marginTop="16dp"/>
+
     <!-- Button to Leave a Review -->
     <Button
         android:id="@+id/buttonLeaveReview"
@@ -41,9 +65,8 @@
         android:textSize="18sp"
         android:textColor="#297BA6"
         android:background="@drawable/rounded_button"
-        android:layout_below="@id/buttonVehicleSearch"
+        android:layout_below="@id/buttonSocial"
         android:layout_marginTop="16dp"/>
-
 
     <!-- Button to Sign Out -->
     <Button

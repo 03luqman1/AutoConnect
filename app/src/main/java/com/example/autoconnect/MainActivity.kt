@@ -15,10 +15,20 @@ class MainActivity : AppCompatActivity() {
         val buttonGoToMenu: Button = findViewById(R.id.buttonVehicleSearch)
         val buttonLeaveReview: Button = findViewById(R.id.buttonLeaveReview)
         val buttonSignOut: Button = findViewById(R.id.buttonSignOut)
+        val buttonSocial: Button = findViewById(R.id.buttonSocial)
+        val buttonGarage: Button = findViewById(R.id.buttonGarage)
 
         buttonGoToMenu.setOnClickListener {
             //startActivity(Intent(this, MenuActivity::class.java))
             startActivity(Intent(this, SearchVehicleActivity::class.java))
+        }
+
+        buttonSocial.setOnClickListener {
+            startActivity(Intent(this, SocialActivity::class.java))
+        }
+
+        buttonGarage.setOnClickListener {
+            startActivity(Intent(this, GarageActivity::class.java))
         }
 
         buttonLeaveReview.setOnClickListener {

@@ -46,7 +46,7 @@
         android:singleLine="true"/>
 
     <EditText
-        android:id="@+id/editTextEmailSignIn"
+        android:id="@+id/editTextUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/editTextFullName"
@@ -65,7 +65,7 @@
         android:id="@+id/editTextEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextEmailSignIn"
+        android:layout_below="@id/editTextUsername"
         android:layout_marginTop="16dp"
         android:hint="Email Address"
         android:inputType="textEmailAddress"
