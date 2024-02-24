@@ -6,7 +6,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.autoconnect.dataclasses.VehicleInfo2
+import com.example.autoconnect.dataclasses.VehicleInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -53,7 +53,7 @@ class GarageActivity : AppCompatActivity() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val vehicleList = mutableListOf<String>()
                     for (vehicleSnapshot in snapshot.children) {
-                        val vehicle = vehicleSnapshot.getValue(VehicleInfo2::class.java)
+                        val vehicle = vehicleSnapshot.getValue(VehicleInfo::class.java)
                         vehicle?.let {
                             // Add the registration number of each vehicle to the list
                             vehicleList.add(it.registrationNumber)

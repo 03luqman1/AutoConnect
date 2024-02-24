@@ -6,7 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.autoconnect.dataclasses.VehicleInfo2
+import com.example.autoconnect.dataclasses.VehicleInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
@@ -22,7 +22,7 @@ class AddVehicleActivity : AppCompatActivity() {
     private lateinit var editTextVRN: EditText
     private lateinit var buttonSearchVehicle: Button
     private lateinit var textViewVehicleDetails: TextView
-    private lateinit var vehicleInfo: VehicleInfo2 // Declare vehicleInfo here
+    private lateinit var vehicleInfo: VehicleInfo // Declare vehicleInfo here
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +52,7 @@ class AddVehicleActivity : AppCompatActivity() {
 
                 // Parse JSON response using Gson
                 val gson = Gson()
-                vehicleInfo = gson.fromJson(responseBody, VehicleInfo2::class.java) // Assign to the class property
+                vehicleInfo = gson.fromJson(responseBody, VehicleInfo::class.java) // Assign to the class property
 
                 // Construct formatted text to display in textViewVehicleDetails
                 val formattedText = StringBuilder().apply {
