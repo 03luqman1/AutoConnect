@@ -25,11 +25,17 @@ class VehicleAdapter(context: Context, vehicles: List<VehicleInfo>) :
 
         val logoImageView = listItemView?.findViewById<ImageView>(R.id.logoImageView)
         val vrnTextView = listItemView?.findViewById<TextView>(R.id.registrationNumberTextView)
+        val motStatusTextView = listItemView?.findViewById<TextView>(R.id.motStatusTextView)
+        val taxStatusTextView = listItemView?.findViewById<TextView>(R.id.taxStatusTextView)
+        val insuranceStatusTextView = listItemView?.findViewById<TextView>(R.id.insuranceStatusTextView)
 
         currentVehicle?.let {
             // Load the vehicle logo from the drawable folder
             logoImageView?.setImageResource(getLogoResource(currentVehicle.make))
             vrnTextView?.text = it.registrationNumber
+            motStatusTextView?.text = "MOT Status: ${it.motStatus} (Expiry: ${it.motExpiryDate})"
+            taxStatusTextView?.text = "Tax Status: ${it.taxStatus} (Expiry: ${it.taxDueDate})"
+            insuranceStatusTextView?.text = "Insurance Status: UNKNOWN (Expiry: UNKNOWN)"
         }
 
         return listItemView!!
@@ -43,9 +49,11 @@ class VehicleAdapter(context: Context, vehicles: List<VehicleInfo>) :
             "SEAT" -> R.drawable.seat_logo
             "TOYOTA" -> R.drawable.toyota_logo
             "SUZUKI" -> R.drawable.suzuki_logo
+            "MERCEDES-BENZ" -> R.drawable.mercedes_logo
 
             // Add more cases for other vehicle makes as needed
             else -> R.drawable.background // Default logo if the make is not found
         }
     }
 }
+

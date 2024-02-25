@@ -28,6 +28,37 @@
             android:background="@drawable/plate_background"
             android:textStyle="bold"
             android:gravity="center"
+
             android:textSize="30sp"/>
+
+        <!-- TextView for MOT status -->
+        <TextView
+            android:id="@+id/motStatusTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="AUTO CONNECT"
+
+            android:textSize="10sp"/>
+
+        <!-- TextView for Tax status -->
+        <TextView
+            android:id="@+id/taxStatusTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="AUTO CONNECT"
+
+            android:textSize="10sp"/>
+
+        <!-- TextView for Insurance status -->
+        <TextView
+            android:id="@+id/insuranceStatusTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AUTO CONNECT"
+
+            android:textColor="@color/white"
+            android:textSize="10sp"/>
     </LinearLayout>
 </RelativeLayout>
