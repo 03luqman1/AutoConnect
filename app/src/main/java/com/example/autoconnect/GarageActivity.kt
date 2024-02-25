@@ -2,6 +2,7 @@ package com.example.autoconnect
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
@@ -37,6 +38,17 @@ class GarageActivity : AppCompatActivity() {
 
         // Display the user's vehicles in the ListView
         displayUserVehicles()
+
+        listViewVehicles.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+                // Get the selected vehicle info
+                val selectedVehicle = listViewVehicles.adapter.getItem(position) as VehicleInfo
+
+                // Start DisplayVehicleActivity and pass selected vehicle info
+                val intent = Intent(this, DisplayVehicleActivity::class.java).apply {
+                    putExtra("vehicle_info", selectedVehicle)
+                }
+                startActivity(intent)
+            }
     }
 
     private fun displayUserVehicles() {

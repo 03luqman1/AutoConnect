@@ -51,7 +51,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_button"
         android:text="Search Vehicle"
-        android:textColor="#297BA6"
+        android:textColor="#000000"
         android:textSize="18sp" />
 
     <!-- Placeholder for displaying vehicle details -->

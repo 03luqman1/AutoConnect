@@ -1,5 +1,7 @@
 package com.example.autoconnect.dataclasses
 
+import java.io.Serializable
+
 // Data class to represent vehicle information
 data class VehicleInfo(
     val registrationNumber: String = "",
@@ -18,4 +20,4 @@ data class VehicleInfo(
     val motExpiryDate: String = "",
     val wheelplan: String = "",
     val monthOfFirstRegistration: String = ""
-)
+): Serializable

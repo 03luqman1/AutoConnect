@@ -1,0 +1,178 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textViewRegistrationNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/plate_background"
+        android:text="Registration Number:"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:layout_marginTop="16dp"/>
+
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/textViewRegistrationNumber"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/default_logo"
+        android:scaleType="fitCenter"
+        android:layout_alignBottom="@id/textViewRegistrationNumber"/>
+
+    <TextView
+        android:id="@+id/textViewTaxStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tax Status:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewRegistrationNumber"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewTaxDueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tax Due Date:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewTaxStatus"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewMOTStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MOT Status:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewTaxDueDate"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewMake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Make:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewMOTStatus"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewYearOfManufacture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Year of Manufacture:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewMake"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewEngineCapacity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Engine Capacity:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewYearOfManufacture"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewCO2Emissions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CO2 Emissions:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewEngineCapacity"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewFuelType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fuel Type:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewCO2Emissions"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewMarkedForExport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Marked for Export:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewFuelType"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewColour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Colour:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewMarkedForExport"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewTypeApproval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Type Approval:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewColour"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewDateOfLastV5CIssued"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date of Last V5C Issued:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewTypeApproval"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewMOTExpiryDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MOT Expiry Date:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewDateOfLastV5CIssued"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewWheelplan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wheelplan:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewMOTExpiryDate"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewMonthOfFirstRegistration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Month of First Registration:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewWheelplan"
+        android:layout_marginTop="8dp"/>
+
+</RelativeLayout>

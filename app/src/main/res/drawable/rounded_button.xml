@@ -1,4 +1,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <corners android:radius="25dp" />
-    <solid android:color="#ffffff" />
+    <solid android:color="#C0C0C0" />
+    <stroke
+        android:width="2dp"
+        android:color="#FF0000" /> <!-- Red outline -->
 </shape>

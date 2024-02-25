@@ -50,9 +50,12 @@ class VehicleAdapter(context: Context, vehicles: List<VehicleInfo>) :
             "TOYOTA" -> R.drawable.toyota_logo
             "SUZUKI" -> R.drawable.suzuki_logo
             "MERCEDES-BENZ" -> R.drawable.mercedes_logo
+            "VAUXHALL" -> R.drawable.vauxhall_logo
+            "AUDI" -> R.drawable.audi_logo
+            "VOLKSWAGEN" -> R.drawable.volkswagen_logo
 
             // Add more cases for other vehicle makes as needed
-            else -> R.drawable.background // Default logo if the make is not found
+            else -> R.drawable.default_logo // Default logo if the make is not found
         }
     }
 }

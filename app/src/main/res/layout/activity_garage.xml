@@ -54,7 +54,7 @@
         android:layout_height="100dp"
         android:text="Add New Vehicle"
         android:textSize="18sp"
-        android:textColor="#297BA6"
+        android:textColor="#000000"
         android:background="@drawable/rounded_button"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="16dp"/>

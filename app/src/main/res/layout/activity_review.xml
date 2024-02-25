@@ -69,7 +69,7 @@
         android:layout_height="100dp"
         android:text="Submit Review"
         android:textSize="18sp"
-        android:textColor="#73B1AA"
+        android:textColor="#000000"
         android:background="@drawable/rounded_button"
         android:layout_below="@id/editTextComments"
         android:layout_marginTop="16dp"/>

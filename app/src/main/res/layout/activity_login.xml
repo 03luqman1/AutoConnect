@@ -30,7 +30,7 @@
         android:inputType="text"
         android:padding="16dp"
         android:singleLine="true"
-        android:textColor="#297BA6"
+        android:textColor="#000000"
         android:textColorHint="#CCCCCC" />
 
     <EditText
@@ -46,7 +46,7 @@
         android:inputType="textPassword"
         android:padding="16dp"
         android:singleLine="true"
-        android:textColor="#297BA6"
+        android:textColor="#000000"
         android:textColorHint="#CCCCCC" />
 
     <Button
@@ -60,7 +60,7 @@
         android:background="@drawable/rounded_button"
         android:padding="16dp"
         android:text="Sign In"
-        android:textColor="#297BA6"
+        android:textColor="#000000"
         android:textSize="20sp" />
 
     <TextView

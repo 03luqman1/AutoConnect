@@ -48,6 +48,9 @@
         <activity
             android:name=".AddVehicleActivity"
             android:exported="true" />
+        <activity
+            android:name=".DisplayVehicleActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

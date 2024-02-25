@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:text="Vehicle Search"
         android:textSize="18sp"
-        android:textColor="#297BA6"
+        android:textColor="#000000"
         android:background="@drawable/rounded_button"
         android:layout_below="@id/textViewTitle"
         android:layout_marginTop="16dp"/>
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:text="My Garage"
         android:textSize="18sp"
-        android:textColor="#297BA6"
+        android:textColor="#000000"
         android:background="@drawable/rounded_button"
         android:layout_below="@id/buttonVehicleSearch"
         android:layout_marginTop="16dp"/>
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:text="Social"
         android:textSize="18sp"
-        android:textColor="#297BA6"
+        android:textColor="#000000"
         android:background="@drawable/rounded_button"
         android:layout_below="@id/buttonGarage"
         android:layout_marginTop="16dp"/>
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:text="Leave a Review"
         android:textSize="18sp"
-        android:textColor="#297BA6"
+        android:textColor="#000000"
         android:background="@drawable/rounded_button"
         android:layout_below="@id/buttonSocial"
         android:layout_marginTop="16dp"/>
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:text="Sign Out"
         android:textSize="18sp"
-        android:textColor="#297BA6"
+        android:textColor="#000000"
         android:background="@drawable/rounded_button"
         android:layout_below="@id/buttonLeaveReview"
         android:layout_marginTop="16dp"/>
