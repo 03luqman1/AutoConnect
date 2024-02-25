@@ -51,21 +51,16 @@ class GarageActivity : AppCompatActivity() {
             // Listen for changes in the vehicles node
             vehiclesRef.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val vehicleList = mutableListOf<String>()
+                    val vehicleList = mutableListOf<VehicleInfo>()
                     for (vehicleSnapshot in snapshot.children) {
                         val vehicle = vehicleSnapshot.getValue(VehicleInfo::class.java)
                         vehicle?.let {
-                            // Add the registration number of each vehicle to the list
-                            vehicleList.add(it.registrationNumber)
+                            vehicleList.add(it)
                         }
                     }
 
-                    // Create an ArrayAdapter to populate the ListView
-                    val adapter = ArrayAdapter(
-                        this@GarageActivity,
-                        android.R.layout.simple_list_item_1,
-                        vehicleList
-                    )
+                    // Create a custom adapter to populate the ListView
+                    val adapter = VehicleAdapter(this@GarageActivity, vehicleList)
 
                     // Set the adapter to the ListView
                     listViewVehicles.adapter = adapter
