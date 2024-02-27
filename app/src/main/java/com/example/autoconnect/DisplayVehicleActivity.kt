@@ -99,7 +99,7 @@ class DisplayVehicleActivity : AppCompatActivity() {
         textViewWheelplan.text = "Wheelplan: ${vehicleInfo.wheelplan}"
 
         val textViewMonthOfFirstRegistration = findViewById<TextView>(R.id.textViewMonthOfFirstRegistration)
-        textViewMonthOfFirstRegistration.text = "Expires: ${vehicleInfo.insuranceExpiry}"
+        textViewMonthOfFirstRegistration.text = "Month Of First Registration: ${vehicleInfo.monthOfFirstRegistration}"
 
         // Set the vehicle make logo
         setVehicleMakeLogo(vehicleInfo.make)

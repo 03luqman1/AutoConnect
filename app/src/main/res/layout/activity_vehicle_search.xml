@@ -7,20 +7,39 @@
     android:padding="16dp">
 
     <!-- Title -->
-    <TextView
-        android:padding="10dp"
-        android:background="@drawable/rounded_background"
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/relativeLayoutSearch"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-condensed"
-        android:text="Vehicle Search"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="70sp"
-        android:textStyle="bold" />
+        android:padding="10dp"
+        android:background="@drawable/rounded_background">
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:text="AUTO CONNECT"
+            android:textColor="#FFFFFF"
+            android:layout_centerHorizontal="true"
+            android:textSize="46sp"
+            android:textStyle="bold" />
+
+        <!-- Subheading -->
+        <TextView
+            android:id="@+id/textViewSearchTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:text="VEHICLE SEARCH"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+    </RelativeLayout>
 
 
     <!-- Input field for VRN -->
@@ -28,7 +47,7 @@
         android:id="@+id/editTextVRN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewTitle"
+        android:layout_below="@id/relativeLayoutSearch"
         android:layout_marginTop="16dp"
         android:background="@drawable/plate_background"
         android:hint="Enter VRN"
