@@ -431,6 +431,7 @@ class DisplayVehicleActivity : AppCompatActivity() {
             "AUDI" -> R.drawable.audi_logo
             "VOLKSWAGEN" -> R.drawable.volkswagen_logo
             "CITROEN" -> R.drawable.citroen_logo
+            "HYUNDAI" -> R.drawable.hyundai_logo
 
             // Add more cases for other vehicle makes as needed
             else -> R.drawable.default_logo // Default logo if the make is not found
