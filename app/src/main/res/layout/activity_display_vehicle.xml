@@ -38,13 +38,13 @@
         android:layout_below="@id/firstRelativeLayout"
 
 
-        android:padding="8dp">
+        android:layout_marginTop="8dp">
 
         <!-- Tax-related information -->
         <RelativeLayout
             android:id="@+id/taxRelativeLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="157dp"
+            android:layout_height="80dp"
             android:layout_alignParentStart="true"
             android:background="@drawable/rounded_background"
             android:padding="8dp">
@@ -53,35 +53,37 @@
                 android:id="@+id/textViewTaxStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tax:"
                 android:scaleType="fitCenter"
+                android:text="Tax:"
                 android:textSize="25sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <ImageView
                 android:id="@+id/taxImageView"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:scaleType="fitCenter"
                 android:layout_toEndOf="@id/textViewTaxStatus"
+                android:scaleType="fitCenter"
                 android:src="@drawable/orange_questionmark" />
+
             <TextView
                 android:id="@+id/textViewTaxDueDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/textViewTaxStatus"
+                android:layout_marginTop="8dp"
                 android:text="Tax Due Date:"
                 android:textSize="10sp"
-                android:textStyle="bold"
-                android:layout_below="@id/textViewTaxStatus"
-                android:layout_marginTop="8dp"/>
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <!-- MOT-related information -->
         <RelativeLayout
             android:id="@+id/motRelativeLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="157dp"
+            android:layout_height="80dp"
             android:layout_alignParentEnd="true"
             android:background="@drawable/rounded_background"
             android:padding="8dp">
@@ -90,29 +92,30 @@
                 android:id="@+id/textViewMOTStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MOT:"
                 android:scaleType="fitCenter"
+                android:text="MOT:"
                 android:textSize="25sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <ImageView
                 android:id="@+id/motImageView"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:scaleType="fitCenter"
                 android:layout_toEndOf="@id/textViewMOTStatus"
+                android:scaleType="fitCenter"
                 android:src="@drawable/orange_questionmark" />
 
             <TextView
                 android:id="@+id/textViewMOTExpiryDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/textViewMOTStatus"
+                android:layout_marginTop="8dp"
                 android:text="MOT Expiry Date:"
                 android:textSize="10sp"
-                android:textStyle="bold"
-                android:layout_below="@id/textViewMOTStatus"
-                android:layout_marginTop="8dp"/>
+                android:textStyle="bold" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -122,13 +125,13 @@
     android:layout_height="wrap_content"
     android:layout_below="@id/secondRelativeLayout"
 
-    android:padding="8dp">
+    android:layout_marginTop="8dp">
 
     <!-- Tax-related information -->
     <RelativeLayout
         android:id="@+id/insuranceRelativeLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="157dp"
+        android:layout_height="80dp"
         android:layout_alignParentStart="true"
         android:background="@drawable/rounded_background"
         android:padding="8dp">
@@ -165,8 +168,8 @@
     <!-- MOT-related information -->
     <RelativeLayout
         android:id="@+id/serviceRelativeLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="157dp"
+        android:layout_height="80dp"
         android:layout_alignParentEnd="true"
         android:background="@drawable/rounded_background"
         android:padding="8dp">
@@ -201,12 +204,20 @@
     </RelativeLayout>
 </RelativeLayout>
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/thirdRelativeLayout"
+        android:background="@drawable/rounded_background"
+        android:layout_marginTop="8dp">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_background"
-        android:layout_below="@id/thirdRelativeLayout"
-        android:padding="8dp">
+
+
+        android:padding="8dp"
+        android:layout_marginTop="8dp">
 
 
     <TextView
@@ -320,4 +331,5 @@
         android:layout_below="@id/textViewWheelplan"
         android:layout_marginTop="8dp"/>
     </RelativeLayout>
+</ScrollView>
 </RelativeLayout>
