@@ -19,5 +19,7 @@ data class VehicleInfo(
     val dateOfLastV5CIssued: String = "",
     val motExpiryDate: String = "",
     val wheelplan: String = "",
-    val monthOfFirstRegistration: String = ""
+    val monthOfFirstRegistration: String = "",
+    var insuranceExpiry: String = "",
+    var serviceDue: String = ""
 ): Serializable

@@ -139,7 +139,7 @@
             android:layout_height="wrap_content"
             android:text="Insurance:"
             android:scaleType="fitCenter"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:textStyle="bold"/>
         <ImageView
             android:id="@+id/insuranceImageView"
