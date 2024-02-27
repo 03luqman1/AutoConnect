@@ -2,41 +2,48 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/relativeLayoutGarage"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-condensed"
-        android:text="Auto Connect"
-        android:textColor="#FFFFFF"
-        android:textSize="40sp"
-        android:textStyle="bold" />
+        android:padding="10dp"
+        android:background="@drawable/rounded_background">
 
-    <!-- Title:  -->
-    <TextView
-        android:id="@+id/textViewGarageTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textViewTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
-        android:text="MY GARAGE"
-        android:textColor="#FFFFFF"
-        android:textSize="48sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:text="AUTO CONNECT"
+            android:textColor="#FFFFFF"
+            android:layout_centerHorizontal="true"
+            android:textSize="46sp"
+            android:textStyle="bold" />
 
+        <!-- Subheading -->
+        <TextView
+            android:id="@+id/textViewGarageTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:text="MY GARAGE"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
 
+    </RelativeLayout>
+
+    <!-- ListView -->
     <ListView
         android:id="@+id/listViewVehicles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewGarageTitle"
+        android:layout_below="@id/relativeLayoutGarage"
         android:layout_above="@id/buttonAddNewVehicle"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_background"
@@ -44,18 +51,17 @@
         android:dividerHeight="1dp"
         android:textColor="#000000"
         android:padding="8dp"
-        android:clipToPadding="false"
-        />
+        android:clipToPadding="false" />
 
-
+    <!-- Button -->
     <Button
         android:id="@+id/buttonAddNewVehicle"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:text="Add New Vehicle"
-        android:textSize="18sp"
-        android:textColor="#000000"
-        android:background="@drawable/rounded_button"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_button"
+        android:text="Add New Vehicle"
+        android:textColor="#000000"
+        android:textSize="18sp" />
 </RelativeLayout>

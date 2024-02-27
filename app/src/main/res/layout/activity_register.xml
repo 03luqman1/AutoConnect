@@ -3,38 +3,49 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
 >
 
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/relativeLayoutRegister"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-condensed"
-        android:text="AUTO CONNECT"
-        android:textAlignment="center"
-        android:textColor="#ffffff"
-        android:textSize="75sp"
-        android:textStyle="bold" />
+        android:padding="10dp"
+        android:background="@drawable/rounded_background">
 
-    <TextView
-        android:id="@+id/textViewMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textViewTitle"
-        android:layout_marginTop="0dp"
-        android:text="Please Enter Your Details"
-        android:textSize="16sp"
-        android:textColor="#ffffff"
-        android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:text="AUTO CONNECT"
+            android:textColor="#FFFFFF"
+            android:layout_centerHorizontal="true"
+            android:textSize="46sp"
+            android:textStyle="bold" />
+
+        <!-- Subheading -->
+        <TextView
+            android:id="@+id/textViewGarageTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:text="Please Enter Your Details To Register"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
 
     <EditText
         android:id="@+id/editTextFullName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewTitle"
-        android:layout_marginTop="50dp"
+        android:layout_below="@id/relativeLayoutRegister"
+        android:layout_marginTop="16dp"
         android:hint="Full Name"
         android:textColorHint="#CCCCCC"
         android:background="@drawable/rounded_textbox"

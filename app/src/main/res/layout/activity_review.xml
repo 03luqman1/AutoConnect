@@ -5,39 +5,47 @@
 
     android:padding="16dp">
 
-    <!-- Title: THE CAFE -->
-    <TextView
-        android:id="@+id/textViewCafeTitle"
-        android:layout_width="wrap_content"
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutReview"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-condensed"
-        android:text="Auto Connect"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="70sp"
-        android:textStyle="bold" />
+        android:padding="10dp"
+        android:background="@drawable/rounded_background">
 
-    <!-- Title: LEAVE A REVIEW -->
-    <TextView
-        android:id="@+id/textViewReviewTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="LEAVE A REVIEW"
-        android:textSize="16sp"
-        android:textColor="#FFFFFF"
-        android:layout_below="@id/textViewCafeTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"/>
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:text="AUTO CONNECT"
+            android:textColor="#FFFFFF"
+            android:layout_centerHorizontal="true"
+            android:textSize="46sp"
+            android:textStyle="bold" />
 
+        <!-- Subheading -->
+        <TextView
+            android:id="@+id/textViewGarageTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:text="LEAVE A REVIEW"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+    </RelativeLayout>
     <!-- Rating Bar -->
     <RatingBar
         android:id="@+id/ratingBar"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewReviewTitle"
+        android:layout_below="@id/relativeLayoutReview"
         android:layout_marginTop="16dp"
         android:numStars="5"
         android:stepSize="1"

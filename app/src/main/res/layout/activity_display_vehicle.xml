@@ -2,7 +2,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
-
+    <RelativeLayout
+        android:id="@+id/firstRelativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@drawable/rounded_background">
     <TextView
         android:id="@+id/textViewRegistrationNumber"
         android:layout_width="wrap_content"
@@ -12,8 +17,7 @@
         android:textSize="50sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:textColor="#000000"
-        android:layout_marginTop="16dp"/>
+        android:textColor="#000000"/>
 
     <ImageView
         android:id="@+id/logoImageView"
@@ -24,7 +28,14 @@
         android:src="@drawable/default_logo"
         android:scaleType="fitCenter"
         android:layout_alignBottom="@id/textViewRegistrationNumber"/>
-
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_background"
+        android:layout_marginTop="25dp"
+        android:layout_below="@id/firstRelativeLayout"
+        android:padding="8dp">
     <TextView
         android:id="@+id/textViewTaxStatus"
         android:layout_width="wrap_content"
@@ -32,7 +43,6 @@
         android:text="Tax Status:"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_below="@id/textViewRegistrationNumber"
         android:layout_marginTop="8dp"/>
 
     <TextView
@@ -174,5 +184,5 @@
         android:textStyle="bold"
         android:layout_below="@id/textViewWheelplan"
         android:layout_marginTop="8dp"/>
-
+    </RelativeLayout>
 </RelativeLayout>
