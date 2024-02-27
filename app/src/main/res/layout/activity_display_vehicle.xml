@@ -29,41 +29,185 @@
         android:scaleType="fitCenter"
         android:layout_alignBottom="@id/textViewRegistrationNumber"/>
     </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/secondRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/firstRelativeLayout"
+
+
+        android:padding="8dp">
+
+        <!-- Tax-related information -->
+        <RelativeLayout
+            android:id="@+id/taxRelativeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/rounded_background"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/textViewTaxStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tax:"
+                android:scaleType="fitCenter"
+                android:textSize="25sp"
+                android:textStyle="bold"/>
+            <ImageView
+                android:id="@+id/taxImageView"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="fitCenter"
+                android:layout_toEndOf="@id/textViewTaxStatus"
+                android:src="@drawable/orange_questionmark" />
+            <TextView
+                android:id="@+id/textViewTaxDueDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tax Due Date:"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:layout_below="@id/textViewTaxStatus"
+                android:layout_marginTop="8dp"/>
+        </RelativeLayout>
+
+        <!-- MOT-related information -->
+        <RelativeLayout
+            android:id="@+id/motRelativeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/rounded_background"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/textViewMOTStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MOT:"
+                android:scaleType="fitCenter"
+                android:textSize="25sp"
+                android:textStyle="bold"/>
+            <ImageView
+                android:id="@+id/motImageView"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="fitCenter"
+                android:layout_toEndOf="@id/textViewMOTStatus"
+                android:src="@drawable/orange_questionmark" />
+
+            <TextView
+                android:id="@+id/textViewMOTExpiryDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MOT Expiry Date:"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:layout_below="@id/textViewMOTStatus"
+                android:layout_marginTop="8dp"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+<RelativeLayout
+    android:id="@+id/thirdRelativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/secondRelativeLayout"
+
+    android:padding="8dp">
+
+    <!-- Tax-related information -->
+    <RelativeLayout
+        android:id="@+id/insuranceRelativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/rounded_background"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/textViewInsuranceStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Insurance:"
+            android:scaleType="fitCenter"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+        <ImageView
+            android:id="@+id/insuranceImageView"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="fitCenter"
+            android:layout_toEndOf="@id/textViewInsuranceStatus"
+            android:src="@drawable/orange_questionmark" />
+
+        <TextView
+            android:id="@+id/textViewInsuranceExpiry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Insurance Expiry Date:"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:layout_below="@id/textViewInsuranceStatus"
+            android:layout_marginTop="8dp"/>
+    </RelativeLayout>
+
+    <!-- MOT-related information -->
+    <RelativeLayout
+        android:id="@+id/serviceRelativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/rounded_background"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/textViewServiceStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Service:"
+            android:scaleType="fitCenter"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+        <ImageView
+            android:id="@+id/serviceImageView"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="fitCenter"
+            android:layout_toEndOf="@id/textViewServiceStatus"
+            android:src="@drawable/orange_questionmark" />
+
+        <TextView
+            android:id="@+id/textViewServiceDueDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Service Due Date:"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:layout_below="@id/textViewServiceStatus"
+            android:layout_marginTop="8dp"/>
+    </RelativeLayout>
+</RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_background"
-        android:layout_marginTop="25dp"
-        android:layout_below="@id/firstRelativeLayout"
+        android:layout_below="@id/thirdRelativeLayout"
         android:padding="8dp">
-    <TextView
-        android:id="@+id/textViewTaxStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tax Status:"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="8dp"/>
 
-    <TextView
-        android:id="@+id/textViewTaxDueDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tax Due Date:"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_below="@id/textViewTaxStatus"
-        android:layout_marginTop="8dp"/>
-
-    <TextView
-        android:id="@+id/textViewMOTStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MOT Status:"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_below="@id/textViewTaxDueDate"
-        android:layout_marginTop="8dp"/>
 
     <TextView
         android:id="@+id/textViewMake"
@@ -72,7 +216,6 @@
         android:text="Make:"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_below="@id/textViewMOTStatus"
         android:layout_marginTop="8dp"/>
 
     <TextView
@@ -155,15 +298,7 @@
         android:layout_below="@id/textViewTypeApproval"
         android:layout_marginTop="8dp"/>
 
-    <TextView
-        android:id="@+id/textViewMOTExpiryDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MOT Expiry Date:"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_below="@id/textViewDateOfLastV5CIssued"
-        android:layout_marginTop="8dp"/>
+
 
     <TextView
         android:id="@+id/textViewWheelplan"
@@ -172,7 +307,7 @@
         android:text="Wheelplan:"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_below="@id/textViewMOTExpiryDate"
+        android:layout_below="@id/textViewDateOfLastV5CIssued"
         android:layout_marginTop="8dp"/>
 
     <TextView

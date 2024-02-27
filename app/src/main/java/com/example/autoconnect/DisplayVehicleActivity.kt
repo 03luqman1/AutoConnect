@@ -19,19 +19,19 @@ class DisplayVehicleActivity : AppCompatActivity() {
         textViewRegistrationNumber.text = "${vehicleInfo.registrationNumber}"
 
 
-        val textViewTaxStatus = findViewById<TextView>(R.id.textViewTaxStatus)
+        val taxStatus = findViewById<ImageView>(R.id.taxImageView)
         // Check if the tax status is "Valid" and set the text accordingly
         if (vehicleInfo.taxStatus == "Taxed") {
-            textViewTaxStatus.text = "Tax Status: \u2714" // Unicode for green tick symbol
-        } else {
-            textViewTaxStatus.text = "Tax Status: ${vehicleInfo.taxStatus}"
+            taxStatus.setImageResource(R.drawable.green_tick)
+        } else if (vehicleInfo.taxStatus == "Not Taxed" || vehicleInfo.taxStatus == "SORN"){
+            taxStatus.setImageResource(R.drawable.red_cross)
         }
 
         val textViewTaxDueDate = findViewById<TextView>(R.id.textViewTaxDueDate)
         textViewTaxDueDate.text = "Tax Due Date: ${vehicleInfo.taxDueDate}"
 
         val textViewMOTStatus = findViewById<TextView>(R.id.textViewMOTStatus)
-        textViewMOTStatus.text = "MOT Status: ${vehicleInfo.motStatus}"
+        textViewMOTStatus.text = "MOT:"
 
         val textViewMake = findViewById<TextView>(R.id.textViewMake)
         textViewMake.text = "Make: ${vehicleInfo.make}"
