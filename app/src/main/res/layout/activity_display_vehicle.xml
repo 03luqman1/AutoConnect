@@ -206,6 +206,7 @@
 
 
     <ScrollView
+        android:id="@+id/scrollViewVehicle"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_below="@id/thirdRelativeLayout"
@@ -332,4 +333,19 @@
         android:layout_marginTop="8dp"/>
     </RelativeLayout>
 </ScrollView>
+
+    <EditText
+        android:id="@+id/editTextNotes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scrollViewVehicle"
+        android:layout_marginTop="16dp"
+        android:gravity="top|start"
+        android:hint="Write your vehicle notes here..."
+        android:inputType="textMultiLine"
+        android:maxLines="5"
+        android:padding="8dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#CCCCCC"
+        android:background="@drawable/rounded_background"/>
 </RelativeLayout>
