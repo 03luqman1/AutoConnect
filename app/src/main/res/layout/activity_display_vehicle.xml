@@ -334,7 +334,7 @@
     </RelativeLayout>
 </ScrollView>
 
-    <EditText
+    <!--<EditText
         android:id="@+id/editTextNotes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -347,5 +347,5 @@
         android:padding="8dp"
         android:textColor="#FFFFFF"
         android:textColorHint="#CCCCCC"
-        android:background="@drawable/rounded_background"/>
+        android:background="@drawable/rounded_background"/>-->
 </RelativeLayout>

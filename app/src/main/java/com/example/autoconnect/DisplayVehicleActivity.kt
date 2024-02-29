@@ -5,9 +5,13 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.ImageView
+import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -15,9 +19,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.autoconnect.dataclasses.VehicleInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+
 
 class DisplayVehicleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +49,8 @@ class DisplayVehicleActivity : AppCompatActivity() {
             val textViewTaxDueDate = findViewById<TextView>(R.id.textViewTaxDueDate)
             textViewTaxDueDate.text = "Tax Due Date: ${vehicleInfo.taxDueDate}"
         }
+
+
 
 
 
@@ -110,6 +118,39 @@ class DisplayVehicleActivity : AppCompatActivity() {
 
         updateInsuraceStatus(vehicleInfo)
         updateServiceStatus(vehicleInfo)
+
+
+
+        val motRelativeLayout = findViewById<RelativeLayout>(R.id.motRelativeLayout)
+        motRelativeLayout.setOnClickListener {
+            // Inflate the custom popup layout
+            val inflater = LayoutInflater.from(this)
+            val popupView = inflater.inflate(R.layout.vehicle_mot_dialog, null)
+
+            // Find views in the popup layout
+            val textViewMessage = popupView.findViewById<TextView>(R.id.textViewMessage)
+            val buttonAction = popupView.findViewById<Button>(R.id.buttonAction)
+
+            // Set text and click listener for the button
+            textViewMessage.text = "Your custom message here"
+
+
+            // Create and configure the popup window
+            val popupWindow = PopupWindow(
+                popupView,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                true
+            )
+            buttonAction.setOnClickListener {
+                // Handle button click
+                // For example, dismiss the popup
+                popupWindow.dismiss()
+            }
+            // Show the popup at the center of the screen
+            popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
+        }
+
 
 
         val insuranceRelativeLayout = findViewById<RelativeLayout>(R.id.insuranceRelativeLayout)

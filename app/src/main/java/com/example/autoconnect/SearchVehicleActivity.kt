@@ -16,6 +16,7 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 
 class SearchVehicleActivity : AppCompatActivity() {
+
     private lateinit var editTextVRN: EditText
     private lateinit var buttonSearchVehicle: Button
     private lateinit var textViewVehicleDetails: TextView
@@ -29,9 +30,10 @@ class SearchVehicleActivity : AppCompatActivity() {
         textViewVehicleDetails = findViewById(R.id.textViewVehicleDetails)
 
         buttonSearchVehicle.setOnClickListener {
+
             val client = OkHttpClient()
             val mediaType = "application/json".toMediaType()
-            val vrn = editTextVRN.text.toString() // Get the VRN from editTextVRN
+            val vrn = editTextVRN.text.toString()
             val body = "{\"registrationNumber\": \"$vrn\"}".toRequestBody(mediaType)
             val request = Request.Builder()
                 .url("https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles")
@@ -43,8 +45,6 @@ class SearchVehicleActivity : AppCompatActivity() {
             GlobalScope.launch(Dispatchers.IO) {
                 val response = client.newCall(request).execute()
                 val responseBody = response.body?.string()
-
-                // Parse JSON response using Gson
                 val gson = Gson()
                 val vehicleInfo = gson.fromJson(responseBody, VehicleInfo::class.java)
 
