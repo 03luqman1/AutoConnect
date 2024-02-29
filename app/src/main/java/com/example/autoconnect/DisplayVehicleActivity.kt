@@ -182,7 +182,7 @@ class DisplayVehicleActivity : AppCompatActivity() {
 
                         if (jsonArray.length() > 0) {
                             val jsonObject = jsonArray.getJSONObject(0)
-
+                            if (!jsonObject.has("motTestDueDate")) {
                             val registration = jsonObject.getString("registration")
                             val make = jsonObject.getString("make")
                             val model = jsonObject.getString("model")
@@ -193,8 +193,6 @@ class DisplayVehicleActivity : AppCompatActivity() {
                             val registrationDate = jsonObject.getString("registrationDate")
                             val manufactureDate = jsonObject.getString("manufactureDate")
                             val engineSize = jsonObject.getString("engineSize")
-
-
 
 
                             val motTests = jsonObject.getJSONArray("motTests")
@@ -217,20 +215,21 @@ class DisplayVehicleActivity : AppCompatActivity() {
                                 val completedDate = testObj.getString("completedDate")
                                 val odometerValue = testObj.getString("odometerValue")
                                 val odometerUnit = testObj.getString("odometerUnit")
-                                val odometerResultType = testObj.getString("odometerResultType").lowercase()
+                                val odometerResultType =
+                                    testObj.getString("odometerResultType").lowercase()
                                 val motTestNumber = testObj.getString("motTestNumber")
                                 val rfrAndComments = testObj.getJSONArray("rfrAndComments")
 
                                 if (testResult.equals("PASSED")) {
                                     val expiryDate = testObj.getString("expiryDate")
-                                    formattedText.append("\nMOT Test "+(motTests.length() - i)+":\n")
+                                    formattedText.append("\nMOT Test " + (motTests.length() - i) + ":\n")
                                     formattedText.append("Completed Date: $completedDate\n")
                                     formattedText.append("Test Result: $testResult\n")
                                     formattedText.append("Expiry Date: $expiryDate\n")
                                     formattedText.append("Odometer Value: $odometerValue $odometerUnit ($odometerResultType)\n")
                                     formattedText.append("MOT Test Number: $motTestNumber\n")
-                                } else if (testResult.equals("FAILED")){
-                                    formattedText.append("\nMOT Test "+(motTests.length() - i)+":\n")
+                                } else if (testResult.equals("FAILED")) {
+                                    formattedText.append("\nMOT Test " + (motTests.length() - i) + ":\n")
                                     formattedText.append("Completed Date: $completedDate\n")
                                     formattedText.append("Test Result: $testResult\n")
                                     formattedText.append("Odometer Value: $odometerValue $odometerUnit ($odometerResultType)\n")
@@ -250,6 +249,36 @@ class DisplayVehicleActivity : AppCompatActivity() {
 
                             // Update the TextView with the formatted text
                             textViewMessage.text = formattedText.toString()
+
+
+                        } else {
+                                val registration = jsonObject.getString("registration")
+                                val make = jsonObject.getString("make")
+                                val model = jsonObject.getString("model")
+                                val manufactureYear = jsonObject.getString("manufactureYear")
+                                val fuelType = jsonObject.getString("fuelType")
+                                val primaryColour = jsonObject.getString("primaryColour")
+                                val dvlaId = jsonObject.getString("dvlaId")
+                                val registrationDate = jsonObject.getString("registrationDate")
+                                val manufactureDate = jsonObject.getString("manufactureDate")
+                                val engineSize = jsonObject.getString("engineSize")
+                                val motTestDueDate = jsonObject.getString("motTestDueDate")
+
+                                val formattedText = StringBuilder()
+                                formattedText.append("Registration: $registration\n")
+                                formattedText.append("Make: $make\n")
+                                formattedText.append("Model: $model\n")
+                                formattedText.append("First Used Date: $manufactureYear\n")
+                                formattedText.append("Fuel Type: $fuelType\n")
+                                formattedText.append("Primary Colour: $primaryColour\n")
+                                formattedText.append("Vehicle Id : $dvlaId\n")
+                                formattedText.append("Registration Date : $registrationDate\n")
+                                formattedText.append("Manufacture Date : $manufactureDate\n")
+                                formattedText.append("Engine Size : $engineSize\n")
+                                formattedText.append("MOT Test Due Date : $motTestDueDate\n\n")
+
+                                textViewMessage.text = formattedText.toString()
+                            }
                         } else {
                             textViewMessage.text = "No data available"
                         }
