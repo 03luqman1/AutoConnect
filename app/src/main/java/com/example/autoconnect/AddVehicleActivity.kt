@@ -1,10 +1,12 @@
 package com.example.autoconnect
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -35,7 +37,6 @@ class AddVehicleActivity : AppCompatActivity() {
         buttonSearchVehicle = findViewById(R.id.buttonSearchVehicle)
         textViewVehicleDetails = findViewById(R.id.textViewVehicleDetails)
 
-        val buttonConfirmVehicle = findViewById<Button>(R.id.buttonConfirmVehicle)
 
         editTextVRN.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -45,9 +46,9 @@ class AddVehicleActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // This method is called when the text is changed
 
-                    // If the text is empty or null, hide textViewVehicleDetails and buttonConfirmVehicle
-                    textViewVehicleDetails.visibility = View.INVISIBLE
-                    buttonConfirmVehicle.visibility = View.INVISIBLE
+                // If the text is empty or null, hide textViewVehicleDetails and buttonConfirmVehicle
+                textViewVehicleDetails.visibility = View.GONE
+                buttonSearchVehicle.text = "SEARCH VEHICLE"
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -57,45 +58,56 @@ class AddVehicleActivity : AppCompatActivity() {
 
 
         buttonSearchVehicle.setOnClickListener {
-            val client = OkHttpClient()
-            val mediaType = "application/json".toMediaType()
-            val vrn = editTextVRN.text.toString() // Get the VRN from editTextVRN
-            val body = "{\"registrationNumber\": \"$vrn\"}".toRequestBody(mediaType)
-            val request = Request.Builder()
-                .url("https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles")
-                .post(body)
-                .addHeader("x-api-key", "c5jFj6j13r4eNwFSMo706bniWL02zjqaKllvaqA6")
-                .addHeader("Content-Type", "application/json")
-                .build()
-
-            GlobalScope.launch(Dispatchers.IO) {
-                val response = client.newCall(request).execute()
-                val responseBody = response.body?.string()
-
-                // Parse JSON response using Gson
-                val gson = Gson()
-                vehicleInfo = gson.fromJson(
-                    responseBody,
-                    VehicleInfo::class.java
-                ) // Assign to the class property
+            if (buttonSearchVehicle.text == "SEARCH VEHICLE") {
 
 
 
 
-                runOnUiThread {
-                        if (!vehicleInfo.make.isNullOrEmpty()){
-                            textViewVehicleDetails.text = "${vehicleInfo.yearOfManufacture} ${vehicleInfo.colour} ${vehicleInfo.make}"
+                val client = OkHttpClient()
+                val mediaType = "application/json".toMediaType()
+                val vrn = editTextVRN.text.toString() // Get the VRN from editTextVRN
+                val body = "{\"registrationNumber\": \"$vrn\"}".toRequestBody(mediaType)
+                val request = Request.Builder()
+                    .url("https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles")
+                    .post(body)
+                    .addHeader("x-api-key", "c5jFj6j13r4eNwFSMo706bniWL02zjqaKllvaqA6")
+                    .addHeader("Content-Type", "application/json")
+                    .build()
+
+                GlobalScope.launch(Dispatchers.IO) {
+                    val response = client.newCall(request).execute()
+                    val responseBody = response.body?.string()
+
+                    // Parse JSON response using Gson
+                    val gson = Gson()
+                    vehicleInfo = gson.fromJson(
+                        responseBody,
+                        VehicleInfo::class.java
+                    ) // Assign to the class property
+
+
+                    runOnUiThread {
+                        if (!vehicleInfo.make.isNullOrEmpty()) {
+                            // Get the InputMethodManager
+                            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+                            // Hide the keyboard
+                            imm.hideSoftInputFromWindow(editTextVRN.windowToken, 0)
+
+                            textViewVehicleDetails.text =
+                                "${vehicleInfo.yearOfManufacture} ${vehicleInfo.colour} ${vehicleInfo.make}"
                             textViewVehicleDetails.visibility = View.VISIBLE
-                            buttonConfirmVehicle.visibility = View.VISIBLE
+                            buttonSearchVehicle.text = "CONFIRM VEHICLE"
                             //I NEED A EDIT TEXT LISTENER HEAR FOR editTextVRN. If the edit text is changed then textViewVehicleDetails and buttonConfirmVehicle SHOULD have visibility set to INVISIBLE
-                        }else{
-                            textViewVehicleDetails.visibility = View.INVISIBLE
-                            buttonConfirmVehicle.visibility = View.INVISIBLE
+                        } else {
+                            textViewVehicleDetails.visibility = View.GONE
+                            buttonSearchVehicle.text = "SEARCH VEHICLE"
                         }
+                    }
                 }
-            }
-        }
-        buttonConfirmVehicle.setOnClickListener {
+            } else if (buttonSearchVehicle.text == "CONFIRM VEHICLE"){
+
+
             // Get the VRN
             val vrn = editTextVRN.text.toString()
 
@@ -123,6 +135,7 @@ class AddVehicleActivity : AppCompatActivity() {
                     }
             }
         }
+    }
     }
 }
 

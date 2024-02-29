@@ -145,6 +145,7 @@ class DisplayVehicleActivity : AppCompatActivity() {
                         // Vehicle removed successfully
                         Toast.makeText(this, "Vehicle removed from database", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, GarageActivity::class.java))
+                        finish()
                     }
                     .addOnFailureListener { e ->
                         // Failed to remove vehicle

@@ -12,12 +12,14 @@
         android:scaleType="fitCenter"
         android:src="@drawable/background" />
 
+    <!-- Container for status TextViews -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@id/logoImageView"
         android:orientation="vertical">
+
         <!-- TextView for registration number -->
         <TextView
             android:id="@+id/registrationNumberTextView"
@@ -27,37 +29,127 @@
             android:background="@drawable/plate_background"
             android:textStyle="bold"
             android:gravity="center"
-
             android:textSize="30sp"/>
 
-        <!-- TextView for MOT status -->
-        <TextView
-            android:id="@+id/motStatusTextView"
+        <!-- LinearLayout for MOT status -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:text="AUTO CONNECT"
+            android:orientation="horizontal">
 
-            android:textSize="10sp"/>
+            <!-- ImageView for MOT status -->
+            <ImageView
+                android:id="@+id/motStatusImageView"
+                android:layout_width="15dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="0dp"
 
-        <!-- TextView for Tax status -->
-        <TextView
-            android:id="@+id/taxStatusTextView"
+                android:scaleType="fitCenter"
+                android:src="@drawable/orange_questionmark" />
+
+            <!-- TextView for MOT status -->
+            <TextView
+                android:id="@+id/motStatusTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:textColor="@color/white"
+
+                android:text=" MOT"
+                android:gravity="center"
+                android:textSize="11sp"/>
+
+
+        </LinearLayout>
+
+        <!-- LinearLayout for Tax status -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:text="AUTO CONNECT"
+            android:orientation="horizontal">
 
-            android:textSize="10sp"/>
+            <!-- ImageView for Tax status -->
+            <ImageView
+                android:id="@+id/taxStatusImageView"
+                android:layout_width="15dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="0dp"
 
-        <!-- TextView for Insurance status -->
-        <TextView
-            android:id="@+id/insuranceStatusTextView"
+                android:scaleType="fitCenter"
+                android:src="@drawable/orange_questionmark" />
+
+            <!-- TextView for Tax status -->
+            <TextView
+                android:id="@+id/taxStatusTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:textColor="@color/white"
+
+                android:text=" TAX"
+                android:gravity="center"
+                android:textSize="11sp"/>
+
+
+        </LinearLayout>
+
+        <!-- LinearLayout for Insurance status -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="AUTO CONNECT"
+            android:orientation="horizontal">
 
-            android:textColor="@color/white"
-            android:textSize="10sp"/>
+            <!-- ImageView for Insurance status -->
+            <ImageView
+                android:id="@+id/insuranceStatusImageView"
+                android:layout_width="15dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="0dp"
+
+                android:scaleType="fitCenter"
+                android:src="@drawable/orange_questionmark" />
+
+            <!-- TextView for Insurance status -->
+            <TextView
+                android:id="@+id/insuranceStatusTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:textColor="@color/white"
+
+                android:text=" INSURANCE"
+                android:gravity="center"
+                android:textSize="11sp"/>
+
+
+        </LinearLayout>
+
+        <!-- LinearLayout for Service status -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- ImageView for Service status -->
+            <ImageView
+                android:id="@+id/serviceStatusImageView"
+                android:layout_width="15dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="0dp"
+
+                android:scaleType="fitCenter"
+                android:src="@drawable/orange_questionmark" />
+
+            <!-- TextView for Service status -->
+            <TextView
+                android:id="@+id/serviceStatusTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:textColor="@color/white"
+
+                android:text=" SERVICE"
+                android:gravity="center"
+                android:textSize="11sp"/>
+
+
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
+

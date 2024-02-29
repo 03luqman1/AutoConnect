@@ -1,6 +1,9 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <corners android:radius="25dp" />
-    <solid android:color="#C0C0C0" />
+    <gradient
+        android:startColor="#4E4E4E"
+        android:endColor="#9F9F9F"
+        android:angle="270"/>
     <stroke
         android:width="2dp"
         android:color="#727272" /> <!-- Red outline -->

@@ -59,45 +59,35 @@
         android:inputType="textCapCharacters"
         android:maxLength="7" />
 
-
-    <!-- Button to perform search -->
-    <Button
-        android:id="@+id/buttonSearchVehicle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editTextVRN2"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_button"
-        android:text="Search Vehicle"
-        android:textColor="#000000"
-        android:textSize="18sp" />
-
     <!-- Placeholder for displaying vehicle details -->
     <TextView
         android:id="@+id/textViewVehicleDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/buttonSearchVehicle"
+        android:layout_below="@id/editTextVRN2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:textColor="#FFFFFF"
         android:padding="10dp"
         android:background="@drawable/rounded_background"
         android:textSize="16sp"
-        android:visibility="invisible"/>
+        android:visibility="gone"/>
 
-    <!-- Button to confirm the vehicle -->
+    <!-- Button to perform search -->
     <Button
-        android:id="@+id/buttonConfirmVehicle"
+        android:id="@+id/buttonSearchVehicle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_below="@id/textViewVehicleDetails"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/rounded_button"
-        android:text="Confirm Vehicle"
+        android:text="Search Vehicle"
         android:textColor="#000000"
-        android:textSize="18sp"
-        android:visibility="gone" />
+        android:textSize="18sp" />
+
+
+
+
 
 
 </RelativeLayout>
