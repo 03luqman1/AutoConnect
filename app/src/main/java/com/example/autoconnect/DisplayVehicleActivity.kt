@@ -5,6 +5,7 @@ import org.json.JSONObject
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -118,6 +119,41 @@ class DisplayVehicleActivity : AppCompatActivity() {
         // Set the vehicle make logo
         setVehicleMakeLogo(vehicleInfo.make)
         // Add more TextViews for other vehicle details as needed
+
+
+        val garageButton = findViewById<Button>(R.id.buttonGarage)
+        garageButton.setOnClickListener {
+            startActivity(Intent(this, GarageActivity::class.java))
+        }
+
+        val removeVehicleButton = findViewById<Button>(R.id.buttonRemoveVehicle)
+        removeVehicleButton.setOnClickListener {
+            // Get a reference to your Firebase database
+            val database = FirebaseDatabase.getInstance()
+
+            // Get the UID of the currently authenticated user
+            val uid = FirebaseAuth.getInstance().currentUser?.uid
+
+            // Ensure the user is authenticated
+            if (uid != null) {
+                // Reference to the "vehicles" node under the user's UID
+                val vehiclesRef = database.getReference("Users").child(uid).child("Vehicles")
+
+                // Remove the vehicle from the database
+                vehiclesRef.child(vehicleInfo.registrationNumber).removeValue()
+                    .addOnSuccessListener {
+                        // Vehicle removed successfully
+                        Toast.makeText(this, "Vehicle removed from database", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, GarageActivity::class.java))
+                    }
+                    .addOnFailureListener { e ->
+                        // Failed to remove vehicle
+                        Toast.makeText(this, "Failed to remove vehicle: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            }
+        }
+
+
 
 
 

@@ -334,18 +334,33 @@
     </RelativeLayout>
 </ScrollView>
 
-    <!--<EditText
-        android:id="@+id/editTextNotes"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_below="@id/scrollViewVehicle"
-        android:layout_marginTop="16dp"
-        android:gravity="top|start"
-        android:hint="Write your vehicle notes here..."
-        android:inputType="textMultiLine"
-        android:maxLines="5"
-        android:padding="8dp"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#CCCCCC"
-        android:background="@drawable/rounded_background"/>-->
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/buttonGarage"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:text="Back To Garage"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:background="@drawable/rounded_button"/>
+
+        <Button
+            android:id="@+id/buttonRemoveVehicle"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:layout_height="50dp"
+            android:text="🗑"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:background="@drawable/rounded_button_red"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
+
 </RelativeLayout>
