@@ -1,5 +1,7 @@
 package com.example.autoconnect
 
+import org.json.JSONArray
+import org.json.JSONObject
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.DialogInterface
@@ -19,10 +21,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.autoconnect.dataclasses.VehicleInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 
 class DisplayVehicleActivity : AppCompatActivity() {
@@ -131,8 +137,161 @@ class DisplayVehicleActivity : AppCompatActivity() {
             val textViewMessage = popupView.findViewById<TextView>(R.id.textViewMessage)
             val buttonAction = popupView.findViewById<Button>(R.id.buttonAction)
 
+
+
+
+
+
+// Create OkHttpClient instance
+            val client = OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS) // Set timeout if needed
+                .readTimeout(30, TimeUnit.SECONDS)    // Set timeout if needed
+                .build()
+
+// Define the request
+            val request = Request.Builder()
+                .url("https://beta.check-mot.service.gov.uk/trade/vehicles/mot-tests?registration=${vehicleInfo.registrationNumber}")
+                .addHeader("Accept", "application/json+v6")
+                .addHeader("x-api-key", "Inj3f7O42k59a35bVEk915UiGuwEEjwu4N5dinQL")
+                .addHeader("Cookie", "incap_ses_1184_1151098=itS6XtMCMUaXg5VCHmpuELwx32UAAAAAKyIy9B1xRP4sWGzRiHnDrA==; nlbi_1151098=SOXfUQF6iRyqGoTVsRy5CgAAAADFLSJLw2S1NE+mACTWYWfR; visid_incap_1151098=CnGlY4ygRb6EhBBj29MO5sgw32UAAAAAQUIPAAAAAAD1F/Q1H/OQRROuDR9AzOfw")
+                .build()
+
+// Make the API call asynchronously
+            client.newCall(request).enqueue(object : okhttp3.Callback {
+                override fun onFailure(call: okhttp3.Call, e: IOException) {
+                    // Handle failure, e.g., show error message
+                    e.printStackTrace()
+                }
+
+                override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                    // Check if the response is successful
+                    if (!response.isSuccessful) {
+                        // Handle unsuccessful response, e.g., show error message
+                        println("Error: ${response.code}")
+                        return
+                    }
+
+                    // Get the response body as a string
+                    val responseBody = response.body?.string()
+
+                    // Update UI on the main thread
+                    runOnUiThread {
+                        if (!responseBody.isNullOrEmpty()) {
+                        // Parse the JSON response
+                        val jsonArray = JSONArray(responseBody)
+
+                        if (jsonArray.length() > 0) {
+                            val jsonObject = jsonArray.getJSONObject(0)
+
+                            val registration = jsonObject.getString("registration")
+                            val make = jsonObject.getString("make")
+                            val model = jsonObject.getString("model")
+                            val firstUsedDate = jsonObject.getString("firstUsedDate")
+                            val fuelType = jsonObject.getString("fuelType")
+                            val primaryColour = jsonObject.getString("primaryColour")
+                            val vehicleId = jsonObject.getString("vehicleId")
+                            val registrationDate = jsonObject.getString("registrationDate")
+                            val manufactureDate = jsonObject.getString("manufactureDate")
+                            val engineSize = jsonObject.getString("engineSize")
+
+
+
+
+                            val motTests = jsonObject.getJSONArray("motTests")
+
+                            val formattedText = StringBuilder()
+                            formattedText.append("Registration: $registration\n")
+                            formattedText.append("Make: $make\n")
+                            formattedText.append("Model: $model\n")
+                            formattedText.append("First Used Date: $firstUsedDate\n")
+                            formattedText.append("Fuel Type: $fuelType\n")
+                            formattedText.append("Primary Colour: $primaryColour\n")
+                            formattedText.append("Vehicle Id : $vehicleId\n")
+                            formattedText.append("Registration Date : $registrationDate\n")
+                            formattedText.append("Manufacture Date : $manufactureDate\n")
+                            formattedText.append("Engine Size : $engineSize\n\n")
+
+                            for (i in 0 until motTests.length()) {
+                                val testObj = motTests.getJSONObject(i)
+                                val testResult = testObj.getString("testResult")
+                                val completedDate = testObj.getString("completedDate")
+                                val odometerValue = testObj.getString("odometerValue")
+                                val odometerUnit = testObj.getString("odometerUnit")
+                                val odometerResultType = testObj.getString("odometerResultType").lowercase()
+                                val motTestNumber = testObj.getString("motTestNumber")
+                                val rfrAndComments = testObj.getJSONArray("rfrAndComments")
+
+                                if (testResult.equals("PASSED")) {
+                                    val expiryDate = testObj.getString("expiryDate")
+                                    formattedText.append("\nMOT Test "+(motTests.length() - i)+":\n")
+                                    formattedText.append("Completed Date: $completedDate\n")
+                                    formattedText.append("Test Result: $testResult\n")
+                                    formattedText.append("Expiry Date: $expiryDate\n")
+                                    formattedText.append("Odometer Value: $odometerValue $odometerUnit ($odometerResultType)\n")
+                                    formattedText.append("MOT Test Number: $motTestNumber\n")
+                                } else if (testResult.equals("FAILED")){
+                                    formattedText.append("\nMOT Test "+(motTests.length() - i)+":\n")
+                                    formattedText.append("Completed Date: $completedDate\n")
+                                    formattedText.append("Test Result: $testResult\n")
+                                    formattedText.append("Odometer Value: $odometerValue $odometerUnit ($odometerResultType)\n")
+                                    formattedText.append("MOT Test Number: $motTestNumber\n")
+                                }
+                                if (rfrAndComments.length() > 0) {
+                                    formattedText.append("RFR and Comments:\n")
+                                    for (j in 0 until rfrAndComments.length()) {
+                                        val rfrObj = rfrAndComments.getJSONObject(j)
+                                        val text = rfrObj.getString("text")
+                                        formattedText.append("- $text\n")
+                                    }
+                                }
+
+                                formattedText.append("\n")
+                            }
+
+                            // Update the TextView with the formatted text
+                            textViewMessage.text = formattedText.toString()
+                        } else {
+                            textViewMessage.text = "No data available"
+                        }
+                    } else {
+                        textViewMessage.text = "No data available"
+                    }
+                    }
+                }
+            })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             // Set text and click listener for the button
-            textViewMessage.text = "Your custom message here"
+            //textViewMessage.text = "Your custom message here"
 
 
             // Create and configure the popup window
@@ -303,38 +462,6 @@ class DisplayVehicleActivity : AppCompatActivity() {
 
             datePickerDialog.show()
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     }
