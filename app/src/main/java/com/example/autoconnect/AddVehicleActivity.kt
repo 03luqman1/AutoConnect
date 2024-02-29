@@ -2,6 +2,8 @@ package com.example.autoconnect
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -35,6 +37,25 @@ class AddVehicleActivity : AppCompatActivity() {
 
         val buttonConfirmVehicle = findViewById<Button>(R.id.buttonConfirmVehicle)
 
+        editTextVRN.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // This method is called before the text is changed
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // This method is called when the text is changed
+
+                    // If the text is empty or null, hide textViewVehicleDetails and buttonConfirmVehicle
+                    textViewVehicleDetails.visibility = View.INVISIBLE
+                    buttonConfirmVehicle.visibility = View.INVISIBLE
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // This method is called after the text is changed
+            }
+        })
+
+
         buttonSearchVehicle.setOnClickListener {
             val client = OkHttpClient()
             val mediaType = "application/json".toMediaType()
@@ -53,32 +74,24 @@ class AddVehicleActivity : AppCompatActivity() {
 
                 // Parse JSON response using Gson
                 val gson = Gson()
-                vehicleInfo = gson.fromJson(responseBody, VehicleInfo::class.java) // Assign to the class property
+                vehicleInfo = gson.fromJson(
+                    responseBody,
+                    VehicleInfo::class.java
+                ) // Assign to the class property
 
-                // Construct formatted text to display in textViewVehicleDetails
-                val formattedText = StringBuilder().apply {
-                    append("Make: ${vehicleInfo.make}\n")
-                    append("Year of Manufacture: ${vehicleInfo.yearOfManufacture}\n")
-                    append("Engine Capacity: ${vehicleInfo.engineCapacity}\n")
-                    append("CO2 Emissions: ${vehicleInfo.co2Emissions}\n")
-                    append("Fuel Type: ${vehicleInfo.fuelType}\n")
-                    append("Tax Status: ${vehicleInfo.taxStatus}\n")
-                    append("Tax Due Date: ${vehicleInfo.taxDueDate}\n")
-                    append("MOT Status: ${vehicleInfo.motStatus}\n")
-                    append("Marked for Export: ${if (vehicleInfo.markedForExport) "Yes" else "No"}\n")
-                    append("Colour: ${vehicleInfo.colour}\n")
-                    append("Type Approval: ${vehicleInfo.typeApproval}\n")
-                    append("Date of Last V5C Issued: ${vehicleInfo.dateOfLastV5CIssued}\n")
-                    append("MOT Expiry Date: ${vehicleInfo.motExpiryDate}\n")
-                    append("Wheelplan: ${vehicleInfo.wheelplan}\n")
-                    append("Month of First Registration: ${vehicleInfo.monthOfFirstRegistration}\n")
-                }.toString()
+
 
 
                 runOnUiThread {
-                    // Update UI with formatted text
-                    textViewVehicleDetails.text = formattedText
-                    buttonConfirmVehicle.visibility = View.VISIBLE
+                        if (!vehicleInfo.make.isNullOrEmpty()){
+                            textViewVehicleDetails.text = "${vehicleInfo.yearOfManufacture} ${vehicleInfo.colour} ${vehicleInfo.make}"
+                            textViewVehicleDetails.visibility = View.VISIBLE
+                            buttonConfirmVehicle.visibility = View.VISIBLE
+                            //I NEED A EDIT TEXT LISTENER HEAR FOR editTextVRN. If the edit text is changed then textViewVehicleDetails and buttonConfirmVehicle SHOULD have visibility set to INVISIBLE
+                        }else{
+                            textViewVehicleDetails.visibility = View.INVISIBLE
+                            buttonConfirmVehicle.visibility = View.INVISIBLE
+                        }
                 }
             }
         }

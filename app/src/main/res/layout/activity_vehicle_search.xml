@@ -78,11 +78,12 @@
     <!-- Placeholder for displaying vehicle details -->
     <TextView
         android:id="@+id/textViewVehicleDetails"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/buttonSearchVehicle"
         android:padding="10dp"
         android:background="@drawable/rounded_background"
+        android:visibility="invisible"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:textColor="#FFFFFF"

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
@@ -23,7 +22,7 @@
             android:fontFamily="sans-serif-condensed"
             android:text="AUTO CONNECT"
             android:textColor="#FFFFFF"
-            android:layout_centerHorizontal="true"
+            android:textAlignment="center"
             android:textSize="46sp"
             android:textStyle="bold" />
 
@@ -76,7 +75,7 @@
     <!-- Placeholder for displaying vehicle details -->
     <TextView
         android:id="@+id/textViewVehicleDetails"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/buttonSearchVehicle"
         android:layout_centerHorizontal="true"
@@ -84,7 +83,8 @@
         android:textColor="#FFFFFF"
         android:padding="10dp"
         android:background="@drawable/rounded_background"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="invisible"/>
 
     <!-- Button to confirm the vehicle -->
     <Button

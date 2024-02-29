@@ -1,6 +1,9 @@
 package com.example.autoconnect
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -28,6 +31,27 @@ class SearchVehicleActivity : AppCompatActivity() {
         editTextVRN = findViewById(R.id.editTextVRN)
         buttonSearchVehicle = findViewById(R.id.buttonSearchVehicle)
         textViewVehicleDetails = findViewById(R.id.textViewVehicleDetails)
+
+
+        editTextVRN.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // This method is called before the text is changed
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // This method is called when the text is changed
+
+                // If the text is empty or null, hide textViewVehicleDetails and buttonConfirmVehicle
+                textViewVehicleDetails.visibility = View.INVISIBLE
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // This method is called after the text is changed
+            }
+        })
+
+
+
 
         buttonSearchVehicle.setOnClickListener {
 
@@ -70,7 +94,16 @@ class SearchVehicleActivity : AppCompatActivity() {
 
                 runOnUiThread {
                     // Update UI with formatted text
-                    textViewVehicleDetails.text = formattedText
+                    if (!vehicleInfo.make.isNullOrEmpty()){
+                        textViewVehicleDetails.text = formattedText
+                        textViewVehicleDetails.visibility = View.VISIBLE
+
+                        //I NEED A EDIT TEXT LISTENER HEAR FOR editTextVRN. If the edit text is changed then textViewVehicleDetails and buttonConfirmVehicle SHOULD have visibility set to INVISIBLE
+                    }else{
+                        textViewVehicleDetails.visibility = View.INVISIBLE
+
+                    }
+
                 }
             }
         }
