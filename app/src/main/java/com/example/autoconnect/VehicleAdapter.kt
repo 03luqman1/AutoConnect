@@ -56,7 +56,7 @@ class VehicleAdapter(context: Context, vehicles: List<VehicleInfo>) :
                 taxStatusTextView?.text = " TAX (${it.taxDueDate})"
             } else if (it.taxStatus == "Untaxed" || it.taxStatus == "SORN"){
                 taxStatus?.setImageResource(R.drawable.red_cross)
-                taxStatusTextView?.text = " TAX (${it.taxDueDate})"
+                taxStatusTextView?.text = " TAX (${it.taxStatus})"
             }
 
             if (it.motStatus == "Valid") {
@@ -70,8 +70,9 @@ class VehicleAdapter(context: Context, vehicles: List<VehicleInfo>) :
                 firstRegDate.add(Calendar.YEAR, 3)
                 val formattedExpiryDate = formatter.format(firstRegDate.time)
                 motStatusTextView?.text = " MOT ($formattedExpiryDate)"
-            }else if (it.motStatus == "Not Valid"){
+            }else if (it.motStatus == "Not valid"){
                 motStatus?.setImageResource(R.drawable.red_cross)
+                motStatusTextView?.text = " MOT (${it.motStatus})"
             }
 
 

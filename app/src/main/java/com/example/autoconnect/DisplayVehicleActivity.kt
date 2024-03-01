@@ -54,7 +54,7 @@ class DisplayVehicleActivity : AppCompatActivity() {
         } else if (vehicleInfo.taxStatus == "Untaxed" || vehicleInfo.taxStatus == "SORN"){
             taxStatus.setImageResource(R.drawable.red_cross)
             val textViewTaxDueDate = findViewById<TextView>(R.id.textViewTaxDueDate)
-            textViewTaxDueDate.text = "Tax Due Date: ${vehicleInfo.taxDueDate}"
+            textViewTaxDueDate.text = "Tax Status: ${vehicleInfo.taxStatus}"
         }
 
 
@@ -75,9 +75,11 @@ class DisplayVehicleActivity : AppCompatActivity() {
             firstRegDate.time = formatter.parse(vehicleInfo.monthOfFirstRegistration)
             firstRegDate.add(Calendar.YEAR, 3)
             val formattedExpiryDate = formatter.format(firstRegDate.time)
-            textViewMOTExpiryDate.text = "MOT Expiry Date: $formattedExpiryDate"
-        }else if (vehicleInfo.motStatus == "Not Valid"){
+            textViewMOTExpiryDate.text = "MOT Due Date: $formattedExpiryDate"
+        }else if (vehicleInfo.motStatus == "Not valid"){
             motStatus.setImageResource(R.drawable.red_cross)
+            val textViewMOTExpiryDate = findViewById<TextView>(R.id.textViewMOTExpiryDate)
+            textViewMOTExpiryDate.text = "MOT Status: ${vehicleInfo.motStatus}"
         }
 
 
