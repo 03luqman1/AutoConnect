@@ -72,8 +72,8 @@
         android:inputType="textMultiLine"
         android:maxLines="5"
         android:padding="16dp"
-        android:textColor="#000000"
-        android:textColorHint="#707070"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#BCBCBC"
         android:background="@drawable/rounded_button"/>
 
 </RelativeLayout>

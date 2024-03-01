@@ -128,29 +128,60 @@ class DisplayVehicleActivity : AppCompatActivity() {
 
         val removeVehicleButton = findViewById<Button>(R.id.buttonRemoveVehicle)
         removeVehicleButton.setOnClickListener {
-            // Get a reference to your Firebase database
-            val database = FirebaseDatabase.getInstance()
+            // Inflate the confirmation pop-up layout
+            val inflater = LayoutInflater.from(this)
+            val popupView = inflater.inflate(R.layout.confirm_delete_dialog, null)
 
-            // Get the UID of the currently authenticated user
-            val uid = FirebaseAuth.getInstance().currentUser?.uid
+            // Create and configure the PopupWindow
+            val popupWindow = PopupWindow(
+                popupView,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                true
+            )
 
-            // Ensure the user is authenticated
-            if (uid != null) {
-                // Reference to the "vehicles" node under the user's UID
-                val vehiclesRef = database.getReference("Users").child(uid).child("Vehicles")
+            // Show the pop-up at the center of the screen
+            popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
 
-                // Remove the vehicle from the database
-                vehiclesRef.child(vehicleInfo.registrationNumber).removeValue()
-                    .addOnSuccessListener {
-                        // Vehicle removed successfully
-                        Toast.makeText(this, "Vehicle removed from database", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, GarageActivity::class.java))
-                        finish()
-                    }
-                    .addOnFailureListener { e ->
-                        // Failed to remove vehicle
-                        Toast.makeText(this, "Failed to remove vehicle: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
+            // Find cancel and confirm delete buttons in the pop-up layout
+            val btnCancel = popupView.findViewById<Button>(R.id.btnCancel)
+            val btnConfirmDelete = popupView.findViewById<Button>(R.id.btnConfirmDelete)
+
+            // Set click listener for the cancel button
+            btnCancel.setOnClickListener {
+                // Dismiss the pop-up
+                popupWindow.dismiss()
+            }
+
+            // Set click listener for the confirm delete button
+            btnConfirmDelete.setOnClickListener {
+                // Get a reference to your Firebase database
+                val database = FirebaseDatabase.getInstance()
+
+                // Get the UID of the currently authenticated user
+                val uid = FirebaseAuth.getInstance().currentUser?.uid
+
+                // Ensure the user is authenticated
+                if (uid != null) {
+                    // Reference to the "vehicles" node under the user's UID
+                    val vehiclesRef = database.getReference("Users").child(uid).child("Vehicles")
+
+                    // Remove the vehicle from the database
+                    vehiclesRef.child(vehicleInfo.registrationNumber).removeValue()
+                        .addOnSuccessListener {
+                            // Vehicle removed successfully
+                            Toast.makeText(this, "Vehicle removed from database", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this, GarageActivity::class.java))
+                            finish()
+                        }
+                        .addOnFailureListener { e ->
+                            // Failed to remove vehicle
+                            Toast.makeText(this, "Failed to remove vehicle: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
+
+                // Dismiss the pop-up after confirming deletion
+                popupWindow.dismiss()
             }
         }
 
