@@ -12,6 +12,7 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
@@ -125,11 +126,17 @@ class AddVehicleActivity : AppCompatActivity() {
                             // Find cancel and confirm delete buttons in the pop-up layout
                             val btnCancel = popupView.findViewById<Button>(R.id.btnCancelAdd)
                             val btnConfirmAdd = popupView.findViewById<Button>(R.id.btnConfirmAdd)
-
+                            val vehicleAddLogo = popupView.findViewById<ImageView>(R.id.imageViewConfirmVehicleLogo)
 
 
                             var txtVehicleDetail = popupView.findViewById<TextView>(R.id.textViewConfirmVehicleDetails)
                             txtVehicleDetail.text = "${vehicleInfo.yearOfManufacture} ${vehicleInfo.colour} ${vehicleInfo.make}"//LINE 132
+
+
+                            val logoResourceId = getLogoResourceForMake(vehicleInfo.make)
+                            vehicleAddLogo.setImageResource(logoResourceId)
+
+
 
 
 
@@ -191,6 +198,24 @@ class AddVehicleActivity : AppCompatActivity() {
                 }
             }
     }
+    }
+    private fun getLogoResourceForMake(make: String): Int {
+        return when (make) {
+            "BMW" -> R.drawable.bmw_logo
+            "NISSAN" -> R.drawable.nissan_logo
+            "SEAT" -> R.drawable.seat_logo
+            "TOYOTA" -> R.drawable.toyota_logo
+            "SUZUKI" -> R.drawable.suzuki_logo
+            "MERCEDES-BENZ" -> R.drawable.mercedes_logo
+            "VAUXHALL" -> R.drawable.vauxhall_logo
+            "AUDI" -> R.drawable.audi_logo
+            "VOLKSWAGEN" -> R.drawable.volkswagen_logo
+            "CITROEN" -> R.drawable.citroen_logo
+            "HYUNDAI" -> R.drawable.hyundai_logo
+
+            // Add more cases for other vehicle makes as needed
+            else -> R.drawable.default_logo // Default logo if the make is not found
+        }
     }
 }
 
