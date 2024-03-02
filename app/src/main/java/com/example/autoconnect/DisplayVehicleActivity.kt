@@ -33,12 +33,13 @@ import java.util.concurrent.TimeUnit
 
 
 class DisplayVehicleActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_display_vehicle)
-
         // Retrieve the vehicle info from the intent
         val vehicleInfo = intent.getSerializableExtra("vehicle_info") as VehicleInfo
+
 
         // Populate the UI components with the vehicle details
         val textViewRegistrationNumber = findViewById<TextView>(R.id.textViewRegistrationNumber)
@@ -194,6 +195,38 @@ class DisplayVehicleActivity : AppCompatActivity() {
 
         updateInsuraceStatus(vehicleInfo)
         updateServiceStatus(vehicleInfo)
+
+
+
+
+        val taxRelativeLayout = findViewById<RelativeLayout>(R.id.taxRelativeLayout)
+        taxRelativeLayout.setOnClickListener {
+            // Inflate the custom popup layout
+            val inflater = LayoutInflater.from(this)
+            val popupView = inflater.inflate(R.layout.vehicle_tax_dialog, null)
+
+            // Find views in the popup layout
+            val textViewMessage = popupView.findViewById<TextView>(R.id.textViewMessageTax)
+            val buttonAction = popupView.findViewById<Button>(R.id.buttonActionTax)
+
+            // Create and configure the popup window
+            val popupWindow = PopupWindow(
+                popupView,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                true
+            )
+
+            textViewMessage.text = "VEHICLE TAX DETAILS\n\nTax status : ${vehicleInfo.taxStatus}\nTax due date : ${vehicleInfo.taxDueDate}"
+            buttonAction.setOnClickListener {
+                // Handle button click
+                // For example, dismiss the popup
+                popupWindow.dismiss()
+            }
+            // Show the popup at the center of the screen
+            popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
+
+        }
 
 
 
