@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_background"
+            android:fontFamily="sans-serif-condensed"
+            android:padding="10dp"
+            android:text="AUTO CONNECT"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+
+            android:textSize="70sp"
+            android:textStyle="bold" />
+
+        <!-- Button to Go to search-->
+        <Button
+            android:id="@+id/buttonAbout"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_below="@id/textViewTitle"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_button"
+            android:text="ABOUT THIS APP"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <!-- Button to Go to My Garage -->
+        <Button
+            android:id="@+id/buttonNotifications"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_below="@id/buttonAbout"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_button"
+            android:text="NOTIFICATION MANAGEMENT"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <!-- Button for Social -->
+        <Button
+            android:id="@+id/buttonSettings"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_below="@id/buttonNotifications"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_button"
+            android:text="Settings"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <!-- Button to Leave a Review -->
+        <Button
+            android:id="@+id/buttonLeaveReview"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_below="@id/buttonSettings"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_button"
+            android:text="Leave a Review"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <!-- Button to Sign Out -->
+        <Button
+            android:id="@+id/buttonSignOut"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_below="@id/buttonLeaveReview"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="80dp"
+            android:background="@drawable/rounded_button"
+            android:text="Sign Out"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

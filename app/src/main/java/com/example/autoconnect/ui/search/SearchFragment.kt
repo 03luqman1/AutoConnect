@@ -1,21 +1,24 @@
-package com.example.autoconnect
+package com.example.autoconnect.ui.search
 
 import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.PopupWindow
+import android.widget.ScrollView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.example.autoconnect.dataclasses.VehicleInfo
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.autoconnect.R
+import com.example.autoconnect.VehicleInfo
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -28,111 +31,103 @@ import org.json.JSONArray
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-class SearchVehicleActivity : AppCompatActivity() {
+class SearchFragment : Fragment() {
 
     private lateinit var editTextVRN: EditText
     private lateinit var buttonSearchVehicle: Button
     private lateinit var textViewVehicleDetails: TextView
+    private lateinit var scrollViewVehicleDetails: ScrollView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_vehicle_search)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_search, container, false)
 
-        editTextVRN = findViewById(R.id.editTextVRN)
-        buttonSearchVehicle = findViewById(R.id.buttonSearchVehicle)
-        textViewVehicleDetails = findViewById(R.id.textViewVehicleDetails)
+
+
+        editTextVRN = view.findViewById(R.id.editTextVRN)
+        buttonSearchVehicle = view.findViewById(R.id.buttonSearchVehicle)
+        textViewVehicleDetails = view.findViewById(R.id.textViewVehicleDetails)
+        scrollViewVehicleDetails = view.findViewById(R.id.scrollViewVehicleDetails)
 
 
         editTextVRN.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // This method is called before the text is changed
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // This method is called when the text is changed
-
-                // If the text is empty or null, hide textViewVehicleDetails and buttonConfirmVehicle
-                textViewVehicleDetails.visibility = View.GONE
+                scrollViewVehicleDetails.visibility = View.GONE
                 buttonSearchVehicle.text = "SEARCH VEHICLE"
             }
 
             override fun afterTextChanged(s: Editable?) {
-                // This method is called after the text is changed
             }
         })
-
-
-
 
         buttonSearchVehicle.setOnClickListener {
             if (buttonSearchVehicle.text == "SEARCH VEHICLE") {
 
 
 
-            val client = OkHttpClient()
-            val mediaType = "application/json".toMediaType()
-            val vrn = editTextVRN.text.toString()
-            val body = "{\"registrationNumber\": \"$vrn\"}".toRequestBody(mediaType)
-            val request = Request.Builder()
-                .url("https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles")
-                .post(body)
-                .addHeader("x-api-key", "c5jFj6j13r4eNwFSMo706bniWL02zjqaKllvaqA6")
-                .addHeader("Content-Type", "application/json")
-                .build()
+                val client = OkHttpClient()
+                val mediaType = "application/json".toMediaType()
+                val vrn = editTextVRN.text.toString()
+                val body = "{\"registrationNumber\": \"$vrn\"}".toRequestBody(mediaType)
+                val request = Request.Builder()
+                    .url("https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles")
+                    .post(body)
+                    .addHeader("x-api-key", "c5jFj6j13r4eNwFSMo706bniWL02zjqaKllvaqA6")
+                    .addHeader("Content-Type", "application/json")
+                    .build()
 
-            GlobalScope.launch(Dispatchers.IO) {
-                val response = client.newCall(request).execute()
-                val responseBody = response.body?.string()
-                val gson = Gson()
-                val vehicleInfo = gson.fromJson(responseBody, VehicleInfo::class.java)
+                GlobalScope.launch(Dispatchers.IO) {
+                    val response = client.newCall(request).execute()
+                    val responseBody = response.body?.string()
+                    val gson = Gson()
+                    val vehicleInfo = gson.fromJson(responseBody, VehicleInfo::class.java)
 
-                // Construct formatted text to display in textViewVehicleDetails
-                val formattedText = StringBuilder().apply {
-                    append("Make: ${vehicleInfo.make}\n")
-                    append("Year of Manufacture: ${vehicleInfo.yearOfManufacture}\n")
-                    append("Engine Capacity: ${vehicleInfo.engineCapacity}\n")
-                    append("CO2 Emissions: ${vehicleInfo.co2Emissions}\n")
-                    append("Fuel Type: ${vehicleInfo.fuelType}\n")
-                    append("Tax Status: ${vehicleInfo.taxStatus}\n")
-                    append("Tax Due Date: ${vehicleInfo.taxDueDate}\n")
-                    append("MOT Status: ${vehicleInfo.motStatus}\n")
-                    append("Marked for Export: ${if (vehicleInfo.markedForExport) "Yes" else "No"}\n")
-                    append("Colour: ${vehicleInfo.colour}\n")
-                    append("Type Approval: ${vehicleInfo.typeApproval}\n")
-                    append("Date of Last V5C Issued: ${vehicleInfo.dateOfLastV5CIssued}\n")
-                    append("MOT Expiry Date: ${vehicleInfo.motExpiryDate}\n")
-                    append("Wheelplan: ${vehicleInfo.wheelplan}\n")
-                    append("Month of First Registration: ${vehicleInfo.monthOfFirstRegistration}\n")
-                }.toString()
+                    // Construct formatted text to display in textViewVehicleDetails
+                    val formattedText = StringBuilder().apply {
+                        append("Make: ${vehicleInfo.make}\n")
+                        append("Year of Manufacture: ${vehicleInfo.yearOfManufacture}\n")
+                        append("Engine Capacity: ${vehicleInfo.engineCapacity}\n")
+                        append("CO2 Emissions: ${vehicleInfo.co2Emissions}\n")
+                        append("Fuel Type: ${vehicleInfo.fuelType}\n")
+                        append("Tax Status: ${vehicleInfo.taxStatus}\n")
+                        append("Tax Due Date: ${vehicleInfo.taxDueDate}\n")
+                        append("MOT Status: ${vehicleInfo.motStatus}\n")
+                        append("Marked for Export: ${if (vehicleInfo.markedForExport) "Yes" else "No"}\n")
+                        append("Colour: ${vehicleInfo.colour}\n")
+                        append("Type Approval: ${vehicleInfo.typeApproval}\n")
+                        append("Date of Last V5C Issued: ${vehicleInfo.dateOfLastV5CIssued}\n")
+                        append("MOT Expiry Date: ${vehicleInfo.motExpiryDate}\n")
+                        append("Wheelplan: ${vehicleInfo.wheelplan}\n")
+                        append("Month of First Registration: ${vehicleInfo.monthOfFirstRegistration}\n")
+                    }.toString()
 
 
-                runOnUiThread {
-                    // Update UI with formatted text
-                    if (!vehicleInfo.make.isNullOrEmpty()) {
-                        // Get the InputMethodManager
-                        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-
-                        // Hide the keyboard
-                        imm.hideSoftInputFromWindow(editTextVRN.windowToken, 0)
-                        textViewVehicleDetails.text = formattedText
-                        textViewVehicleDetails.visibility = View.VISIBLE
-                        buttonSearchVehicle.text = "VIEW MOT DETAILS"
-
-                        //I NEED A EDIT TEXT LISTENER HEAR FOR editTextVRN. If the edit text is changed then textViewVehicleDetails and buttonConfirmVehicle SHOULD have visibility set to INVISIBLE
-                    } else {
-                        textViewVehicleDetails.visibility = View.GONE
-                        buttonSearchVehicle.text = "SEARCH VEHICLE"
-
-                    }
+                    requireActivity().runOnUiThread(Runnable {
+                        if (!vehicleInfo.make.isNullOrEmpty()) {
+                            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                            imm.hideSoftInputFromWindow(editTextVRN.windowToken, 0)
+                            textViewVehicleDetails.text = getFormattedVehicleInfo(vehicleInfo)
+                            scrollViewVehicleDetails.visibility = View.VISIBLE
+                            buttonSearchVehicle.text = "VIEW MOT DETAILS"
+                        } else {
+                            scrollViewVehicleDetails.visibility = View.GONE
+                            buttonSearchVehicle.text = "SEARCH VEHICLE"
+                        }
+                    })
 
                 }
-            }
-        }else if (buttonSearchVehicle.text == "VIEW MOT DETAILS") {
+            }else if (buttonSearchVehicle.text == "VIEW MOT DETAILS") {
 
 
 
                 // Inflate the custom popup layout
-                val inflater = LayoutInflater.from(this)
+                val inflater = LayoutInflater.from(requireContext())
+
                 val popupView = inflater.inflate(R.layout.vehicle_mot_dialog, null)
 
                 // Find views in the popup layout
@@ -177,7 +172,7 @@ class SearchVehicleActivity : AppCompatActivity() {
                         val responseBody = response.body?.string()
 
                         // Update UI on the main thread
-                        runOnUiThread {
+                        requireActivity().runOnUiThread {
                             if (!responseBody.isNullOrEmpty()) {
                                 // Parse the JSON response
                                 val jsonArray = JSONArray(responseBody)
@@ -345,8 +340,64 @@ class SearchVehicleActivity : AppCompatActivity() {
 
             }
         }
+
+        return view
+    }
+
+    private fun searchVehicle() {
+        val client = OkHttpClient()
+        val mediaType = "application/json".toMediaType()
+        val vrn = editTextVRN.text.toString()
+        val body = "{\"registrationNumber\": \"$vrn\"}".toRequestBody(mediaType)
+        val request = Request.Builder()
+            .url("https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles")
+            .post(body)
+            .addHeader("x-api-key", "c5jFj6j13r4eNwFSMo706bniWL02zjqaKllvaqA6")
+            .addHeader("Content-Type", "application/json")
+            .build()
+
+        GlobalScope.launch(Dispatchers.IO) {
+            val response = client.newCall(request).execute()
+            val responseBody = response.body?.string()
+            val gson = Gson()
+            val vehicleInfo = gson.fromJson(responseBody, VehicleInfo::class.java)
+
+            requireActivity().runOnUiThread {
+                if (!vehicleInfo.make.isNullOrEmpty()) {
+                    val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(editTextVRN.windowToken, 0)
+                    textViewVehicleDetails.text = getFormattedVehicleInfo(vehicleInfo)
+                    scrollViewVehicleDetails.visibility = View.VISIBLE
+                    buttonSearchVehicle.text = "VIEW MOT DETAILS"
+                } else {
+                    scrollViewVehicleDetails.visibility = View.GONE
+                    buttonSearchVehicle.text = "SEARCH VEHICLE"
+                }
+            }
+        }
+    }
+
+    private fun getFormattedVehicleInfo(vehicleInfo: VehicleInfo): String {
+        return StringBuilder().apply {
+            append("Make: ${vehicleInfo.make}\n")
+            append("Year of Manufacture: ${vehicleInfo.yearOfManufacture}\n")
+            append("Engine Capacity: ${vehicleInfo.engineCapacity}\n")
+            append("CO2 Emissions: ${vehicleInfo.co2Emissions}\n")
+            append("Fuel Type: ${vehicleInfo.fuelType}\n")
+            append("Tax Status: ${vehicleInfo.taxStatus}\n")
+            append("Tax Due Date: ${vehicleInfo.taxDueDate}\n")
+            append("MOT Status: ${vehicleInfo.motStatus}\n")
+            append("Marked for Export: ${if (vehicleInfo.markedForExport) "Yes" else "No"}\n")
+            append("Colour: ${vehicleInfo.colour}\n")
+            append("Type Approval: ${vehicleInfo.typeApproval}\n")
+            append("Date of Last V5C Issued: ${vehicleInfo.dateOfLastV5CIssued}\n")
+            append("MOT Expiry Date: ${vehicleInfo.motExpiryDate}\n")
+            append("Wheelplan: ${vehicleInfo.wheelplan}\n")
+            append("Month of First Registration: ${vehicleInfo.monthOfFirstRegistration}\n")
+        }.toString()
+    }
+
+    private fun showMOTDetailsPopup() {
+        // Your MOT details popup logic here
     }
 }
-
-
-

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_home">
+
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.autoconnect.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_garage"
+        android:name="com.example.autoconnect.ui.garage.GarageFragment"
+        android:label="@string/title_garage"
+        tools:layout="@layout/fragment_garage" />
+
+    <fragment
+        android:id="@+id/navigation_vehicle"
+        android:name="com.example.autoconnect.ui.vehicle.VehicleFragment"
+        android:label="Vehicle"
+        tools:layout="@layout/fragment_vehicle" />
+
+    <fragment
+        android:id="@+id/navigation_add"
+        android:name="com.example.autoconnect.ui.add.AddFragment"
+        android:label="@string/title_garage"
+        tools:layout="@layout/fragment_add" />
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.example.autoconnect.ui.search.SearchFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_search" />
+
+
+</navigation>

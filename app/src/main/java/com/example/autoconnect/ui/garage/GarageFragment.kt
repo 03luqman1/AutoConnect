@@ -1,46 +1,59 @@
-package com.example.autoconnect
+package com.example.autoconnect.ui.garage
 
-import android.view.View
-import android.widget.EditText
-import android.widget.TextView
+import android.os.Bundle
+import android.view.*
+import android.widget.AdapterView
+import android.widget.Button
+import android.widget.ListView
+import android.widget.PopupWindow
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.example.autoconnect.R
+import com.example.autoconnect.VehicleInfo
+import com.example.autoconnect.databinding.FragmentGarageBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import okhttp3.Call
+import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
-import android.content.Intent
-import android.os.Bundle
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ListView
-import androidx.appcompat.app.AppCompatActivity
-import com.example.autoconnect.dataclasses.VehicleInfo
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.*
-import com.google.firebase.ktx.Firebase
-import okhttp3.Call
-import okhttp3.Callback
 import okhttp3.Response
-import okio.IOException
+import java.io.IOException
 
-class GarageActivity : AppCompatActivity() {
+
+class GarageFragment : Fragment() {
+
     private lateinit var listViewVehicles: ListView
     private lateinit var buttonAddNewVehicle: Button
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_garage)
+    private var _binding: FragmentGarageBinding? = null
 
-        listViewVehicles = findViewById(R.id.listViewVehicles)
-        buttonAddNewVehicle = findViewById(R.id.buttonAddNewVehicle)
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val view = inflater.inflate(com.example.autoconnect.R.layout.fragment_garage, container, false)
+
+        listViewVehicles = view.findViewById(R.id.listViewVehicles)
+        buttonAddNewVehicle = view.findViewById(R.id.buttonAddNewVehicle)
 
         // Initialize Firebase Auth
         auth = Firebase.auth
@@ -49,23 +62,49 @@ class GarageActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance().reference
 
         buttonAddNewVehicle.setOnClickListener {
-            startActivity(Intent(this, AddVehicleActivity::class.java))
+            findNavController(view).navigate(R.id.navigation_add)
         }
+
+
+
+
 
         // Display the user's vehicles in the ListView
         displayUserVehicles()
-
+// Inside your Fragment or Activity where you want to navigate
+        val navController = findNavController()
         listViewVehicles.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-                // Get the selected vehicle info
-                val selectedVehicle = listViewVehicles.adapter.getItem(position) as VehicleInfo
+            // Get the selected vehicle info
+            val selectedVehicle = listViewVehicles.adapter.getItem(position) as VehicleInfo
 
-                // Start DisplayVehicleActivity and pass selected vehicle info
-                val intent = Intent(this, DisplayVehicleActivity::class.java).apply {
-                    putExtra("vehicle_info", selectedVehicle)
-                }
-                startActivity(intent)
-            }
+            // Navigate to the vehicle detail fragment and pass the selected vehicle's information
+            //findNavController().navigate(R.id.navigation_vehicle)
+            val bundle = Bundle()
+            bundle.putSerializable("vehicleInfo", selectedVehicle)
+            findNavController(view).navigate(R.id.navigation_vehicle, bundle)
+
+
+            //navController.navigate(R.id.navigation_vehicle)
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+        return view
     }
+
+
+
+
+
 
     private fun displayUserVehicles() {
         // Get the UID of the currently authenticated user
@@ -89,7 +128,7 @@ class GarageActivity : AppCompatActivity() {
                     }
 
                     // Create a custom adapter to populate the ListView
-                    val adapter = VehicleAdapter(this@GarageActivity, vehicleList)
+                    val adapter = VehicleAdapter(requireContext(), vehicleList)
 
                     // Set the adapter to the ListView
                     listViewVehicles.adapter = adapter
@@ -140,4 +179,3 @@ class GarageActivity : AppCompatActivity() {
         })
     }
 }
-

@@ -1,4 +1,4 @@
-package com.example.autoconnect
+package com.example.autoconnect.ui.garage
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.autoconnect.R
-import com.example.autoconnect.dataclasses.VehicleInfo
+import com.example.autoconnect.VehicleInfo
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale

@@ -13,17 +13,15 @@
         android:theme="@style/Theme.AutoConnect"
         tools:targetApi="31">
         <activity
-            android:name=".SplashActivity"
-            android:exported="true">
+            android:name=".StartActivity"
+            android:exported="true"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".StartActivity"
-            android:exported="true"/>
         <activity
             android:name=".LoginActivity"
             android:exported="true"/>
@@ -32,24 +30,6 @@
             android:exported="true"/>
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
-        <activity
-            android:name=".SearchVehicleActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ReviewActivity"
-            android:exported="true" />
-        <activity
-            android:name=".SocialActivity"
-            android:exported="true" />
-        <activity
-            android:name=".GarageActivity"
-            android:exported="true" />
-        <activity
-            android:name=".AddVehicleActivity"
-            android:exported="true" />
-        <activity
-            android:name=".DisplayVehicleActivity"
             android:exported="true" />
     </application>
 
