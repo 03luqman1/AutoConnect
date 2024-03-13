@@ -37,9 +37,9 @@ class DisplayVehicleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_display_vehicle)
+
         // Retrieve the vehicle info from the intent
         val vehicleInfo = intent.getSerializableExtra("vehicle_info") as VehicleInfo
-
 
         // Populate the UI components with the vehicle details
         val textViewRegistrationNumber = findViewById<TextView>(R.id.textViewRegistrationNumber)

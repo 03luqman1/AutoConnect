@@ -12,13 +12,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val buttonGoToMenu: Button = findViewById(R.id.buttonVehicleSearch)
+        val buttonGoToSearch: Button = findViewById(R.id.buttonVehicleSearch)
         val buttonLeaveReview: Button = findViewById(R.id.buttonLeaveReview)
         val buttonSignOut: Button = findViewById(R.id.buttonSignOut)
         val buttonSocial: Button = findViewById(R.id.buttonSocial)
         val buttonGarage: Button = findViewById(R.id.buttonGarage)
 
-        buttonGoToMenu.setOnClickListener {
+        buttonGoToSearch.setOnClickListener {
             //startActivity(Intent(this, MenuActivity::class.java))
             startActivity(Intent(this, SearchVehicleActivity::class.java))
         }
