@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:padding="16dp">
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutReview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:padding="10dp"
+        android:background="@drawable/rounded_background">
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:text="AUTO CONNECT"
+            android:textColor="#FFFFFF"
+            android:layout_centerHorizontal="true"
+            android:textSize="46sp"
+            android:textStyle="bold" />
+
+        <!-- Subheading -->
+        <TextView
+            android:id="@+id/textViewGarageTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:text="LEAVE A REVIEW"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relativeLayoutReview"
+        android:background="@drawable/rounded_background"
+        android:layout_marginTop="16dp"
+        android:padding="16dp"
+        android:id="@+id/relativeLayoutDetails">
+        <!-- Rating Bar -->
+        <RatingBar
+            android:id="@+id/ratingBar"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="16dp"
+            android:numStars="5"
+            android:stepSize="1"
+            android:layout_centerHorizontal="true"
+            android:progressTint="#FFD700" />
+
+        <!-- EditText for Comments -->
+        <EditText
+            android:id="@+id/editTextComments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ratingBar"
+            android:layout_marginTop="16dp"
+            android:gravity="top|start"
+            android:hint="Write your comments here..."
+            android:inputType="textMultiLine"
+            android:maxLines="5"
+            android:padding="16dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#BCBCBC"
+            android:background="@drawable/rounded_button"/>
+
+    </RelativeLayout>
+
+    <!-- Button to Submit Review -->
+    <Button
+        android:id="@+id/buttonSubmitReview"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="Submit Review"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:background="@drawable/rounded_button"
+        android:layout_below="@id/relativeLayoutDetails"
+        android:layout_marginTop="16dp"/>
+</RelativeLayout>

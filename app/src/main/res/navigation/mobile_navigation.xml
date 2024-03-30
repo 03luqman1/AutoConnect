@@ -20,6 +20,12 @@
         tools:layout="@layout/fragment_garage" />
 
     <fragment
+        android:id="@+id/navigation_social"
+        android:name="com.example.autoconnect.ui.social.SocialFragment"
+        android:label="@string/title_social"
+        tools:layout="@layout/fragment_social" />
+
+    <fragment
         android:id="@+id/navigation_vehicle"
         android:name="com.example.autoconnect.ui.vehicle.VehicleFragment"
         android:label="Vehicle"
