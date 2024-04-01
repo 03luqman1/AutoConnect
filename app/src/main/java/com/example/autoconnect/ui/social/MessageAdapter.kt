@@ -4,11 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.autoconnect.R
 
-class MessageAdapter(val messages: MutableList<Pair<String, String>>) :
-    RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
+class MessageAdapter(
+    val messages: MutableList<Pair<String, String>>,
+    private val currentUserUsername: String,
+) : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
 
     inner class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val senderTextView: TextView = itemView.findViewById(R.id.textViewUsername)
@@ -22,18 +25,32 @@ class MessageAdapter(val messages: MutableList<Pair<String, String>>) :
     }
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
-        val (senderId, message) = messages[position]
-        holder.senderTextView.text = senderId
+        val (senderUsername, message) = messages[position]
+        holder.senderTextView.text = senderUsername
         holder.messageTextView.text = message
+
+        // Check if the sender is the current user
+        if (senderUsername == currentUserUsername) {
+            // Set a different text color for the current user's message
+            holder.messageTextView.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.teal_700)
+
+
+            //holder.messageTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.black))
+        } else {
+
+            holder.messageTextView.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.black)
+        }
     }
 
     override fun getItemCount(): Int {
         return messages.size
     }
 
-    fun addMessage(senderId: String, message: String) {
-        messages.add(Pair(senderId, message))
+    fun addMessage(senderUsername: String, message: String) {
+        messages.add(Pair(senderUsername, message))
         notifyItemInserted(messages.size - 1)
     }
 }
+
+
 
