@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="70dp"
-    tools:context=".ui.garage.SocialFragment">
+    tools:context=".ui.garage.GarageFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

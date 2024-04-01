@@ -8,13 +8,15 @@
     android:paddingRight="10dp"
     android:orientation="vertical">
 
+
     <TextView
         android:id="@+id/textViewUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="10dp"
         android:textColor="#FFFFFF"
-        android:layout_marginBottom="4dp"/>
+        android:layout_marginBottom="4dp"
+        android:layout_gravity="start"/>
 
     <TextView
         android:id="@+id/textViewMessage"
@@ -24,6 +26,7 @@
         android:backgroundTint="#000000"
         android:padding="8dp"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:layout_gravity="start"/>
 
 </LinearLayout>
