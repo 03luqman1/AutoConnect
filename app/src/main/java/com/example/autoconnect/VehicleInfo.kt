@@ -1,4 +1,4 @@
-package com.example.autoconnect.dataclasses
+package com.example.autoconnect
 
 import java.io.Serializable
 

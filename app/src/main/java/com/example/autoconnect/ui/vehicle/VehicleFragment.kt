@@ -1,15 +1,14 @@
-package com.example.autoconnect
+package com.example.autoconnect.ui.vehicle
 
-import org.json.JSONArray
-import org.json.JSONObject
-import android.app.DatePickerDialog
+// VehicleFragment.kt
+
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.DatePicker
@@ -18,13 +17,16 @@ import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.example.autoconnect.dataclasses.VehicleInfo
+import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import com.example.autoconnect.R
+import com.example.autoconnect.VehicleInfo
+import com.example.autoconnect.databinding.FragmentGarageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.json.JSONArray
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -32,45 +34,48 @@ import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 
-class DisplayVehicleActivity : AppCompatActivity() {
+class VehicleFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_display_vehicle)
-        // Retrieve the vehicle info from the intent
-        val vehicleInfo = intent.getSerializableExtra("vehicle_info") as VehicleInfo
+    private var _binding: FragmentGarageBinding? = null
 
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+
+
+        val vehicleInfo = requireArguments().getSerializable("vehicleInfo") as VehicleInfo
+
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(com.example.autoconnect.R.layout.fragment_vehicle, container, false)
 
         // Populate the UI components with the vehicle details
-        val textViewRegistrationNumber = findViewById<TextView>(R.id.textViewRegistrationNumber)
+        val textViewRegistrationNumber = view.findViewById<TextView>(R.id.textViewRegistrationNumber)
         textViewRegistrationNumber.text = "${vehicleInfo.registrationNumber}"
 
-
-        val taxStatus = findViewById<ImageView>(R.id.taxImageView)
+        val taxStatus = view.findViewById<ImageView>(R.id.taxImageView)
         // Check if the tax status is "Valid" and set the text accordingly
         if (vehicleInfo.taxStatus == "Taxed") {
             taxStatus.setImageResource(R.drawable.green_tick)
-            val textViewTaxDueDate = findViewById<TextView>(R.id.textViewTaxDueDate)
+            val textViewTaxDueDate = view.findViewById<TextView>(R.id.textViewTaxDueDate)
             textViewTaxDueDate.text = "Tax Due Date: ${vehicleInfo.taxDueDate}"
         } else if (vehicleInfo.taxStatus == "Untaxed" || vehicleInfo.taxStatus == "SORN"){
             taxStatus.setImageResource(R.drawable.red_cross)
-            val textViewTaxDueDate = findViewById<TextView>(R.id.textViewTaxDueDate)
+            val textViewTaxDueDate = view.findViewById<TextView>(R.id.textViewTaxDueDate)
             textViewTaxDueDate.text = "Tax Status: ${vehicleInfo.taxStatus}"
         }
 
-
-
-
-
-        val motStatus = findViewById<ImageView>(R.id.motImageView)
+        val motStatus = view.findViewById<ImageView>(R.id.motImageView)
         // Check if the tax status is "Valid" and set the text accordingly
         if (vehicleInfo.motStatus == "Valid") {
             motStatus.setImageResource(R.drawable.green_tick)
-            val textViewMOTExpiryDate = findViewById<TextView>(R.id.textViewMOTExpiryDate)
+            val textViewMOTExpiryDate = view.findViewById<TextView>(R.id.textViewMOTExpiryDate)
             textViewMOTExpiryDate.text = "MOT Expiry Date: ${vehicleInfo.motExpiryDate}"
         } else if (vehicleInfo.motStatus == "No details held by DVLA"){
             motStatus.setImageResource(R.drawable.green_tick)
-            val textViewMOTExpiryDate = findViewById<TextView>(R.id.textViewMOTExpiryDate)
+            val textViewMOTExpiryDate = view.findViewById<TextView>(R.id.textViewMOTExpiryDate)
             val formatter = SimpleDateFormat("yyyy-MM", Locale.getDefault())
             val firstRegDate = Calendar.getInstance()
             firstRegDate.time = formatter.parse(vehicleInfo.monthOfFirstRegistration)
@@ -79,60 +84,62 @@ class DisplayVehicleActivity : AppCompatActivity() {
             textViewMOTExpiryDate.text = "MOT Due Date: $formattedExpiryDate"
         }else if (vehicleInfo.motStatus == "Not valid"){
             motStatus.setImageResource(R.drawable.red_cross)
-            val textViewMOTExpiryDate = findViewById<TextView>(R.id.textViewMOTExpiryDate)
+            val textViewMOTExpiryDate = view.findViewById<TextView>(R.id.textViewMOTExpiryDate)
             textViewMOTExpiryDate.text = "MOT Status: ${vehicleInfo.motStatus}"
         }
 
 
-
-
-        val textViewMake = findViewById<TextView>(R.id.textViewMake)
+        val textViewMake = view.findViewById<TextView>(R.id.textViewMake)
         textViewMake.text = "Make: ${vehicleInfo.make}"
 
-        val textViewYearOfManufacture = findViewById<TextView>(R.id.textViewYearOfManufacture)
+        val textViewYearOfManufacture = view.findViewById<TextView>(R.id.textViewYearOfManufacture)
         textViewYearOfManufacture.text = "Year of Manufacture: ${vehicleInfo.yearOfManufacture}"
 
-        val textViewEngineCapacity = findViewById<TextView>(R.id.textViewEngineCapacity)
+        val textViewEngineCapacity = view.findViewById<TextView>(R.id.textViewEngineCapacity)
         textViewEngineCapacity.text = "Engine Capacity: ${vehicleInfo.engineCapacity}"
 
-        val textViewCO2Emissions = findViewById<TextView>(R.id.textViewCO2Emissions)
+        val textViewCO2Emissions = view.findViewById<TextView>(R.id.textViewCO2Emissions)
         textViewCO2Emissions.text = "CO2 Emissions: ${vehicleInfo.co2Emissions}"
 
-        val textViewFuelType = findViewById<TextView>(R.id.textViewFuelType)
+        val textViewFuelType = view.findViewById<TextView>(R.id.textViewFuelType)
         textViewFuelType.text = "Fuel Type: ${vehicleInfo.fuelType}"
 
-        val textViewMarkedForExport = findViewById<TextView>(R.id.textViewMarkedForExport)
+        val textViewMarkedForExport = view.findViewById<TextView>(R.id.textViewMarkedForExport)
         textViewMarkedForExport.text = "Marked for Export: ${vehicleInfo.markedForExport}"
 
-        val textViewColour = findViewById<TextView>(R.id.textViewColour)
+        val textViewColour = view.findViewById<TextView>(R.id.textViewColour)
         textViewColour.text = "Colour: ${vehicleInfo.colour}"
 
-        val textViewTypeApproval = findViewById<TextView>(R.id.textViewTypeApproval)
+        val textViewTypeApproval = view.findViewById<TextView>(R.id.textViewTypeApproval)
         textViewTypeApproval.text = "Type Approval: ${vehicleInfo.typeApproval}"
 
-        val textViewDateOfLastV5CIssued = findViewById<TextView>(R.id.textViewDateOfLastV5CIssued)
+        val textViewDateOfLastV5CIssued = view.findViewById<TextView>(R.id.textViewDateOfLastV5CIssued)
         textViewDateOfLastV5CIssued.text = "Date of Last V5C Issued: ${vehicleInfo.dateOfLastV5CIssued}"
 
-        val textViewWheelplan = findViewById<TextView>(R.id.textViewWheelplan)
+        val textViewWheelplan = view.findViewById<TextView>(R.id.textViewWheelplan)
         textViewWheelplan.text = "Wheelplan: ${vehicleInfo.wheelplan}"
 
-        val textViewMonthOfFirstRegistration = findViewById<TextView>(R.id.textViewMonthOfFirstRegistration)
+        val textViewMonthOfFirstRegistration = view.findViewById<TextView>(R.id.textViewMonthOfFirstRegistration)
         textViewMonthOfFirstRegistration.text = "Month Of First Registration: ${vehicleInfo.monthOfFirstRegistration}"
 
         // Set the vehicle make logo
-        setVehicleMakeLogo(vehicleInfo.make)
-        // Add more TextViews for other vehicle details as needed
+        setVehicleMakeLogo(vehicleInfo.make, view)
 
 
-        val garageButton = findViewById<Button>(R.id.buttonGarage)
+        val garageButton = view.findViewById<Button>(R.id.buttonGarage)
         garageButton.setOnClickListener {
-            startActivity(Intent(this, GarageActivity::class.java))
+            val navController = Navigation.findNavController(view)
+            navController.navigate(R.id.navigation_garage)
+
+            // Remove the previous fragment from the back stack
+            //navController.popBackStack()
+
         }
 
-        val removeVehicleButton = findViewById<Button>(R.id.buttonRemoveVehicle)
+        val removeVehicleButton = view.findViewById<Button>(R.id.buttonRemoveVehicle)
         removeVehicleButton.setOnClickListener {
             // Inflate the confirmation pop-up layout
-            val inflater = LayoutInflater.from(this)
+            val inflater = LayoutInflater.from(context)
             val popupView = inflater.inflate(R.layout.confirm_delete_dialog, null)
 
             // Create and configure the PopupWindow
@@ -173,13 +180,15 @@ class DisplayVehicleActivity : AppCompatActivity() {
                     vehiclesRef.child(vehicleInfo.registrationNumber).removeValue()
                         .addOnSuccessListener {
                             // Vehicle removed successfully
-                            Toast.makeText(this, "Vehicle removed from database", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this, GarageActivity::class.java))
-                            finish()
+                            Toast.makeText(context, "Vehicle removed from database", Toast.LENGTH_SHORT).show()
+                            //startActivity(Intent(this, GarageActivity::class.java))
+                            //finish()
+                            val navController = Navigation.findNavController(view)
+                            navController.navigate(R.id.navigation_garage)
                         }
                         .addOnFailureListener { e ->
                             // Failed to remove vehicle
-                            Toast.makeText(this, "Failed to remove vehicle: ${e.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Failed to remove vehicle: ${e.message}", Toast.LENGTH_SHORT).show()
                         }
                 }
 
@@ -193,16 +202,16 @@ class DisplayVehicleActivity : AppCompatActivity() {
 
 
 
-        updateInsuraceStatus(vehicleInfo)
-        updateServiceStatus(vehicleInfo)
+        updateInsuraceStatus(vehicleInfo, view)
+        updateServiceStatus(vehicleInfo, view)
 
 
 
 
-        val taxRelativeLayout = findViewById<RelativeLayout>(R.id.taxRelativeLayout)
+        val taxRelativeLayout = view.findViewById<RelativeLayout>(R.id.taxRelativeLayout)
         taxRelativeLayout.setOnClickListener {
             // Inflate the custom popup layout
-            val inflater = LayoutInflater.from(this)
+            val inflater = LayoutInflater.from(context)
             val popupView = inflater.inflate(R.layout.vehicle_tax_dialog, null)
 
             // Find views in the popup layout
@@ -230,10 +239,10 @@ class DisplayVehicleActivity : AppCompatActivity() {
 
 
 
-        val motRelativeLayout = findViewById<RelativeLayout>(R.id.motRelativeLayout)
+        val motRelativeLayout = view.findViewById<RelativeLayout>(R.id.motRelativeLayout)
         motRelativeLayout.setOnClickListener {
             // Inflate the custom popup layout
-            val inflater = LayoutInflater.from(this)
+            val inflater = LayoutInflater.from(context)
             val popupView = inflater.inflate(R.layout.vehicle_mot_dialog, null)
 
             // Find views in the popup layout
@@ -278,152 +287,120 @@ class DisplayVehicleActivity : AppCompatActivity() {
                     val responseBody = response.body?.string()
 
                     // Update UI on the main thread
-                    runOnUiThread {
+                    requireActivity().runOnUiThread {
                         if (!responseBody.isNullOrEmpty()) {
-                        // Parse the JSON response
-                        val jsonArray = JSONArray(responseBody)
+                            // Parse the JSON response
+                            val jsonArray = JSONArray(responseBody)
 
-                        if (jsonArray.length() > 0) {
-                            val jsonObject = jsonArray.getJSONObject(0)
-                            if (!jsonObject.has("motTestDueDate")) {
-                            val registration = jsonObject.getString("registration")
-                            val make = jsonObject.getString("make")
-                            val model = jsonObject.getString("model")
-                            val firstUsedDate = jsonObject.getString("firstUsedDate")
-                            val fuelType = jsonObject.getString("fuelType")
-                            val primaryColour = jsonObject.getString("primaryColour")
-                            val vehicleId = jsonObject.getString("vehicleId")
-                            val registrationDate = jsonObject.getString("registrationDate")
-                            val manufactureDate = jsonObject.getString("manufactureDate")
-                            val engineSize = jsonObject.getString("engineSize")
+                            if (jsonArray.length() > 0) {
+                                val jsonObject = jsonArray.getJSONObject(0)
+                                if (!jsonObject.has("motTestDueDate")) {
+                                    val registration = jsonObject.getString("registration")
+                                    val make = jsonObject.getString("make")
+                                    val model = jsonObject.getString("model")
+                                    val firstUsedDate = jsonObject.getString("firstUsedDate")
+                                    val fuelType = jsonObject.getString("fuelType")
+                                    val primaryColour = jsonObject.getString("primaryColour")
+                                    val vehicleId = jsonObject.getString("vehicleId")
+                                    val registrationDate = jsonObject.getString("registrationDate")
+                                    val manufactureDate = jsonObject.getString("manufactureDate")
+                                    val engineSize = jsonObject.getString("engineSize")
 
 
-                            val motTests = jsonObject.getJSONArray("motTests")
+                                    val motTests = jsonObject.getJSONArray("motTests")
 
-                            val formattedText = StringBuilder()
-                            formattedText.append("Registration: $registration\n")
-                            formattedText.append("Make: $make\n")
-                            formattedText.append("Model: $model\n")
-                            formattedText.append("First Used Date: $firstUsedDate\n")
-                            formattedText.append("Fuel Type: $fuelType\n")
-                            formattedText.append("Primary Colour: $primaryColour\n")
-                            formattedText.append("Vehicle Id : $vehicleId\n")
-                            formattedText.append("Registration Date : $registrationDate\n")
-                            formattedText.append("Manufacture Date : $manufactureDate\n")
-                            formattedText.append("Engine Size : $engineSize\n\n")
+                                    val formattedText = StringBuilder()
+                                    formattedText.append("Registration: $registration\n")
+                                    formattedText.append("Make: $make\n")
+                                    formattedText.append("Model: $model\n")
+                                    formattedText.append("First Used Date: $firstUsedDate\n")
+                                    formattedText.append("Fuel Type: $fuelType\n")
+                                    formattedText.append("Primary Colour: $primaryColour\n")
+                                    formattedText.append("Vehicle Id : $vehicleId\n")
+                                    formattedText.append("Registration Date : $registrationDate\n")
+                                    formattedText.append("Manufacture Date : $manufactureDate\n")
+                                    formattedText.append("Engine Size : $engineSize\n\n")
 
-                            for (i in 0 until motTests.length()) {
-                                val testObj = motTests.getJSONObject(i)
-                                val testResult = testObj.getString("testResult")
-                                val completedDate = testObj.getString("completedDate")
-                                val odometerValue = testObj.getString("odometerValue")
-                                val odometerUnit = testObj.getString("odometerUnit")
-                                val odometerResultType =
-                                    testObj.getString("odometerResultType").lowercase()
-                                val motTestNumber = testObj.getString("motTestNumber")
-                                val rfrAndComments = testObj.getJSONArray("rfrAndComments")
+                                    for (i in 0 until motTests.length()) {
+                                        val testObj = motTests.getJSONObject(i)
+                                        val testResult = testObj.getString("testResult")
+                                        val completedDate = testObj.getString("completedDate")
+                                        val odometerValue = testObj.getString("odometerValue")
+                                        val odometerUnit = testObj.getString("odometerUnit")
+                                        val odometerResultType =
+                                            testObj.getString("odometerResultType").lowercase()
+                                        val motTestNumber = testObj.getString("motTestNumber")
+                                        val rfrAndComments = testObj.getJSONArray("rfrAndComments")
 
-                                if (testResult.equals("PASSED")) {
-                                    val expiryDate = testObj.getString("expiryDate")
-                                    formattedText.append("\nMOT Test " + (motTests.length() - i) + ":\n")
-                                    formattedText.append("Completed Date: $completedDate\n")
-                                    formattedText.append("Test Result: $testResult\n")
-                                    formattedText.append("Expiry Date: $expiryDate\n")
-                                    formattedText.append("Odometer Value: $odometerValue $odometerUnit ($odometerResultType)\n")
-                                    formattedText.append("MOT Test Number: $motTestNumber\n")
-                                } else if (testResult.equals("FAILED")) {
-                                    formattedText.append("\nMOT Test " + (motTests.length() - i) + ":\n")
-                                    formattedText.append("Completed Date: $completedDate\n")
-                                    formattedText.append("Test Result: $testResult\n")
-                                    formattedText.append("Odometer Value: $odometerValue $odometerUnit ($odometerResultType)\n")
-                                    formattedText.append("MOT Test Number: $motTestNumber\n")
-                                }
-                                if (rfrAndComments.length() > 0) {
-                                    formattedText.append("RFR and Comments:\n")
-                                    for (j in 0 until rfrAndComments.length()) {
-                                        val rfrObj = rfrAndComments.getJSONObject(j)
-                                        val text = rfrObj.getString("text")
-                                        formattedText.append("- $text\n")
+                                        if (testResult.equals("PASSED")) {
+                                            val expiryDate = testObj.getString("expiryDate")
+                                            formattedText.append("\nMOT Test " + (motTests.length() - i) + ":\n")
+                                            formattedText.append("Completed Date: $completedDate\n")
+                                            formattedText.append("Test Result: $testResult\n")
+                                            formattedText.append("Expiry Date: $expiryDate\n")
+                                            formattedText.append("Odometer Value: $odometerValue $odometerUnit ($odometerResultType)\n")
+                                            formattedText.append("MOT Test Number: $motTestNumber\n")
+                                        } else if (testResult.equals("FAILED")) {
+                                            formattedText.append("\nMOT Test " + (motTests.length() - i) + ":\n")
+                                            formattedText.append("Completed Date: $completedDate\n")
+                                            formattedText.append("Test Result: $testResult\n")
+                                            formattedText.append("Odometer Value: $odometerValue $odometerUnit ($odometerResultType)\n")
+                                            formattedText.append("MOT Test Number: $motTestNumber\n")
+                                        }
+                                        if (rfrAndComments.length() > 0) {
+                                            formattedText.append("RFR and Comments:\n")
+                                            for (j in 0 until rfrAndComments.length()) {
+                                                val rfrObj = rfrAndComments.getJSONObject(j)
+                                                val text = rfrObj.getString("text")
+                                                formattedText.append("- $text\n")
+                                            }
+                                        }
+
+                                        formattedText.append("\n")
                                     }
+
+                                    // Update the TextView with the formatted text
+                                    textViewMessage.text = formattedText.toString()
+
+
+                                } else {
+                                    val registration = jsonObject.getString("registration")
+                                    val make = jsonObject.getString("make")
+                                    val model = jsonObject.getString("model")
+                                    val manufactureYear = jsonObject.getString("manufactureYear")
+                                    val fuelType = jsonObject.getString("fuelType")
+                                    val primaryColour = jsonObject.getString("primaryColour")
+                                    val dvlaId = jsonObject.getString("dvlaId")
+                                    val registrationDate = jsonObject.getString("registrationDate")
+                                    val manufactureDate = jsonObject.getString("manufactureDate")
+                                    val engineSize = jsonObject.getString("engineSize")
+                                    val motTestDueDate = jsonObject.getString("motTestDueDate")
+
+                                    val formattedText = StringBuilder()
+                                    formattedText.append("Registration: $registration\n")
+                                    formattedText.append("Make: $make\n")
+                                    formattedText.append("Model: $model\n")
+                                    formattedText.append("First Used Date: $manufactureYear\n")
+                                    formattedText.append("Fuel Type: $fuelType\n")
+                                    formattedText.append("Primary Colour: $primaryColour\n")
+                                    formattedText.append("Vehicle Id : $dvlaId\n")
+                                    formattedText.append("Registration Date : $registrationDate\n")
+                                    formattedText.append("Manufacture Date : $manufactureDate\n")
+                                    formattedText.append("Engine Size : $engineSize\n")
+                                    formattedText.append("MOT Test Due Date : $motTestDueDate\n\n")
+
+                                    textViewMessage.text = formattedText.toString()
                                 }
-
-                                formattedText.append("\n")
-                            }
-
-                            // Update the TextView with the formatted text
-                            textViewMessage.text = formattedText.toString()
-
-
-                        } else {
-                                val registration = jsonObject.getString("registration")
-                                val make = jsonObject.getString("make")
-                                val model = jsonObject.getString("model")
-                                val manufactureYear = jsonObject.getString("manufactureYear")
-                                val fuelType = jsonObject.getString("fuelType")
-                                val primaryColour = jsonObject.getString("primaryColour")
-                                val dvlaId = jsonObject.getString("dvlaId")
-                                val registrationDate = jsonObject.getString("registrationDate")
-                                val manufactureDate = jsonObject.getString("manufactureDate")
-                                val engineSize = jsonObject.getString("engineSize")
-                                val motTestDueDate = jsonObject.getString("motTestDueDate")
-
-                                val formattedText = StringBuilder()
-                                formattedText.append("Registration: $registration\n")
-                                formattedText.append("Make: $make\n")
-                                formattedText.append("Model: $model\n")
-                                formattedText.append("First Used Date: $manufactureYear\n")
-                                formattedText.append("Fuel Type: $fuelType\n")
-                                formattedText.append("Primary Colour: $primaryColour\n")
-                                formattedText.append("Vehicle Id : $dvlaId\n")
-                                formattedText.append("Registration Date : $registrationDate\n")
-                                formattedText.append("Manufacture Date : $manufactureDate\n")
-                                formattedText.append("Engine Size : $engineSize\n")
-                                formattedText.append("MOT Test Due Date : $motTestDueDate\n\n")
-
-                                textViewMessage.text = formattedText.toString()
+                            } else {
+                                textViewMessage.text = "No data available"
                             }
                         } else {
                             textViewMessage.text = "No data available"
                         }
-                    } else {
-                        textViewMessage.text = "No data available"
-                    }
                     }
                 }
             })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // Set text and click listener for the button
-            //textViewMessage.text = "Your custom message here"
 
 
             // Create and configure the popup window
@@ -444,10 +421,10 @@ class DisplayVehicleActivity : AppCompatActivity() {
 
 
 
-        val insuranceRelativeLayout = findViewById<RelativeLayout>(R.id.insuranceRelativeLayout)
+        val insuranceRelativeLayout = view.findViewById<RelativeLayout>(R.id.insuranceRelativeLayout)
         insuranceRelativeLayout.setOnClickListener {
             val calendar = Calendar.getInstance()
-            val datePickerDialog = Dialog(this)
+            val datePickerDialog = Dialog(requireContext())
             datePickerDialog.setContentView(R.layout.custom_date_picker_dialog)
 
             val datePicker = datePickerDialog.findViewById<DatePicker>(R.id.datePicker)
@@ -460,27 +437,27 @@ class DisplayVehicleActivity : AppCompatActivity() {
 
             cancelButton.setOnClickListener {
                 datePickerDialog.dismiss()
-                updateInsuraceStatus(vehicleInfo)
+                updateInsuraceStatus(vehicleInfo, view)
             }
 
             okButton.setOnClickListener {
                 val year = datePicker.year
                 val month = datePicker.month + 1
                 val dayOfMonth = datePicker.dayOfMonth
-                val insuranceExpiryDate = findViewById<TextView>(R.id.textViewInsuranceExpiry)
+                val insuranceExpiryDate = view.findViewById<TextView>(R.id.textViewInsuranceExpiry)
                 insuranceExpiryDate.text = "Expires: $year-$month-$dayOfMonth"
                 datePickerDialog.dismiss()
                 vehicleInfo.insuranceExpiry = "$year-$month-$dayOfMonth"
-                updateInsuraceStatus(vehicleInfo)
+                updateInsuraceStatus(vehicleInfo, view)
                 saveChanges(vehicleInfo)
             }
 
             expiredButton.setOnClickListener {
-                val insuranceExpiryDate = findViewById<TextView>(R.id.textViewInsuranceExpiry)
+                val insuranceExpiryDate = view.findViewById<TextView>(R.id.textViewInsuranceExpiry)
                 insuranceExpiryDate.text = "No Insurance"
                 datePickerDialog.dismiss()
                 vehicleInfo.insuranceExpiry = "No Insurance"
-                updateInsuraceStatus(vehicleInfo)
+                updateInsuraceStatus(vehicleInfo, view)
                 saveChanges(vehicleInfo)
             }
 
@@ -505,11 +482,11 @@ class DisplayVehicleActivity : AppCompatActivity() {
                 val year1 = datePicker.year
                 val month1 = datePicker.month + 1
                 val dayOfMonth1 = datePicker.dayOfMonth
-                val insuranceExpiryDate = findViewById<TextView>(R.id.textViewInsuranceExpiry)
+                val insuranceExpiryDate = view.findViewById<TextView>(R.id.textViewInsuranceExpiry)
                 insuranceExpiryDate.text = "Expires: $year1-$month1-$dayOfMonth1"
                 datePickerDialog.dismiss()
                 vehicleInfo.insuranceExpiry = "$year1-$month1-$dayOfMonth1"
-                updateInsuraceStatus(vehicleInfo)
+                updateInsuraceStatus(vehicleInfo, view)
                 saveChanges(vehicleInfo)
             }
 
@@ -522,10 +499,10 @@ class DisplayVehicleActivity : AppCompatActivity() {
 
 
 
-        val serviceRelativeLayout = findViewById<RelativeLayout>(R.id.serviceRelativeLayout)
+        val serviceRelativeLayout = view.findViewById<RelativeLayout>(R.id.serviceRelativeLayout)
         serviceRelativeLayout.setOnClickListener {
             val calendar = Calendar.getInstance()
-            val datePickerDialog = Dialog(this)
+            val datePickerDialog = Dialog(requireContext())
             datePickerDialog.setContentView(R.layout.custom_date_picker_dialog)
 
             val datePicker = datePickerDialog.findViewById<DatePicker>(R.id.datePicker)
@@ -538,27 +515,27 @@ class DisplayVehicleActivity : AppCompatActivity() {
 
             cancelButton.setOnClickListener {
                 datePickerDialog.dismiss()
-                updateServiceStatus(vehicleInfo)
+                updateServiceStatus(vehicleInfo, view)
             }
 
             okButton.setOnClickListener {
                 val year = datePicker.year
                 val month = datePicker.month + 1
                 val dayOfMonth = datePicker.dayOfMonth
-                val serviceDue = findViewById<TextView>(R.id.textViewServiceDueDate)
+                val serviceDue = view.findViewById<TextView>(R.id.textViewServiceDueDate)
                 serviceDue.text = "Due: $year-$month-$dayOfMonth"
                 datePickerDialog.dismiss()
                 vehicleInfo.serviceDue = "$year-$month-$dayOfMonth"
-                updateServiceStatus(vehicleInfo)
+                updateServiceStatus(vehicleInfo, view)
                 saveChanges(vehicleInfo)
             }
 
             expiredButton.setOnClickListener {
-                val serviceDue = findViewById<TextView>(R.id.textViewServiceDueDate)
+                val serviceDue = view.findViewById<TextView>(R.id.textViewServiceDueDate)
                 serviceDue.text = "Needs Service"
                 datePickerDialog.dismiss()
                 vehicleInfo.serviceDue = "Needs Service"
-                updateServiceStatus(vehicleInfo)
+                updateServiceStatus(vehicleInfo, view)
                 saveChanges(vehicleInfo)
             }
 
@@ -583,11 +560,11 @@ class DisplayVehicleActivity : AppCompatActivity() {
                 val year1 = datePicker.year
                 val month1 = datePicker.month + 1
                 val dayOfMonth1 = datePicker.dayOfMonth
-                val serviceDue = findViewById<TextView>(R.id.textViewServiceDueDate)
+                val serviceDue = view.findViewById<TextView>(R.id.textViewServiceDueDate)
                 serviceDue.text = "Due: $year1-$month1-$dayOfMonth1"
                 datePickerDialog.dismiss()
                 vehicleInfo.serviceDue = "$year1-$month1-$dayOfMonth1"
-                updateServiceStatus(vehicleInfo)
+                updateServiceStatus(vehicleInfo, view)
                 saveChanges(vehicleInfo)
             }
 
@@ -596,20 +573,22 @@ class DisplayVehicleActivity : AppCompatActivity() {
         }
 
 
+
+        return view
     }
 
-    private fun updateInsuraceStatus(vehicleInfo: VehicleInfo) {
-        val insuranceStatus = findViewById<ImageView>(R.id.insuranceImageView)
+    private fun updateInsuraceStatus(vehicleInfo: VehicleInfo, view: View) {
+        val insuranceStatus = view.findViewById<ImageView>(R.id.insuranceImageView)
 
         if (vehicleInfo.insuranceExpiry == "No Insurance") {
 
             insuranceStatus.setImageResource(R.drawable.red_cross)
-            val textViewInsuranceExpiry = findViewById<TextView>(R.id.textViewInsuranceExpiry)
+            val textViewInsuranceExpiry = view.findViewById<TextView>(R.id.textViewInsuranceExpiry)
             textViewInsuranceExpiry.text = "${vehicleInfo.insuranceExpiry}"
         }else if(vehicleInfo.insuranceExpiry == "") {
 
             insuranceStatus.setImageResource(R.drawable.orange_questionmark)
-            val textViewInsuranceExpiry = findViewById<TextView>(R.id.textViewInsuranceExpiry)
+            val textViewInsuranceExpiry = view.findViewById<TextView>(R.id.textViewInsuranceExpiry)
             textViewInsuranceExpiry.text = "${vehicleInfo.insuranceExpiry}"
 
         } else {
@@ -624,34 +603,34 @@ class DisplayVehicleActivity : AppCompatActivity() {
             if (insuranceExpiryDate.after(currentDate)) {
                 // Insurance expiry date is in the future
                 insuranceStatus.setImageResource(R.drawable.green_tick)
-                val textViewInsuranceExpiry = findViewById<TextView>(R.id.textViewInsuranceExpiry)
+                val textViewInsuranceExpiry = view.findViewById<TextView>(R.id.textViewInsuranceExpiry)
                 textViewInsuranceExpiry.text = "Expires: ${vehicleInfo.insuranceExpiry}"
             } else if (insuranceExpiryDate.before(currentDate)) {
                 // Insurance expiry date is in the past
                 insuranceStatus.setImageResource(R.drawable.red_cross)
-                val textViewInsuranceExpiry = findViewById<TextView>(R.id.textViewInsuranceExpiry)
+                val textViewInsuranceExpiry = view.findViewById<TextView>(R.id.textViewInsuranceExpiry)
                 textViewInsuranceExpiry.text = "Expired: ${vehicleInfo.insuranceExpiry}"
             } else {
                 // Insurance expiry date is today
                 insuranceStatus.setImageResource(R.drawable.orange_questionmark)
-                val textViewInsuranceExpiry = findViewById<TextView>(R.id.textViewInsuranceExpiry)
+                val textViewInsuranceExpiry = view.findViewById<TextView>(R.id.textViewInsuranceExpiry)
                 textViewInsuranceExpiry.text = "Expires: ${vehicleInfo.insuranceExpiry}"
             }
         }
     }
 
-    private fun updateServiceStatus(vehicleInfo: VehicleInfo) {
-        val serviceStatus = findViewById<ImageView>(R.id.serviceImageView)
+    private fun updateServiceStatus(vehicleInfo: VehicleInfo, view: View) {
+        val serviceStatus = view.findViewById<ImageView>(R.id.serviceImageView)
 
         if (vehicleInfo.serviceDue == "Needs Service") {
 
             serviceStatus.setImageResource(R.drawable.red_cross)
-            val textViewServiceDue = findViewById<TextView>(R.id.textViewServiceDueDate)
+            val textViewServiceDue = view.findViewById<TextView>(R.id.textViewServiceDueDate)
             textViewServiceDue.text = "${vehicleInfo.serviceDue}"
         }else if(vehicleInfo.serviceDue == "") {
 
             serviceStatus.setImageResource(R.drawable.orange_questionmark)
-            val textViewServiceDue = findViewById<TextView>(R.id.textViewServiceDueDate)
+            val textViewServiceDue = view.findViewById<TextView>(R.id.textViewServiceDueDate)
             textViewServiceDue.text = "${vehicleInfo.serviceDue}"
 
         } else {
@@ -666,17 +645,17 @@ class DisplayVehicleActivity : AppCompatActivity() {
             if (serviceDue.after(currentDate)) {
                 // Insurance expiry date is in the future
                 serviceStatus.setImageResource(R.drawable.green_tick)
-                val textViewServiceDue = findViewById<TextView>(R.id.textViewServiceDueDate)
+                val textViewServiceDue = view.findViewById<TextView>(R.id.textViewServiceDueDate)
                 textViewServiceDue.text = "Due: ${vehicleInfo.serviceDue}"
             } else if (serviceDue.before(currentDate)) {
                 // Insurance expiry date is in the past
                 serviceStatus.setImageResource(R.drawable.red_cross)
-                val textViewServiceDue = findViewById<TextView>(R.id.textViewServiceDueDate)
+                val textViewServiceDue = view.findViewById<TextView>(R.id.textViewServiceDueDate)
                 textViewServiceDue.text = "Due Since: ${vehicleInfo.serviceDue}"
             } else {
                 // Insurance expiry date is today
                 serviceStatus.setImageResource(R.drawable.orange_questionmark)
-                val textViewServiceDue = findViewById<TextView>(R.id.textViewServiceDueDate)
+                val textViewServiceDue = view.findViewById<TextView>(R.id.textViewServiceDueDate)
                 textViewServiceDue.text = "Due: ${vehicleInfo.serviceDue}"
             }
         }
@@ -684,8 +663,8 @@ class DisplayVehicleActivity : AppCompatActivity() {
 
 
 
-    private fun setVehicleMakeLogo(make: String) {
-        val logoImageView = findViewById<ImageView>(R.id.logoImageView)
+    private fun setVehicleMakeLogo(make: String, view: View) {
+        val logoImageView = view.findViewById<ImageView>(R.id.logoImageView)
         val logoResourceId = getLogoResourceForMake(make)
         logoImageView.setImageResource(logoResourceId)
     }
@@ -710,11 +689,11 @@ class DisplayVehicleActivity : AppCompatActivity() {
             vehiclesRef.child(vrn).setValue(vehicleInfo)
                 .addOnSuccessListener {
                     // Vehicle details added successfully
-                    Toast.makeText(this, "Vehicle details added to database", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Vehicle details added to database", Toast.LENGTH_SHORT).show()
                 }
                 .addOnFailureListener { e ->
                     // Failed to add vehicle details
-                    Toast.makeText(this, "Failed to add vehicle details: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Failed to add vehicle details: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         }
     }
@@ -738,4 +717,7 @@ class DisplayVehicleActivity : AppCompatActivity() {
         }
     }
 }
+
+
+
 

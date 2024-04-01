@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <RelativeLayout
+            android:id="@+id/firstRelativeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@drawable/rounded_background">
+            <TextView
+                android:id="@+id/textViewRegistrationNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/plate_background"
+                android:text="Registration Number:"
+                android:textSize="50sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="#000000"/>
+
+            <ImageView
+                android:id="@+id/logoImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/textViewRegistrationNumber"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/default_logo"
+                android:scaleType="fitCenter"
+                android:layout_alignBottom="@id/textViewRegistrationNumber"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/secondRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/firstRelativeLayout"
+
+
+            android:layout_marginTop="8dp">
+
+            <!-- Tax-related information -->
+            <RelativeLayout
+                android:id="@+id/taxRelativeLayout"
+                android:layout_width="157dp"
+                android:layout_height="80dp"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/rounded_background"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/textViewTaxStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:text="Tax:"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/taxImageView"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toEndOf="@id/textViewTaxStatus"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/orange_questionmark" />
+
+                <TextView
+                    android:id="@+id/textViewTaxDueDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textViewTaxStatus"
+                    android:layout_marginTop="8dp"
+                    android:text="Tax Due Date:"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <!-- MOT-related information -->
+            <RelativeLayout
+                android:id="@+id/motRelativeLayout"
+                android:layout_width="157dp"
+                android:layout_height="80dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/rounded_background"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/textViewMOTStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:text="MOT:"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/motImageView"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toEndOf="@id/textViewMOTStatus"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/orange_questionmark" />
+
+                <TextView
+                    android:id="@+id/textViewMOTExpiryDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textViewMOTStatus"
+                    android:layout_marginTop="8dp"
+                    android:text="MOT Expiry Date:"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/thirdRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/secondRelativeLayout"
+
+            android:layout_marginTop="8dp">
+
+            <!-- Tax-related information -->
+            <RelativeLayout
+                android:id="@+id/insuranceRelativeLayout"
+                android:layout_width="157dp"
+                android:layout_height="80dp"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/rounded_background"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/textViewInsuranceStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Insurance:"
+                    android:scaleType="fitCenter"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+                <ImageView
+                    android:id="@+id/insuranceImageView"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:scaleType="fitCenter"
+                    android:layout_toEndOf="@id/textViewInsuranceStatus"
+                    android:src="@drawable/orange_questionmark" />
+
+                <TextView
+                    android:id="@+id/textViewInsuranceExpiry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Insurance Expiry Date:"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/textViewInsuranceStatus"
+                    android:layout_marginTop="8dp"/>
+            </RelativeLayout>
+
+            <!-- MOT-related information -->
+            <RelativeLayout
+                android:id="@+id/serviceRelativeLayout"
+                android:layout_width="157dp"
+                android:layout_height="80dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/rounded_background"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/textViewServiceStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Service:"
+                    android:scaleType="fitCenter"
+                    android:textSize="25sp"
+                    android:textStyle="bold"/>
+                <ImageView
+                    android:id="@+id/serviceImageView"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:scaleType="fitCenter"
+                    android:layout_toEndOf="@id/textViewServiceStatus"
+                    android:src="@drawable/orange_questionmark" />
+
+                <TextView
+                    android:id="@+id/textViewServiceDueDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Service Due Date:"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/textViewServiceStatus"
+                    android:layout_marginTop="8dp"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+        <ScrollView
+            android:id="@+id/scrollViewVehicle"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_below="@id/thirdRelativeLayout"
+            android:background="@drawable/rounded_background"
+            android:layout_marginTop="8dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+
+                android:padding="8dp"
+                android:layout_marginTop="8dp">
+
+
+                <TextView
+                    android:id="@+id/textViewMake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Make:"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/textViewYearOfManufacture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Year of Manufacture:"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/textViewMake"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/textViewEngineCapacity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Engine Capacity:"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/textViewYearOfManufacture"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/textViewCO2Emissions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CO2 Emissions:"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/textViewEngineCapacity"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/textViewFuelType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fuel Type:"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/textViewCO2Emissions"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/textViewMarkedForExport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Marked for Export:"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/textViewFuelType"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/textViewColour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Colour:"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/textViewMarkedForExport"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/textViewTypeApproval"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Type Approval:"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/textViewColour"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/textViewDateOfLastV5CIssued"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date of Last V5C Issued:"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/textViewTypeApproval"
+                    android:layout_marginTop="8dp"/>
+
+
+
+                <TextView
+                    android:id="@+id/textViewWheelplan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wheelplan:"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/textViewDateOfLastV5CIssued"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/textViewMonthOfFirstRegistration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Month of First Registration:"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/textViewWheelplan"
+                    android:layout_marginTop="8dp"/>
+            </RelativeLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/scrollViewVehicle"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="80dp">
+
+            <Button
+                android:id="@+id/buttonGarage"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="50dp"
+                android:text="Back To Garage"
+                android:textSize="15sp"
+                android:textColor="#000000"
+                android:background="@drawable/rounded_button"/>
+
+            <Button
+                android:id="@+id/buttonRemoveVehicle"
+                android:layout_width="0dp"
+                android:layout_weight="0.25"
+                android:layout_height="50dp"
+                android:text="🗑"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:background="@drawable/rounded_button_red"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

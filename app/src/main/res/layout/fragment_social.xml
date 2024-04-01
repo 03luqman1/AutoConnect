@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="70dp"
+    tools:context=".ui.garage.GarageFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutSocial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
+            android:background="@drawable/rounded_background">
+
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:text="AUTO CONNECT"
+                android:textColor="#FFFFFF"
+                android:layout_centerHorizontal="true"
+                android:textSize="46sp"
+                android:textStyle="bold" />
+
+            <!-- Subheading -->
+            <TextView
+                android:id="@+id/textViewSocialTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewTitle"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="0dp"
+                android:text="Social"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp" />
+
+        </RelativeLayout>
+
+        <!-- RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewMessages"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@id/relativeLayoutSocial"
+            android:layout_above="@id/editTextMessage"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/rounded_button"
+            app:layout_constraintTop_toBottomOf="@id/relativeLayoutSocial"
+            app:layout_constraintBottom_toTopOf="@id/editTextMessage"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_message" />
+
+        <!-- Message Input -->
+        <!-- Message Input -->
+        <EditText
+            android:id="@+id/editTextMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/rounded_background"
+
+        android:hint="Enter your message..."
+        android:inputType="textMultiLine"
+        android:maxLines="5"
+        android:padding="10dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#9E9E9E"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSend"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recyclerViewMessages" /> <!-- Adjusted top constraint -->
+
+
+        <!-- Button -->
+        <ImageButton
+            android:id="@+id/buttonSend"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_send_message"
+            android:paddingTop="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="#FFFFFF" />
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

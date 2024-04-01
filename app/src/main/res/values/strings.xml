@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">AutoConnect</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="app_name">Auto Connect</string>
+    <string name="title_home">Home</string>
+    <string name="title_search">Search</string>
+    <string name="title_garage">Garage</string>
+    <string name="title_social">Social</string>
+    <string name="title_community">Community</string>
 </resources>

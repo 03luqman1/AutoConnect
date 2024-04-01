@@ -3,50 +3,72 @@ package com.example.autoconnect
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.example.autoconnect.databinding.ActivityMainBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        val buttonGoToMenu: Button = findViewById(R.id.buttonVehicleSearch)
-        val buttonLeaveReview: Button = findViewById(R.id.buttonLeaveReview)
-        val buttonSignOut: Button = findViewById(R.id.buttonSignOut)
-        val buttonSocial: Button = findViewById(R.id.buttonSocial)
-        val buttonGarage: Button = findViewById(R.id.buttonGarage)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        buttonGoToMenu.setOnClickListener {
-            //startActivity(Intent(this, MenuActivity::class.java))
-            startActivity(Intent(this, SearchVehicleActivity::class.java))
+        val navView: BottomNavigationView = binding.bottomNavigationView
+
+
+
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        /*// Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                //R.id.navigation_home, R.id.navigation_garage, R.id.navigation_search
+            )
+        )
+        //setupActionBarWithNavController(navController, appBarConfiguration)*/
+        navView.setupWithNavController(navController)
+
+
+
+
+
+        // Get the NavController
+        //val navController1 = findNavController()
+
+        var previousDestinationId = -1 // Initialize with an invalid ID
+        // Add destination change listener
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+
+
+
+
+            if (destination.id == R.id.navigation_add) {
+                if (previousDestinationId != R.id.navigation_garage) {
+                    navController.navigate(R.id.navigation_garage)
+                    previousDestinationId = R.id.navigation_garage
+                }
+            } else if (destination.id == R.id.navigation_vehicle) {
+                    if (previousDestinationId != R.id.navigation_garage) {
+                        navController.navigate(R.id.navigation_garage)
+                        previousDestinationId = R.id.navigation_garage
+                    }
+                }
+            else {
+                previousDestinationId = destination.id
+            }
         }
 
-        buttonSocial.setOnClickListener {
-            startActivity(Intent(this, SocialActivity::class.java))
-        }
-
-        buttonGarage.setOnClickListener {
-            startActivity(Intent(this, GarageActivity::class.java))
-        }
-
-        buttonLeaveReview.setOnClickListener {
-            startActivity(Intent(this, ReviewActivity::class.java))
-        }
-
-
-        buttonSignOut.setOnClickListener {
-            Firebase.auth.signOut()
-            startActivity(Intent(this, StartActivity::class.java))
-            finish()
-        }
-    }
-
-    @Suppress("MissingSuperCall")
-    override fun onBackPressed() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
     }
 }

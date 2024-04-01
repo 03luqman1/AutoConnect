@@ -82,5 +82,3 @@ class ReviewActivity : AppCompatActivity() {
         currentToast?.show()
     }
 }
-
-

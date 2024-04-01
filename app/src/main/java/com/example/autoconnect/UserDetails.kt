@@ -1,4 +1,4 @@
-package com.example.autoconnect.dataclasses
+package com.example.autoconnect
 
 data class UserDetails(
     val fullName: String,
