@@ -1,8 +1,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.AutoConnect" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.AutoConnect" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowBackground">#AAAAAA</item>
+
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">#C60000</item>
+        <item name="colorPrimaryVariant">#750B0B</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/black</item>
     </style>
 
     <style name="Theme.AutoConnect" parent="Base.Theme.AutoConnect" />
