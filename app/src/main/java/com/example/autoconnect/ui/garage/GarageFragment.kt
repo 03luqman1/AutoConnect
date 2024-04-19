@@ -31,7 +31,6 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import java.io.IOException
 
-
 class GarageFragment : Fragment() {
 
     private lateinit var listViewVehicles: ListView

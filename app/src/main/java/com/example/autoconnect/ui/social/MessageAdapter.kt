@@ -34,14 +34,14 @@ class MessageAdapter(
         // Check if the sender is the current user
         if (senderUsername == currentUserUsername) {
             // Set a different text color for the current user's message
-            holder.messageTextView.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.teal_700)
+            holder.messageTextView.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.teal_200)
             (holder.messageTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.END
             (holder.senderTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.END
 
             //holder.messageTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.black))
         } else {
 
-            holder.messageTextView.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.black)
+            holder.messageTextView.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.teal_700)
             (holder.messageTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.START
             (holder.senderTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.START
         }
