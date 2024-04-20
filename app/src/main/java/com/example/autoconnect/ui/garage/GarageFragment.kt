@@ -122,6 +122,10 @@ class GarageFragment : Fragment() {
                         val vehicle = vehicleSnapshot.getValue(VehicleInfo::class.java)
                         vehicle?.let {
                             vehicleList.add(it)
+
+
+
+
                         }
                         vehicle?.let { fetchVehicleDataAndUpdateDatabase(it) }
                     }

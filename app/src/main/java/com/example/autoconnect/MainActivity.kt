@@ -64,7 +64,12 @@ class MainActivity : AppCompatActivity() {
                         navController.navigate(R.id.navigation_garage)
                         previousDestinationId = R.id.navigation_garage
                     }
+            } else if (destination.id == R.id.navigation_review) {
+                if (previousDestinationId != R.id.navigation_home) {
+                    navController.navigate(R.id.navigation_home)
+                    previousDestinationId = R.id.navigation_home
                 }
+            }
             else {
                 previousDestinationId = destination.id
             }

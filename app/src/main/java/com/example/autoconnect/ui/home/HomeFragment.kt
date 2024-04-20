@@ -5,17 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.example.autoconnect.LoginActivity
 import com.example.autoconnect.R
-import com.example.autoconnect.ReviewActivity
+import com.example.autoconnect.ui.review.ReviewFragment
 import com.example.autoconnect.StartActivity
 import com.example.autoconnect.databinding.FragmentHomeBinding
 import com.google.firebase.auth.ktx.auth
@@ -43,7 +37,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.buttonAbout.setOnClickListener {
-            findNavController().navigate(R.id.navigation_search)
+
         }
 /*
         binding.buttonGarage.setOnClickListener {
@@ -52,7 +46,8 @@ class HomeFragment : Fragment() {
         }*/
 
         binding.buttonLeaveReview.setOnClickListener {
-            startActivity(Intent(requireContext(), ReviewActivity::class.java))
+            findNavController().navigate(R.id.navigation_review)
+            //startActivity(Intent(requireContext(), ReviewFragment::class.java))
            // requireActivity()
         }
         // Uncomment the following lines if you need to observe ViewModel data

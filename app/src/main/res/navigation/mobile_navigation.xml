@@ -40,6 +40,12 @@
         tools:layout="@layout/fragment_add" />
 
     <fragment
+        android:id="@+id/navigation_review"
+        android:name="com.example.autoconnect.ui.review.ReviewFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_review" />
+
+    <fragment
         android:id="@+id/navigation_search"
         android:name="com.example.autoconnect.ui.search.SearchFragment"
         android:label="@string/title_search"
