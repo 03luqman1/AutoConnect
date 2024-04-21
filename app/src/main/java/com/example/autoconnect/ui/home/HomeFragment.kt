@@ -36,14 +36,13 @@ class HomeFragment : Fragment() {
             requireActivity().finish()
         }
 
-        binding.buttonAbout.setOnClickListener {
-
+        binding.buttonSettings.setOnClickListener {
+            findNavController().navigate(R.id.navigation_settings)
         }
-/*
-        binding.buttonGarage.setOnClickListener {
-            findNavController().popBackStack(R.id.navigation_home, false)
-            findNavController().navigate(R.id.navigation_garage)
-        }*/
+
+        binding.buttonAbout.setOnClickListener {
+            findNavController().navigate(R.id.navigation_about)
+        }
 
         binding.buttonLeaveReview.setOnClickListener {
             findNavController().navigate(R.id.navigation_review)

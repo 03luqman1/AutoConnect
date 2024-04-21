@@ -69,6 +69,16 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.navigation_home)
                     previousDestinationId = R.id.navigation_home
                 }
+            } else if (destination.id == R.id.navigation_about) {
+                if (previousDestinationId != R.id.navigation_home) {
+                    navController.navigate(R.id.navigation_home)
+                    previousDestinationId = R.id.navigation_home
+                }
+            } else if (destination.id == R.id.navigation_settings) {
+                if (previousDestinationId != R.id.navigation_home) {
+                    navController.navigate(R.id.navigation_home)
+                    previousDestinationId = R.id.navigation_home
+                }
             }
             else {
                 previousDestinationId = destination.id

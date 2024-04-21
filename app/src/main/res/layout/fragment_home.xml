@@ -49,7 +49,7 @@
             android:layout_below="@id/buttonAbout"
             android:layout_marginTop="16dp"
             android:background="@drawable/rounded_button"
-            android:text="NOTIFICATION MANAGEMENT"
+            android:text="EMPTY BUTTON FOR NOW"
             android:textColor="#000000"
             android:textSize="18sp" />
 
