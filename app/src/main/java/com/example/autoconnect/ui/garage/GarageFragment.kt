@@ -339,7 +339,7 @@ class GarageFragment : Fragment() {
 
     private fun scheduleNotification(context: Context, dueDate: String, vrn: String, type: String, reqCode: Int) {
 
-if (isValidDateFormat(dueDate)&&(vrn=="FH73VXB")) {
+if (isValidDateFormat(dueDate)) {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     val notificationIntent = Intent(context, NotificationBroadcastReceiver::class.java)
     notificationIntent.putExtra("title", "Vehicle $type Reminder")
