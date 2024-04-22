@@ -17,7 +17,7 @@ data class VehicleInfo(
     val colour: String = "",
     val typeApproval: String = "",
     val dateOfLastV5CIssued: String = "",
-    val motExpiryDate: String = "",
+    var motExpiryDate: String = "",
     val wheelplan: String = "",
     val monthOfFirstRegistration: String = "",
     var insuranceExpiry: String = "",

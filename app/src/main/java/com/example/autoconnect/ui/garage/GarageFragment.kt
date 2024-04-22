@@ -213,7 +213,7 @@ class GarageFragment : Fragment() {
 
 
     private fun fetchVehicleDataAndUpdateDatabase(vehicle: VehicleInfo) {
-// Create OkHttpClient instance
+        // Create OkHttpClient instance
         val client = OkHttpClient()
 
         // Define the request body
@@ -248,13 +248,14 @@ class GarageFragment : Fragment() {
 
                     var motTestDueDate = ""
 
-// Create OkHttpClient instance
-                    val client = OkHttpClient.Builder()
+                    // Create OkHttpClient instance
+                    val client = OkHttpClient
+                        .Builder()
                         .connectTimeout(30, TimeUnit.SECONDS) // Set timeout if needed
                         .readTimeout(30, TimeUnit.SECONDS)    // Set timeout if needed
                         .build()
 
-// Define the request
+                    // Define the request
                     val request = Request.Builder()
                         .url("https://beta.check-mot.service.gov.uk/trade/vehicles/mot-tests?registration=${updatedVehicleInfo.registrationNumber}")
                         .addHeader("Accept", "application/json+v6")
@@ -262,7 +263,7 @@ class GarageFragment : Fragment() {
                         .addHeader("Cookie", "incap_ses_1184_1151098=itS6XtMCMUaXg5VCHmpuELwx32UAAAAAKyIy9B1xRP4sWGzRiHnDrA==; nlbi_1151098=SOXfUQF6iRyqGoTVsRy5CgAAAADFLSJLw2S1NE+mACTWYWfR; visid_incap_1151098=CnGlY4ygRb6EhBBj29MO5sgw32UAAAAAQUIPAAAAAAD1F/Q1H/OQRROuDR9AzOfw")
                         .build()
 
-// Make the API call asynchronously
+                    // Make the API call asynchronously
                     client.newCall(request).enqueue(object : okhttp3.Callback {
                         override fun onFailure(call: okhttp3.Call, e: IOException) {
                             // Handle failure, e.g., show error message
@@ -311,13 +312,14 @@ class GarageFragment : Fragment() {
                     //val formattedExpiryDate = formatter.format(firstRegDate.time)
 
 
+                }else {
+
+                    // Update the database with the returned vehicle data
+                    database.child("Users").child(auth.currentUser!!.uid)
+                        .child("Vehicles").child(vehicle.registrationNumber)
+                        .setValue(updatedVehicleInfo)
+
                 }
-
-                // Update the database with the returned vehicle data
-                database.child("Users").child(auth.currentUser!!.uid)
-                    .child("Vehicles").child(vehicle.registrationNumber)
-                    .setValue(updatedVehicleInfo)
-
             }
         })
     }
@@ -337,7 +339,7 @@ class GarageFragment : Fragment() {
 
     private fun scheduleNotification(context: Context, dueDate: String, vrn: String, type: String, reqCode: Int) {
 
-if (isValidDateFormat(dueDate)) {
+if (isValidDateFormat(dueDate)&&(vrn=="FH73VXB")) {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     val notificationIntent = Intent(context, NotificationBroadcastReceiver::class.java)
     notificationIntent.putExtra("title", "Vehicle $type Reminder")
@@ -371,9 +373,6 @@ if (isValidDateFormat(dueDate)) {
         calendar.timeInMillis,
         pendingIntent
     )
-} else if (dueDate == "No details held by DVLA"){
-    println(dueDate)
-    Toast.makeText(requireContext(), dueDate, Toast.LENGTH_SHORT).show()
 }
     }
 }

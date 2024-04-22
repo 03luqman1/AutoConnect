@@ -59,18 +59,11 @@ class VehicleAdapter(context: Context, vehicles: List<VehicleInfo>) :
                 taxStatusTextView?.text = " TAX (${it.taxStatus})"
             }
 
-            if (it.motStatus == "Valid") {
+            if ((it.motStatus == "Valid")||(it.motStatus == "No details held by DVLA")) {
                 motStatus?.setImageResource(R.drawable.green_tick)
                 motStatusTextView?.text = " MOT (${it.motExpiryDate})"
-            } else if (it.motStatus == "No details held by DVLA"){
-                motStatus?.setImageResource(R.drawable.green_tick)
-                val formatter = SimpleDateFormat("yyyy-MM", Locale.getDefault())
-                val firstRegDate = Calendar.getInstance()
-                firstRegDate.time = formatter.parse(it.monthOfFirstRegistration)
-                firstRegDate.add(Calendar.YEAR, 3)
-                val formattedExpiryDate = formatter.format(firstRegDate.time)
-                motStatusTextView?.text = " MOT ($formattedExpiryDate)"
-            }else if (it.motStatus == "Not valid"){
+            }
+            else if (it.motStatus == "Not valid"){
                 motStatus?.setImageResource(R.drawable.red_cross)
                 motStatusTextView?.text = " MOT (${it.motStatus})"
             }
