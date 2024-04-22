@@ -242,10 +242,82 @@ class GarageFragment : Fragment() {
                 updatedVehicleInfo.insuranceExpiry = vehicle.insuranceExpiry
                 updatedVehicleInfo.serviceDue = vehicle.serviceDue
 
+
+                if (updatedVehicleInfo.motStatus == "No details held by DVLA"){
+                    println("QWERTY\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n${updatedVehicleInfo.registrationNumber}")
+
+                    var motTestDueDate = ""
+
+// Create OkHttpClient instance
+                    val client = OkHttpClient.Builder()
+                        .connectTimeout(30, TimeUnit.SECONDS) // Set timeout if needed
+                        .readTimeout(30, TimeUnit.SECONDS)    // Set timeout if needed
+                        .build()
+
+// Define the request
+                    val request = Request.Builder()
+                        .url("https://beta.check-mot.service.gov.uk/trade/vehicles/mot-tests?registration=${updatedVehicleInfo.registrationNumber}")
+                        .addHeader("Accept", "application/json+v6")
+                        .addHeader("x-api-key", "Inj3f7O42k59a35bVEk915UiGuwEEjwu4N5dinQL")
+                        .addHeader("Cookie", "incap_ses_1184_1151098=itS6XtMCMUaXg5VCHmpuELwx32UAAAAAKyIy9B1xRP4sWGzRiHnDrA==; nlbi_1151098=SOXfUQF6iRyqGoTVsRy5CgAAAADFLSJLw2S1NE+mACTWYWfR; visid_incap_1151098=CnGlY4ygRb6EhBBj29MO5sgw32UAAAAAQUIPAAAAAAD1F/Q1H/OQRROuDR9AzOfw")
+                        .build()
+
+// Make the API call asynchronously
+                    client.newCall(request).enqueue(object : okhttp3.Callback {
+                        override fun onFailure(call: okhttp3.Call, e: IOException) {
+                            // Handle failure, e.g., show error message
+                            e.printStackTrace()
+                        }
+
+                        override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                            // Check if the response is successful
+                            if (!response.isSuccessful) {
+                                // Handle unsuccessful response, e.g., show error message
+                                println("Error: ${response.code}")
+                                return
+                            }
+
+                            // Get the response body as a string
+                            val responseBody = response.body?.string()
+
+                            // Update UI on the main thread
+                            requireActivity().runOnUiThread {
+                                if (!responseBody.isNullOrEmpty()) {
+                                    // Parse the JSON response
+                                    val jsonArray = JSONArray(responseBody)
+
+                                    if (jsonArray.length() > 0) {
+                                        val jsonObject = jsonArray.getJSONObject(0)
+                                        motTestDueDate = jsonObject.getString("motTestDueDate")
+                                        println("QWERTY2$motTestDueDate${updatedVehicleInfo.registrationNumber}")
+                                        updatedVehicleInfo.motExpiryDate = motTestDueDate
+                                        println("QWERTY2$motTestDueDate${updatedVehicleInfo.registrationNumber}")
+
+                                        // Update the database with the returned vehicle data
+                                        database.child("Users").child(auth.currentUser!!.uid)
+                                            .child("Vehicles").child(vehicle.registrationNumber)
+                                            .setValue(updatedVehicleInfo)
+                                        println("QWERTY3${updatedVehicleInfo.motExpiryDate}${updatedVehicleInfo.registrationNumber}")
+                                    }
+                                }
+                            }
+                        }
+                    })
+
+                    //val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    //val firstRegDate = Calendar.getInstance()
+                    //firstRegDate.time = formatter.parse(updatedVehicleInfo.monthOfFirstRegistration)
+                    //firstRegDate.add(Calendar.YEAR, 3)
+                    //val formattedExpiryDate = formatter.format(firstRegDate.time)
+
+
+                }
+
                 // Update the database with the returned vehicle data
                 database.child("Users").child(auth.currentUser!!.uid)
                     .child("Vehicles").child(vehicle.registrationNumber)
                     .setValue(updatedVehicleInfo)
+
             }
         })
     }

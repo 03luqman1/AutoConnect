@@ -20,6 +20,7 @@ import com.example.autoconnect.StartActivity
 import com.example.autoconnect.databinding.FragmentHomeBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import java.util.Calendar
 import kotlin.random.Random
 
@@ -50,6 +51,29 @@ class HomeFragment : Fragment() {
 
 
         binding.buttonSignOut.setOnClickListener {
+            val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val sharedPreferences = requireContext().getSharedPreferences("notification_request_codes", Context.MODE_PRIVATE)
+            val requestCodesJson = sharedPreferences.getString("request_codes", null)
+            val requestCodes = Gson().fromJson(requestCodesJson, Array<Int>::class.java)
+
+            requestCodes?.forEach { requestCode ->
+                val notificationIntent = Intent(context, NotificationBroadcastReceiver::class.java)
+                val pendingIntent = PendingIntent.getBroadcast(
+                    context,
+                    requestCode,
+                    notificationIntent,
+                    PendingIntent.FLAG_IMMUTABLE
+                )
+
+                pendingIntent?.let {
+                    alarmManager.cancel(it)
+                    it.cancel()
+                }
+            }
+
+
+
+
             Firebase.auth.signOut()
             startActivity(Intent(requireContext(), StartActivity::class.java))
             requireActivity().finish()
