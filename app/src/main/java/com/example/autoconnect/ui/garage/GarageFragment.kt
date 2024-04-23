@@ -243,10 +243,10 @@ class GarageFragment : Fragment() {
                 updatedVehicleInfo.serviceDue = vehicle.serviceDue
 
 
-                if (updatedVehicleInfo.motStatus == "No details held by DVLA"){
-                    println("QWERTY\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n${updatedVehicleInfo.registrationNumber}")
-
-                    var motTestDueDate = ""
+                var motTestDueDate = ""
+                var vehicleModel = ""
+                var odometer = ""
+                var odometerUnit = ""
 
                     // Create OkHttpClient instance
                     val client = OkHttpClient
@@ -287,18 +287,33 @@ class GarageFragment : Fragment() {
                                     // Parse the JSON response
                                     val jsonArray = JSONArray(responseBody)
 
+
                                     if (jsonArray.length() > 0) {
                                         val jsonObject = jsonArray.getJSONObject(0)
-                                        motTestDueDate = jsonObject.getString("motTestDueDate")
+                                        if (jsonObject.has("motTestDueDate")) {
+                                            motTestDueDate = jsonObject.getString("motTestDueDate")
+                                            updatedVehicleInfo.motExpiryDate = motTestDueDate
+                                        }
+                                        if (jsonObject.has("motTests")) {
+                                            val motTests = jsonObject.getJSONArray("motTests")
+                                            val testObj = motTests.getJSONObject(0)
+
+                                            odometer = testObj.getString("odometerValue")
+                                            odometerUnit = testObj.getString("odometerUnit")
+                                            updatedVehicleInfo.odometer = odometer
+                                            updatedVehicleInfo.odometerUnit = odometerUnit
+                                        }
+                                        vehicleModel = jsonObject.getString("model")
                                         println("QWERTY2$motTestDueDate${updatedVehicleInfo.registrationNumber}")
-                                        updatedVehicleInfo.motExpiryDate = motTestDueDate
+
+                                        updatedVehicleInfo.model = vehicleModel
                                         println("QWERTY2$motTestDueDate${updatedVehicleInfo.registrationNumber}")
 
                                         // Update the database with the returned vehicle data
                                         database.child("Users").child(auth.currentUser!!.uid)
                                             .child("Vehicles").child(vehicle.registrationNumber)
                                             .setValue(updatedVehicleInfo)
-                                        println("QWERTY3${updatedVehicleInfo.motExpiryDate}${updatedVehicleInfo.registrationNumber}")
+                                        println("QWERTY3${updatedVehicleInfo.motExpiryDate}${updatedVehicleInfo.registrationNumber}MODEL ============${updatedVehicleInfo.model}")
                                     }
                                 }
                             }
@@ -312,14 +327,7 @@ class GarageFragment : Fragment() {
                     //val formattedExpiryDate = formatter.format(firstRegDate.time)
 
 
-                }else {
 
-                    // Update the database with the returned vehicle data
-                    database.child("Users").child(auth.currentUser!!.uid)
-                        .child("Vehicles").child(vehicle.registrationNumber)
-                        .setValue(updatedVehicleInfo)
-
-                }
             }
         })
     }

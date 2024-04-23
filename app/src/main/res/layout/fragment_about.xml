@@ -56,7 +56,7 @@
                 android:id="@+id/aboutApp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="This app is for my coursework\n\nAdd more text here\n\nAlso add more relevant text here about the app and how to use it\n\nIf necessary add another section of text with more info about the app."
+                android:text="This app is for my coursework\n\nAdd more text here\n\nAlso add more relevant text here about the app and how to use it\n\nIf necessary add another section of text with more info about the app.\n\nAlso dont forget to add referneces for images used in the app!"
                 android:padding="8dp"
                 android:textColor="#FFFFFF"/>
 

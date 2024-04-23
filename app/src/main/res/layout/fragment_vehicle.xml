@@ -227,12 +227,22 @@
 
 
                 <TextView
-                    android:id="@+id/textViewMake"
+                    android:id="@+id/textViewMakeAndModel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Make:"
+                    android:text="Vehicle:"
                     android:textSize="16sp"
                     android:textStyle="bold"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/textViewOdometer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Latest Odometer Value:"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/textViewMakeAndModel"
                     android:layout_marginTop="8dp"/>
 
                 <TextView
@@ -242,7 +252,7 @@
                     android:text="Year of Manufacture:"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:layout_below="@id/textViewMake"
+                    android:layout_below="@id/textViewOdometer"
                     android:layout_marginTop="8dp"/>
 
                 <TextView

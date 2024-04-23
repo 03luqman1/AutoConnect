@@ -80,8 +80,11 @@ class VehicleFragment : Fragment() {
         }
 
 
-        val textViewMake = view.findViewById<TextView>(R.id.textViewMake)
-        textViewMake.text = "Make: ${vehicleInfo.make}"
+        val textViewMake = view.findViewById<TextView>(R.id.textViewMakeAndModel)
+        textViewMake.text = "Vehicle: ${vehicleInfo.make}"+" ${vehicleInfo.model}"
+
+        val textViewOdometer = view.findViewById<TextView>(R.id.textViewOdometer)
+        textViewOdometer.text = "Latest Odometer Value: ${vehicleInfo.odometer}"+" ${vehicleInfo.odometerUnit}"
 
         val textViewYearOfManufacture = view.findViewById<TextView>(R.id.textViewYearOfManufacture)
         textViewYearOfManufacture.text = "Year of Manufacture: ${vehicleInfo.yearOfManufacture}"

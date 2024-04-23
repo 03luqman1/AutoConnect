@@ -21,5 +21,8 @@ data class VehicleInfo(
     val wheelplan: String = "",
     val monthOfFirstRegistration: String = "",
     var insuranceExpiry: String = "",
-    var serviceDue: String = ""
+    var serviceDue: String = "",
+    var model: String = "",
+    var odometer: String = "0",
+    var odometerUnit: String = "mi"
 ): Serializable
