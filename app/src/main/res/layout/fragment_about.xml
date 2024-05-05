@@ -43,7 +43,7 @@
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:layout_below="@id/relativeLayoutAbout"
             android:background="@drawable/rounded_background"
             android:layout_marginTop="16dp"
@@ -52,13 +52,19 @@
 
 
             <!-- EditText for Comments -->
-            <TextView
-                android:id="@+id/aboutApp"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="This app is for my coursework\n\nAdd more text here\n\nAlso add more relevant text here about the app and how to use it\n\nIf necessary add another section of text with more info about the app.\n\nAlso dont forget to add referneces for images used in the app!"
-                android:padding="8dp"
-                android:textColor="#FFFFFF"/>
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/aboutApp"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:text="This application has been designed and created as part of my final year project for my Computer Science BSc at De Montfort University.\nThe aim of this app to make vehicle management easier and more streamlined by providing a hassle free way to view and manage vehicles. Usera of the app can communicate in the social hub with other app users to provide help and guidance for others. The app uses the DVLA VES API to extract details about vehicles fron a registration (VRN) number. It also extracts and gets information regarding vehicles MOT history using the DVLA MOT API.\nThe app requires users to create an account or sign in, in order to access the home page. Once signed in the user can view their garage, add new vehicles, manage expiry/due dates and much more. The user can visit the social hub to chat with others. This application has been designed to automatically setup reminder notifications for vehicles you add to your garage. You will be notified for any dates relating to your owned vehicles so that you can ensure you are up to date.\n\nReferences/credits:\nApp created by: Luqman Master\nApp icon/logo: (Insert link)\nApp background: (Insert Link)\nVehicle Brand Logos: (Insert Link)\n\nPlease to report any bugs and errors to help make this app better. Your feedback is very much appreciated.\n\n\n\App Version: Pre-release (V-1.0.0.3)"
+                    android:padding="8dp"
+                    android:textColor="#FFFFFF"/>
+            </ScrollView>
+
 
         </RelativeLayout>
 
