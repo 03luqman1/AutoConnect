@@ -99,23 +99,12 @@ class MainActivity : AppCompatActivity() {
 
         // Cancel pending notifications if notifications are disabled
         if (!enabled) {
-            cancelNotifications()
+           // cancelNotifications()
         }
     }
 
     // Function to cancel all pending notifications
-    fun cancelNotifications() {
-        val notificationIntent = Intent(this, NotificationBroadcastReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            0,
-            notificationIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
 
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.cancel(pendingIntent)
-    }
 
 
 

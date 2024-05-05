@@ -48,7 +48,6 @@ import kotlin.random.Random
 
 class SettingsFragment : Fragment() {
 
-    private val NOTIFICATION_CHANNEL_ID = "my_channel"
 
     private var _binding: FragmentHomeBinding? = null
 
@@ -101,6 +100,9 @@ class SettingsFragment : Fragment() {
                     }
                 }
 
+                cancelNotifications()
+
+
             }
         }
 
@@ -128,6 +130,19 @@ class SettingsFragment : Fragment() {
         }
 
         return view
+    }
+
+    fun cancelNotifications() {
+        val notificationIntent = Intent(context, NotificationBroadcastReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            notificationIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(pendingIntent)
     }
 
     private fun scheduleNotification(context: Context) {
