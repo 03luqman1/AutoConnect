@@ -83,28 +83,14 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.navigation_settings)
         }
 
-        binding.buttonNotifications.setOnClickListener {
-            // Send immediate notification
-            NotificationHelper.sendNotification(
-                requireContext(),
-                "My Notification",
-                "This is a notification from my app"
-            )
 
-            // Schedule notification for an hour later
-            scheduleNotification(requireContext())
-        }
 
 
         binding.buttonAbout.setOnClickListener {
             findNavController().navigate(R.id.navigation_about)
         }
 
-        binding.buttonLeaveReview.setOnClickListener {
-            findNavController().navigate(R.id.navigation_review)
-            //startActivity(Intent(requireContext(), ReviewFragment::class.java))
-           // requireActivity()
-        }
+
         // Uncomment the following lines if you need to observe ViewModel data
         /*
         val textView: TextView = binding.textHome

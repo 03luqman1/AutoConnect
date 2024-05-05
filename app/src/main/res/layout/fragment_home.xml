@@ -41,39 +41,15 @@
             android:textColor="#000000"
             android:textSize="18sp" />
 
-        <!-- Button to Go to My Garage -->
-        <Button
-            android:id="@+id/buttonNotifications"
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:layout_below="@id/buttonAbout"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_button"
-            android:text="NOTIFICATION BUTTON"
-            android:textColor="#000000"
-            android:textSize="18sp" />
-
         <!-- Button for Social -->
         <Button
             android:id="@+id/buttonSettings"
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:layout_below="@id/buttonNotifications"
+            android:layout_below="@id/buttonAbout"
             android:layout_marginTop="16dp"
             android:background="@drawable/rounded_button"
             android:text="Settings"
-            android:textColor="#000000"
-            android:textSize="18sp" />
-
-        <!-- Button to Leave a Review -->
-        <Button
-            android:id="@+id/buttonLeaveReview"
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:layout_below="@id/buttonSettings"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_button"
-            android:text="Leave a Review"
             android:textColor="#000000"
             android:textSize="18sp" />
 
@@ -82,7 +58,7 @@
             android:id="@+id/buttonSignOut"
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:layout_below="@id/buttonLeaveReview"
+            android:layout_below="@id/buttonSettings"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="80dp"
             android:background="@drawable/rounded_button"
