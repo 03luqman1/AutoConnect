@@ -44,10 +44,39 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/relativeLayoutSettings"
+            android:background="@drawable/rounded_background"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:id="@+id/linearLayoutToggle">
+
+            <!-- TextView for Notification Check Comment -->
+            <TextView
+                android:id="@+id/toggleNotificationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enable Notifications:"
+                android:padding="8dp"
+                android:textColor="#FFFFFF"/>
+
+            <!-- Switch for enabling/disabling notifications -->
+            <Switch
+                android:id="@+id/notificationSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/toggleNotificationText"
+                android:layout_alignBaseline="@id/toggleNotificationText"
+                android:layout_gravity="center_vertical|end"
+                android:minWidth="100dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="@drawable/rounded_background"
             android:layout_marginTop="16dp"
-            android:layout_below="@id/relativeLayoutSettings"
+            android:layout_below="@id/linearLayoutToggle"
             android:padding="16dp"
             android:id="@+id/linearNotif">
 
@@ -88,7 +117,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Press the button to test delayed notification:"
+                android:text="Press the button to test 10 sec delayed notification:"
                 android:padding="8dp"
                 android:textColor="#FFFFFF"/>
 
@@ -102,6 +131,9 @@
                 android:minWidth="100dp"/>
 
         </LinearLayout>
+
+
+
 
         <LinearLayout
             android:layout_width="match_parent"

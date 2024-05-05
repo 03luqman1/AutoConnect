@@ -103,30 +103,7 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun scheduleNotification(context: Context) {
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val notificationIntent = Intent(context, NotificationBroadcastReceiver::class.java)
-        notificationIntent.putExtra("title", "Scheduled Notification")
-        notificationIntent.putExtra("message", "The is is a scheduled notification from my app\n:)")
 
-        val requestCode = Random.nextInt() // Generate a random request code
-        val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            requestCode,//or set fixed number: 0 ??
-            notificationIntent,
-            PendingIntent.FLAG_IMMUTABLE // Use FLAG_IMMUTABLE here
-        )
-
-
-
-        // Schedule the alarm to trigger after an hour (3600 * 1000 milliseconds)
-        val triggerTime = Calendar.getInstance().timeInMillis + 30000
-        alarmManager.setExact(
-            AlarmManager.RTC_WAKEUP,
-            triggerTime,
-            pendingIntent
-        )
-    }
 
 
     override fun onDestroyView() {

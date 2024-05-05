@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.example.autoconnect.MainActivity
 import com.example.autoconnect.NotificationBroadcastReceiver
 import com.example.autoconnect.R
 import com.example.autoconnect.VehicleInfo
@@ -75,11 +76,6 @@ class GarageFragment : Fragment() {
         buttonAddNewVehicle.setOnClickListener {
             findNavController(view).navigate(R.id.navigation_add)
         }
-
-
-
-
-
         // Display the user's vehicles in the ListView
         displayUserVehicles()
 // Inside your Fragment or Activity where you want to navigate
@@ -93,29 +89,9 @@ class GarageFragment : Fragment() {
             val bundle = Bundle()
             bundle.putSerializable("vehicleInfo", selectedVehicle)
             findNavController(view).navigate(R.id.navigation_vehicle, bundle)
-
-
-            //navController.navigate(R.id.navigation_vehicle)
-
-
-
-
         }
-
-
-
-
-
-
-
-
         return view
     }
-
-
-
-
-
 
     private fun displayUserVehicles() {
         // Get the UID of the currently authenticated user
@@ -344,9 +320,15 @@ class GarageFragment : Fragment() {
         }
     }
 
-
+    // Function to get the current notification state from MainActivity
+    private fun getNotificationState(): Boolean {
+        return (requireActivity() as MainActivity).getNotificationState()
+    }
     private fun scheduleNotification(context: Context, dueDate: String, vrn: String, type: String, reqCode: Int) {
 
+        if (!getNotificationState()) {
+            return
+        }
 if (isValidDateFormat(dueDate)) {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     val notificationIntent = Intent(context, NotificationBroadcastReceiver::class.java)
@@ -372,8 +354,6 @@ if (isValidDateFormat(dueDate)) {
         notificationIntent,
         PendingIntent.FLAG_IMMUTABLE // Use FLAG_IMMUTABLE here
     )
-
-
     // Schedule the alarm to trigger after an hour (3600 * 1000 milliseconds)
     //val triggerTime = Calendar.getInstance().timeInMillis + 30000
     alarmManager.setExact(
