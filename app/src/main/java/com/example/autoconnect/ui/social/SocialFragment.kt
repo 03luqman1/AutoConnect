@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -70,7 +71,15 @@ class SocialFragment : Fragment() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     currentUserUsername = snapshot.child("userName").getValue(String::class.java) ?: ""
                     // Initialize the adapter with an empty list and the current user ID
-                    messageAdapter = MessageAdapter(mutableListOf(), currentUserUsername, adminUsernames)
+                    messageAdapter = MessageAdapter(mutableListOf(), currentUserUsername, adminUsernames,
+                        { senderUsername, message ->
+
+                        }
+                    ) { message ->
+
+                    }
+
+
                     recyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext())
                         adapter = messageAdapter

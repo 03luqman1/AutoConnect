@@ -1,17 +1,12 @@
 package com.example.autoconnect.admin
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.EditText
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +29,7 @@ class ManageSocialActivity : AppCompatActivity() {
     private lateinit var messageListener: ValueEventListener
     private lateinit var currentUserID: String
     private var currentUserUsername: String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +54,9 @@ class ManageSocialActivity : AppCompatActivity() {
         val adminUsernames = mutableListOf<String>()
 
 
+
+
+
         val databaseReference = FirebaseDatabase.getInstance().getReference("Admin")
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -74,8 +73,6 @@ class ManageSocialActivity : AppCompatActivity() {
             }
         })
 
-
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
         val adminRef = FirebaseDatabase.getInstance().reference.child("Admin")
         val currentUserID = firebaseAuth.currentUser?.uid
         if (currentUserID != null) {
@@ -83,7 +80,26 @@ class ManageSocialActivity : AppCompatActivity() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     currentUserUsername = snapshot.child("userName").getValue(String::class.java) ?: ""
                     // Initialize the adapter with an empty list and the current user ID
-                    messageAdapter = MessageAdapter(mutableListOf(), currentUserUsername, adminUsernames)
+                    messageAdapter = MessageAdapter(mutableListOf(), currentUserUsername, adminUsernames,
+                        { senderUsername, message ->
+                            // Handle the click event here
+                            AlertDialog.Builder(this@ManageSocialActivity)
+                                .setTitle("Message from $senderUsername")
+                                .setMessage(message)
+                                .setPositiveButton("Delete") { dialog, _ ->
+                                    deleteMessage(message)
+                                    dialog.dismiss()
+                                }
+                                .setNegativeButton("Cancel") { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .show()
+                        }
+                    ) { message ->
+                        // Handle the delete click event here
+                        deleteMessage(message)
+                    }
+
                     recyclerView.apply {
                         layoutManager = LinearLayoutManager(context)
                         adapter = messageAdapter
@@ -158,5 +174,20 @@ class ManageSocialActivity : AppCompatActivity() {
             }
         })
     }
+
+    private fun deleteMessage(message: String) {
+        database.orderByChild("content").equalTo(message).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (childSnapshot in snapshot.children) {
+                    childSnapshot.ref.removeValue()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle error
+            }
+        })
+    }
+
 
 }

@@ -13,13 +13,33 @@ import com.example.autoconnect.R
 class MessageAdapter(
     val messages: MutableList<Pair<String, String>>,
     private val currentUserUsername: String,
-    private val adminUsernames: List<String>
+    private val adminUsernames: List<String>,
+    private val onItemClick: (senderUsername: String, message: String) -> Unit,
+    private val onDeleteClick: (message: String) -> Unit
 ) : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
 
     inner class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val senderTextView: TextView = itemView.findViewById(R.id.textViewUsername)
         val messageTextView: TextView = itemView.findViewById(R.id.textViewMessage)
         val messageBubble: LinearLayout = itemView.findViewById(R.id.MessageBubble)
+
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val (senderUsername, message) = messages[position]
+                    onItemClick(senderUsername, message)
+                }
+            }
+            itemView.setOnLongClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val (_, message) = messages[position]
+                    onDeleteClick(message)
+                }
+                true
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
