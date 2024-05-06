@@ -45,6 +45,18 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+        <activity
+            android:name=".admin.AdminActivity"
+            android:exported="true" />
+        <activity
+            android:name=".admin.FeedbackActivity"
+            android:exported="true" />
+        <activity
+            android:name=".admin.AddAdminActivity"
+            android:exported="true" />
+        <activity
+            android:name=".admin.ManageSocialActivity"
+            android:exported="true" />
         <receiver android:name=".NotificationBroadcastReceiver" />
     </application>
 

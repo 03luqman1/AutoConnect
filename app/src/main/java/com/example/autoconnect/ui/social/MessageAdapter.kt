@@ -13,11 +13,13 @@ import com.example.autoconnect.R
 class MessageAdapter(
     val messages: MutableList<Pair<String, String>>,
     private val currentUserUsername: String,
+    private val adminUsernames: List<String>
 ) : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
 
     inner class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val senderTextView: TextView = itemView.findViewById(R.id.textViewUsername)
         val messageTextView: TextView = itemView.findViewById(R.id.textViewMessage)
+        val messageBubble: LinearLayout = itemView.findViewById(R.id.MessageBubble)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
@@ -32,17 +34,27 @@ class MessageAdapter(
         holder.messageTextView.text = message
 
         // Check if the sender is the current user
-        if (senderUsername == currentUserUsername) {
+        if (adminUsernames.contains(senderUsername)) {
+            // Check if sender is one of the admin accounts
+            holder.messageBubble.background = ContextCompat.getDrawable(holder.itemView.context, R.drawable.admin_rounded_background)
+            holder.messageTextView.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.transparent)
+            (holder.messageTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.CENTER
+            (holder.messageTextView.layoutParams as? LinearLayout.LayoutParams)?.width = LinearLayout.LayoutParams.MATCH_PARENT
+            (holder.senderTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.START
+        }else if (senderUsername == currentUserUsername) {
             // Set a different text color for the current user's message
+            holder.messageBubble.background = null
             holder.messageTextView.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.teal_200)
             (holder.messageTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.END
+            (holder.messageTextView.layoutParams as? LinearLayout.LayoutParams)?.width = LinearLayout.LayoutParams.WRAP_CONTENT
             (holder.senderTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.END
 
             //holder.messageTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.black))
-        } else {
-
+        }else {
+            holder.messageBubble.background = null
             holder.messageTextView.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.teal_700)
             (holder.messageTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.START
+            (holder.messageTextView.layoutParams as? LinearLayout.LayoutParams)?.width = LinearLayout.LayoutParams.WRAP_CONTENT
             (holder.senderTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.START
         }
     }

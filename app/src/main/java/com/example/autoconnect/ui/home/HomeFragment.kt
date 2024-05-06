@@ -21,9 +21,6 @@ import com.example.autoconnect.databinding.FragmentHomeBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
-import java.util.Calendar
-import kotlin.random.Random
-
 
 class HomeFragment : Fragment() {
 
@@ -71,9 +68,6 @@ class HomeFragment : Fragment() {
                 }
             }
 
-
-
-
             Firebase.auth.signOut()
             startActivity(Intent(requireContext(), StartActivity::class.java))
             requireActivity().finish()
@@ -83,28 +77,11 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.navigation_settings)
         }
 
-
-
-
         binding.buttonAbout.setOnClickListener {
             findNavController().navigate(R.id.navigation_about)
         }
-
-
-        // Uncomment the following lines if you need to observe ViewModel data
-        /*
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        */
-
         return root
     }
-
-
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
