@@ -14,7 +14,7 @@ class MessageAdapter(
     val messages: MutableList<Pair<String, String>>,
     private val currentUserUsername: String,
     private val adminUsernames: List<String>,
-    private val onItemClick: (senderUsername: String, message: String) -> Unit,
+    private val onItemClick: (senderUsername: String, message: String, isCurrentUser: Boolean) -> Unit,
     private val onDeleteClick: (message: String) -> Unit
 ) : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
 
@@ -28,7 +28,8 @@ class MessageAdapter(
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val (senderUsername, message) = messages[position]
-                    onItemClick(senderUsername, message)
+                    val isCurrentUser = senderUsername == currentUserUsername
+                    onItemClick(senderUsername, message, isCurrentUser)
                 }
             }
             itemView.setOnLongClickListener {

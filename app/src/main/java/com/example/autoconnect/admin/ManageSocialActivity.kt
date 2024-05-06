@@ -6,6 +6,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import android.widget.ImageButton
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -81,24 +82,31 @@ class ManageSocialActivity : AppCompatActivity() {
                     currentUserUsername = snapshot.child("userName").getValue(String::class.java) ?: ""
                     // Initialize the adapter with an empty list and the current user ID
                     messageAdapter = MessageAdapter(mutableListOf(), currentUserUsername, adminUsernames,
-                        { senderUsername, message ->
+                        { senderUsername, message, isCurrentUser ->
                             // Handle the click event here
-                            AlertDialog.Builder(this@ManageSocialActivity)
-                                .setTitle("Message from $senderUsername")
-                                .setMessage(message)
-                                .setPositiveButton("Delete") { dialog, _ ->
-                                    deleteMessage(message)
-                                    dialog.dismiss()
-                                }
-                                .setNegativeButton("Cancel") { dialog, _ ->
-                                    dialog.dismiss()
-                                }
-                                .show()
+                                AlertDialog.Builder(this@ManageSocialActivity)
+                                    .setTitle("Message from $senderUsername")
+                                    .setMessage(message)
+                                    .setPositiveButton("Edit") { _, _ ->
+                                        // Handle edit
+                                        editMessage(message)
+                                    }
+                                    .setNegativeButton("Delete") { dialog, _ ->
+                                        deleteMessage(message)
+                                        dialog.dismiss()
+                                    }
+                                    .setNeutralButton("Cancel") { dialog, _ ->
+                                        dialog.dismiss()
+                                    }
+                                    .show()
+
+                        },
+                        { message ->
+                            // Handle the delete click event here
+                            //deleteMessage(message)
                         }
-                    ) { message ->
-                        // Handle the delete click event here
-                        deleteMessage(message)
-                    }
+                    )
+
 
                     recyclerView.apply {
                         layoutManager = LinearLayoutManager(context)
@@ -179,7 +187,8 @@ class ManageSocialActivity : AppCompatActivity() {
         database.orderByChild("content").equalTo(message).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (childSnapshot in snapshot.children) {
-                    childSnapshot.ref.removeValue()
+                    val key = childSnapshot.key
+                    childSnapshot.ref.child("content").setValue("This message has been removed by an admin")
                 }
             }
 
@@ -188,6 +197,13 @@ class ManageSocialActivity : AppCompatActivity() {
             }
         })
     }
+
+
+    private fun editMessage(message: String) {
+        // Implement message editing functionality
+        Toast.makeText(this, "EDIT MESSAGE", Toast.LENGTH_SHORT).show()
+    }
+
 
 
 }

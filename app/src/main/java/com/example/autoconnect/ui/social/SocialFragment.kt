@@ -72,12 +72,34 @@ class SocialFragment : Fragment() {
                     currentUserUsername = snapshot.child("userName").getValue(String::class.java) ?: ""
                     // Initialize the adapter with an empty list and the current user ID
                     messageAdapter = MessageAdapter(mutableListOf(), currentUserUsername, adminUsernames,
-                        { senderUsername, message ->
-
+                        { senderUsername, message, isCurrentUser ->
+                            // Handle the click event here
+                            if (isCurrentUser) {
+                                context?.let {
+                                    AlertDialog.Builder(it)
+                                        .setTitle("Message from $senderUsername")
+                                        .setMessage(message)
+                                        .setPositiveButton("Edit") { _, _ ->
+                                            // Handle edit
+                                            editMessage(message)
+                                        }
+                                        .setNegativeButton("Delete") { dialog, _ ->
+                                            deleteMessage(message)
+                                            dialog.dismiss()
+                                        }
+                                        .setNeutralButton("Cancel") { dialog, _ ->
+                                            dialog.dismiss()
+                                        }
+                                        .show()
+                                }
+                            }
+                        },
+                        { message ->
+                            // Handle the delete click event here
+                            //deleteMessage(message)
                         }
-                    ) { message ->
+                    )
 
-                    }
 
 
                     recyclerView.apply {
@@ -164,4 +186,25 @@ class SocialFragment : Fragment() {
         // Remove the listener when the view is destroyed
         database.removeEventListener(messageListener)
     }
+
+    private fun editMessage(message: String) {
+        // Implement message editing functionality
+        Toast.makeText(context, "EDIT MESSAGE", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun deleteMessage(message: String) {
+        database.orderByChild("content").equalTo(message).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (childSnapshot in snapshot.children) {
+                    val key = childSnapshot.key
+                    childSnapshot.ref.child("content").setValue("This message has been deleted by the user")
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle error
+            }
+        })
+    }
+
 }
