@@ -8,19 +8,22 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.autoconnect.Message
 import com.example.autoconnect.R
 
 class MessageAdapter(
-    val messages: MutableList<Pair<String, String>>,
+    val messages: MutableList<Message>,
     private val currentUserUsername: String,
     private val adminUsernames: List<String>,
-    private val onItemClick: (senderUsername: String, message: String, isCurrentUser: Boolean) -> Unit,
-    private val onDeleteClick: (message: String) -> Unit
+    private val onItemClick: (senderUsername: String, message: String, isCurrentUser: Boolean, messageId: String) -> Unit,
+    private val onItemHold: (senderUsername: String, message: String, isCurrentUser: Boolean, messageId: String) -> Unit
 ) : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
 
     inner class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val senderTextView: TextView = itemView.findViewById(R.id.textViewUsername)
         val messageTextView: TextView = itemView.findViewById(R.id.textViewMessage)
+        val addOnTextView: TextView = itemView.findViewById(R.id.textViewAddOn)
+        val messageIdTextView: TextView = itemView.findViewById(R.id.textViewMessageId)
         val messageBubble: LinearLayout = itemView.findViewById(R.id.MessageBubble)
 
         init {
@@ -29,14 +32,15 @@ class MessageAdapter(
                 if (position != RecyclerView.NO_POSITION) {
                     val (senderUsername, message) = messages[position]
                     val isCurrentUser = senderUsername == currentUserUsername
-                    onItemClick(senderUsername, message, isCurrentUser)
+                    onItemClick(senderUsername, message, isCurrentUser, messageIdTextView.text.toString())
                 }
             }
             itemView.setOnLongClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    val (_, message) = messages[position]
-                    onDeleteClick(message)
+                    val (senderUsername, message) = messages[position]
+                    val isCurrentUser = senderUsername == currentUserUsername
+                    onItemHold(senderUsername, message, isCurrentUser, messageIdTextView.text.toString())
                 }
                 true
             }
@@ -50,9 +54,11 @@ class MessageAdapter(
     }
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
-        val (senderUsername, message) = messages[position]
+        val (senderUsername, message, addOn, messageId) = messages[position]
         holder.senderTextView.text = senderUsername
         holder.messageTextView.text = message
+        holder.addOnTextView.text = addOn
+        holder.messageIdTextView.text = messageId
 
         // Check if the sender is the current user
         if (adminUsernames.contains(senderUsername)) {
@@ -62,30 +68,68 @@ class MessageAdapter(
             (holder.messageTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.CENTER
             (holder.messageTextView.layoutParams as? LinearLayout.LayoutParams)?.width = LinearLayout.LayoutParams.MATCH_PARENT
             (holder.senderTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.START
-        }else if (senderUsername == currentUserUsername) {
+            holder.addOnTextView.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.transparent)
+            (holder.addOnTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.CENTER
+            (holder.addOnTextView.layoutParams as? LinearLayout.LayoutParams)?.width = LinearLayout.LayoutParams.MATCH_PARENT
+
+            // Set visibility based on addOnTextView's text
+            if ((!addOn.isNullOrBlank())&&(addOn != "null")) {
+                holder.messageTextView.visibility = View.GONE
+                holder.addOnTextView.visibility = View.VISIBLE
+            } else {
+                holder.messageTextView.visibility = View.VISIBLE
+                holder.addOnTextView.visibility = View.GONE
+            }
+        } else if (senderUsername == currentUserUsername) {
             // Set a different text color for the current user's message
             holder.messageBubble.background = null
             holder.messageTextView.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.teal_200)
             (holder.messageTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.END
             (holder.messageTextView.layoutParams as? LinearLayout.LayoutParams)?.width = LinearLayout.LayoutParams.WRAP_CONTENT
             (holder.senderTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.END
+            holder.addOnTextView.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.teal_200)
+            (holder.addOnTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.END
+            (holder.addOnTextView.layoutParams as? LinearLayout.LayoutParams)?.width = LinearLayout.LayoutParams.WRAP_CONTENT
 
-            //holder.messageTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.black))
-        }else {
+            // Set visibility based on addOnTextView's text
+            if ((!addOn.isNullOrBlank())&&(addOn != "null")) {
+                holder.messageTextView.visibility = View.GONE
+                holder.addOnTextView.visibility = View.VISIBLE
+            } else {
+                holder.messageTextView.visibility = View.VISIBLE
+                holder.addOnTextView.visibility = View.GONE
+            }
+        } else {
             holder.messageBubble.background = null
             holder.messageTextView.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.teal_700)
             (holder.messageTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.START
             (holder.messageTextView.layoutParams as? LinearLayout.LayoutParams)?.width = LinearLayout.LayoutParams.WRAP_CONTENT
             (holder.senderTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.START
+            (holder.addOnTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.START
+            holder.addOnTextView.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.teal_700)
+            (holder.addOnTextView.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.START
+            (holder.addOnTextView.layoutParams as? LinearLayout.LayoutParams)?.width = LinearLayout.LayoutParams.WRAP_CONTENT
+
+            // Set visibility based on addOnTextView's text
+
+            if ((!addOn.isNullOrBlank())&&(addOn != "null")) {
+                    holder.messageTextView.visibility = View.GONE
+                    holder.addOnTextView.visibility = View.VISIBLE
+                } else {
+                    holder.messageTextView.visibility = View.VISIBLE
+                    holder.addOnTextView.visibility = View.GONE
+                }
+
         }
     }
+
 
     override fun getItemCount(): Int {
         return messages.size
     }
 
-    fun addMessage(senderUsername: String, message: String) {
-        messages.add(Pair(senderUsername, message))
+    fun addMessage(senderUsername: String, message: String, addOn: String, messageId: String) {
+        messages.add(Message(senderUsername, message, addOn, messageId))
         notifyItemInserted(messages.size - 1)
     }
 }

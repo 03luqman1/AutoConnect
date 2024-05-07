@@ -1,8 +1,9 @@
-package com.example.autoconnect.ui.social
+package com.example.autoconnect
 
 // Message.kt
 data class Message(
     val content: String,
     val senderUsername: String,
-    val timestamp: Long
+    val timestamp: String?,
+    val messageId: String?
 )
