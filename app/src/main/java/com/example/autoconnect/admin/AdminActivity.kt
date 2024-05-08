@@ -43,6 +43,13 @@ class AdminActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val buttonViewAdmins = findViewById<Button>(R.id.buttonViewAdmins)
+        buttonViewAdmins.setOnClickListener {
+            // Handle the button click to go to the Login activity
+            val intent = Intent(this, ViewAdminsActivity::class.java)
+            startActivity(intent)
+        }
+
         val buttonSignOutAdmin = findViewById<Button>(R.id.buttonSignOutAdmin)
         buttonSignOutAdmin.setOnClickListener {
             Firebase.auth.signOut()

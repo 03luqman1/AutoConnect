@@ -3,6 +3,7 @@ package com.example.autoconnect.admin
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,10 +26,12 @@ class ViewAdminsActivity : AppCompatActivity() {
         adapter = UsersAdapter()
         recyclerView.adapter = adapter
 
-        databaseReference = FirebaseDatabase.getInstance().reference.child("Users")
+        databaseReference = FirebaseDatabase.getInstance().reference.child("Admin")
 
         loadUsers()
 
+        val textViewSubTitle = findViewById<TextView>(R.id.textViewAccountsTitle)
+        textViewSubTitle.text = "View Admin Accounts"
 
         val buttonBack = findViewById<Button>(R.id.buttonBackFromViewAccounts)
         buttonBack.setOnClickListener {

@@ -60,6 +60,9 @@
         <activity
             android:name=".admin.ManageAccountsActivity"
             android:exported="true" />
+        <activity
+            android:name=".admin.ViewAdminsActivity"
+            android:exported="true" />
         <receiver android:name=".NotificationBroadcastReceiver" />
     </application>
 

@@ -3,6 +3,7 @@ package com.example.autoconnect.admin
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +30,8 @@ class ManageAccountsActivity : AppCompatActivity() {
 
         loadUsers()
 
+        val textViewSubTitle = findViewById<TextView>(R.id.textViewAccountsTitle)
+        textViewSubTitle.text = "View User Accounts"
 
         val buttonBack = findViewById<Button>(R.id.buttonBackFromViewAccounts)
         buttonBack.setOnClickListener {
