@@ -39,7 +39,7 @@ class AdminActivity : AppCompatActivity() {
         val buttonManageUsers = findViewById<Button>(R.id.buttonManageUsers)
         buttonManageUsers.setOnClickListener {
             // Handle the button click to go to the Login activity
-            val intent = Intent(this, AdminActivity::class.java)
+            val intent = Intent(this, ManageAccountsActivity::class.java)
             startActivity(intent)
         }
 

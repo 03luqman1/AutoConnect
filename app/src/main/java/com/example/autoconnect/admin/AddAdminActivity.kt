@@ -128,7 +128,7 @@ class AddAdminActivity : AppCompatActivity() {
         userId?.let {
             val database = FirebaseDatabase.getInstance()
             val usersRef = database.getReference("Admin")
-            val userDetails = UserDetails(fullName, userName, email, phoneNumber)
+            val userDetails = UserDetails("",fullName, userName, email, phoneNumber)
             usersRef.child(userId).setValue(userDetails)
         }
     }

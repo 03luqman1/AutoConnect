@@ -72,10 +72,21 @@
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/buttonSignOutAdmin"
+                android:id="@+id/buttonViewAdmins"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:layout_below="@id/buttonManageUsers"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_button"
+                android:text="View Admin Accounts"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/buttonSignOutAdmin"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_below="@id/buttonViewAdmins"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/rounded_button"
                 android:text="Sign Out"
