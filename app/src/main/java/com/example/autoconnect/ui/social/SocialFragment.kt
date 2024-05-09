@@ -48,7 +48,6 @@ class SocialFragment : Fragment() {
         val databaseReference = FirebaseDatabase.getInstance().getReference("Admin")
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
                 for (snapshot in dataSnapshot.children) {
                     val username = snapshot.child("userName").getValue(String::class.java)
                     if (username != null) {
@@ -60,8 +59,6 @@ class SocialFragment : Fragment() {
                 //Log.e(TAG, "Failed to read admin usernames.", databaseError.toException())
             }
         })
-
-
 
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
         val currentUserID = firebaseAuth.currentUser?.uid
@@ -100,8 +97,6 @@ class SocialFragment : Fragment() {
                         }
                     )
 
-
-
                     recyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext())
                         adapter = messageAdapter
@@ -120,6 +115,7 @@ class SocialFragment : Fragment() {
                     // Set up listener to fetch messages from Firebase and update UI
                     messageListener = object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
+                            val context = context ?: return // Store context in a local variable
                             val messages = mutableListOf<Message>()
                             for (messageSnapshot in snapshot.children) {
                                 val content = messageSnapshot.child("content").getValue(String::class.java)
@@ -132,14 +128,15 @@ class SocialFragment : Fragment() {
                             }
                             messageAdapter.messages.clear()
                             messages.forEach { (senderId, content, addOn, messageId) ->
-                                    if (messageId != null) {
-                                        messageAdapter.addMessage(senderId, content, addOn.toString(), messageId)
-                                    }
-
+                                if (messageId != null) {
+                                    messageAdapter.addMessage(senderId, content, addOn.toString(), messageId)
+                                }
                             }
                             messageAdapter.notifyDataSetChanged()
                             recyclerView.scrollToPosition(messageAdapter.itemCount - 1)
                         }
+
+
 
 
                         override fun onCancelled(error: DatabaseError) {
@@ -157,13 +154,17 @@ class SocialFragment : Fragment() {
             })
         }
 
-
-
         return view
-
     }
 
-    // Method to add a new message to the adapter and Firebase
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Remove the listener when the view is destroyed
+        if (::messageListener.isInitialized) {
+            database.removeEventListener(messageListener)
+        }
+    }
+
     private fun addMessage(messageContent: String) {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
         usersRef.child(currentUserID).addListenerForSingleValueEvent(object : ValueEventListener {
@@ -184,12 +185,6 @@ class SocialFragment : Fragment() {
                 // Handle error
             }
         })
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        // Remove the listener when the view is destroyed
-        database.removeEventListener(messageListener)
     }
 
     private fun editMessage(messageId: String, message: String) {
@@ -217,8 +212,6 @@ class SocialFragment : Fragment() {
         }
     }
 
-
-
     private fun updateMessage(messageId: String, newMessage: String) {
         val editedMessage = "$newMessage"
         val addOn = "$newMessage (Edited)"
@@ -233,6 +226,5 @@ class SocialFragment : Fragment() {
         messageRef.child("content").setValue("-")
         messageRef.child("addOn").setValue(addOn)
     }
-
-
 }
+
