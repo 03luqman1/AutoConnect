@@ -1,24 +1,27 @@
-package com.example.autoconnect.ui.social
+package com.example.autoconnect.admin
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import android.widget.ImageButton
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.autoconnect.Message
 import com.example.autoconnect.R
+import com.example.autoconnect.ui.social.MessageAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 
-class SocialFragment : Fragment() {
+
+class ManageSocialActivity : AppCompatActivity() {
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var editTextMessage: EditText
@@ -29,25 +32,37 @@ class SocialFragment : Fragment() {
     private lateinit var currentUserID: String
     private var currentUserUsername: String = ""
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_social, container, false)
 
-        recyclerView = view.findViewById(R.id.recyclerViewMessages)
-        editTextMessage = view.findViewById(R.id.editTextMessage)
-        buttonSend = view.findViewById(R.id.buttonSend)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fragment_social)
+
+
+       /* val buttonBack = findViewById<Button>(R.id.buttonBackFromViewFeedback)
+        buttonBack.setOnClickListener {
+            // Handle the button click to go to the Login activity
+            val intent = Intent(this, AdminActivity::class.java)
+            startActivity(intent)
+        }*/
+        recyclerView = findViewById(R.id.recyclerViewMessages)
+        editTextMessage = findViewById(R.id.editTextMessage)
+        buttonSend = findViewById(R.id.buttonSend)
 
         firebaseAuth = Firebase.auth
         currentUserID = firebaseAuth.currentUser?.uid ?: ""
         database = FirebaseDatabase.getInstance().reference.child("Social")
 
+
         val adminUsernames = mutableListOf<String>()
+
+
+
+
 
         val databaseReference = FirebaseDatabase.getInstance().getReference("Admin")
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+
                 for (snapshot in dataSnapshot.children) {
                     val username = snapshot.child("userName").getValue(String::class.java)
                     if (username != null) {
@@ -60,45 +75,52 @@ class SocialFragment : Fragment() {
             }
         })
 
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
+        val adminRef = FirebaseDatabase.getInstance().reference.child("Admin")
         val currentUserID = firebaseAuth.currentUser?.uid
         if (currentUserID != null) {
-            usersRef.child(currentUserID).addListenerForSingleValueEvent(object : ValueEventListener {
+            adminRef.child(currentUserID).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     currentUserUsername = snapshot.child("userName").getValue(String::class.java) ?: ""
                     // Initialize the adapter with an empty list and the current user ID
                     messageAdapter = MessageAdapter(mutableListOf(), currentUserUsername, adminUsernames,
-                        { senderUsername, message, isCurrentUser ,messageId->
+                        { senderUsername, message, isCurrentUser , messageId->
+                            // Handle the click event here
+                                AlertDialog.Builder(this@ManageSocialActivity)
+                                    .setTitle("Message from $senderUsername")
+                                    .setMessage(message)
+                                    .setPositiveButton("Edit") { _, _ ->
+                                        // Handle edit
+                                        editMessage(messageId, message)
+                                    }
+                                    .setNegativeButton("Delete") { dialog, _ ->
+                                        deleteMessage(messageId)
+                                        dialog.dismiss()
+                                    }
+                                    .setNeutralButton("Cancel") { dialog, _ ->
+                                        dialog.dismiss()
+                                    }
+                                    .show()
 
                         },
-                        { senderUsername, message, isCurrentUser, messageId ->
-                            // Handle the click event here
-                            if (isCurrentUser) {
-                                if (message != "-") {
-                                    context?.let {
-                                        AlertDialog.Builder(it)
-                                            .setTitle("Message from $senderUsername")
-                                            .setMessage(message)
-                                            .setPositiveButton("Edit") { _, _ ->
-                                                // Handle edit
-                                                editMessage(messageId, message)
-                                            }
-                                            .setNegativeButton("Delete") { dialog, _ ->
-                                                deleteMessage(messageId)
-                                                dialog.dismiss()
-                                            }
-                                            .setNeutralButton("Cancel") { dialog, _ ->
-                                                dialog.dismiss()
-                                            }
-                                            .show()
-                                    }
+                        { senderUsername, message, isCurrentUser , messageId->
+                            // Handle the delete click event here
+                            AlertDialog.Builder(this@ManageSocialActivity)
+                                .setTitle("Message from $senderUsername")
+                                .setMessage(message)
+                                .setNegativeButton("Remove") { dialog, _ ->
+                                    removeMessage(messageId)
+                                    dialog.dismiss()
                                 }
-                            }
+                                .setNeutralButton("Cancel") { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .show()
                         }
                     )
 
+
                     recyclerView.apply {
-                        layoutManager = LinearLayoutManager(requireContext())
+                        layoutManager = LinearLayoutManager(context)
                         adapter = messageAdapter
                     }
 
@@ -115,7 +137,6 @@ class SocialFragment : Fragment() {
                     // Set up listener to fetch messages from Firebase and update UI
                     messageListener = object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
-                            val context = context ?: return // Store context in a local variable
                             val messages = mutableListOf<Message>()
                             for (messageSnapshot in snapshot.children) {
                                 val content = messageSnapshot.child("content").getValue(String::class.java)
@@ -137,8 +158,6 @@ class SocialFragment : Fragment() {
                         }
 
 
-
-
                         override fun onCancelled(error: DatabaseError) {
                             // Handle error
                         }
@@ -154,30 +173,22 @@ class SocialFragment : Fragment() {
             })
         }
 
-        return view
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        // Remove the listener when the view is destroyed
-        if (::messageListener.isInitialized) {
-            database.removeEventListener(messageListener)
-        }
-    }
-
+    // Method to add a new message to the adapter and Firebase
     private fun addMessage(messageContent: String) {
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
-        usersRef.child(currentUserID).addListenerForSingleValueEvent(object : ValueEventListener {
+        val adminRef = FirebaseDatabase.getInstance().reference.child("Admin")
+        adminRef.child(currentUserID).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val userName = snapshot.child("userName").getValue(String::class.java)
                 // Now you have the username, you can use it as needed
                 val message = mapOf("content" to messageContent, "userName" to userName)
                 database.push().setValue(message)
                     .addOnSuccessListener {
-                        Toast.makeText(context, "Message Sent", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(this, "Message Sent", Toast.LENGTH_SHORT).show()
                     }
                     .addOnFailureListener {
-                        Toast.makeText(context, "Failed to send message", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(this, "Failed to send message", Toast.LENGTH_SHORT).show()
                     }
             }
 
@@ -189,28 +200,29 @@ class SocialFragment : Fragment() {
 
     private fun editMessage(messageId: String, message: String) {
 
-        val editDialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit_message, null)
+        val editDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_edit_message, null)
         val editTextMessage = editDialogView.findViewById<EditText>(R.id.editTextNewMessage)
         editTextMessage.setText(message)
 
-        context?.let {
-            AlertDialog.Builder(it)
-                .setTitle("Edit Message")
-                .setView(editDialogView)
-                .setPositiveButton("Save") { _, _ ->
-                    val newMessage = editTextMessage.text.toString().trim()
-                    if (newMessage.isNotEmpty()) {
-                        updateMessage(messageId, newMessage)
-                    } else {
-                        Toast.makeText(context, "Message cannot be empty", Toast.LENGTH_SHORT).show()
-                    }
+        AlertDialog.Builder(this)
+            .setTitle("Edit Message")
+            .setView(editDialogView)
+            .setPositiveButton("Save") { _, _ ->
+                val newMessage = editTextMessage.text.toString().trim()
+                if (newMessage.isNotEmpty()) {
+                    updateMessage(messageId, newMessage)
+                } else {
+                    Toast.makeText(this, "Message cannot be empty", Toast.LENGTH_SHORT).show()
                 }
-                .setNegativeButton("Cancel") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .show()
-        }
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
+
+
+
 
     private fun updateMessage(messageId: String, newMessage: String) {
         val editedMessage = "$newMessage"
@@ -221,10 +233,16 @@ class SocialFragment : Fragment() {
     }
 
     private fun deleteMessage(messageId: String) {
-        val addOn = "(Deleted By User)"
+        val addOn = "(Deleted By Admin)"
         val messageRef = database.child(messageId)
         messageRef.child("content").setValue("-")
         messageRef.child("addOn").setValue(addOn)
     }
-}
 
+    private fun removeMessage(messageId: String) {
+        database.child(messageId).removeValue()
+    }
+
+
+
+}

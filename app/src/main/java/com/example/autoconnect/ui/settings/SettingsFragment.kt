@@ -1,39 +1,57 @@
-package com.example.autoconnect.ui.garage
+package com.example.autoconnect.ui.settings
 
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import android.view.*
-import android.widget.AdapterView
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.Gravity
+import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import android.widget.ListView
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.PopupWindow
+import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import com.example.autoconnect.MainActivity
-import com.example.autoconnect.NotificationBroadcastReceiver
-import com.example.autoconnect.R
-import com.example.autoconnect.VehicleInfo
-import com.example.autoconnect.databinding.FragmentGarageBinding
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
-import okhttp3.Call
-import okhttp3.Callback
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.Switch
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.example.autoconnect.MainActivity
+import com.example.autoconnect.NotificationBroadcastReceiver
+import com.example.autoconnect.NotificationHelper
+import com.example.autoconnect.R
+import com.example.autoconnect.VehicleInfo
+import com.example.autoconnect.databinding.FragmentGarageBinding
+import com.example.autoconnect.databinding.FragmentHomeBinding
+import com.example.autoconnect.ui.garage.VehicleAdapter
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
+import okhttp3.Call
+import okhttp3.Callback
 import okhttp3.Response
 import org.json.JSONArray
 import java.io.IOException
@@ -44,28 +62,29 @@ import java.util.Locale
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
-class GarageFragment : Fragment() {
+class SettingsFragment : Fragment() {
 
-    private lateinit var listViewVehicles: ListView
-    private lateinit var buttonAddNewVehicle: Button
+
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
 
-    private var _binding: FragmentGarageBinding? = null
+    private var _binding: FragmentHomeBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val view = inflater.inflate(com.example.autoconnect.R.layout.fragment_garage, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(com.example.autoconnect.R.layout.fragment_settings, container, false)
 
-        listViewVehicles = view.findViewById(R.id.listViewVehicles)
-        buttonAddNewVehicle = view.findViewById(R.id.buttonAddNewVehicle)
+        val buttonBack: Button = view.findViewById(R.id.buttonBack2)
+        val notif: Button = view.findViewById(R.id.testNotificationButton)
+        val delayedNotif: Button = view.findViewById(R.id.testDelayedNotificationButton)
+
+        val toggleNotificationText = view.findViewById<TextView>(R.id.toggleNotificationText)
+        val notificationSwitch = view.findViewById<Switch>(R.id.notificationSwitch)
+
 
         // Initialize Firebase Auth
         auth = Firebase.auth
@@ -73,27 +92,125 @@ class GarageFragment : Fragment() {
         // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().reference
 
-        buttonAddNewVehicle.setOnClickListener {
-            findNavController(view).navigate(R.id.navigation_add)
-        }
-        // Display the user's vehicles in the ListView
-        displayUserVehicles()
-// Inside your Fragment or Activity where you want to navigate
-        val navController = findNavController()
-        listViewVehicles.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            // Get the selected vehicle info
-            val selectedVehicle = listViewVehicles.adapter.getItem(position) as VehicleInfo
+        // Check the current notification state and update the switch accordingly
+        val areNotificationsEnabled = getNotificationState()
+        notificationSwitch.isChecked = areNotificationsEnabled
 
-            // Navigate to the vehicle detail fragment and pass the selected vehicle's information
-            //findNavController().navigate(R.id.navigation_vehicle)
-            val bundle = Bundle()
-            bundle.putSerializable("vehicleInfo", selectedVehicle)
-            findNavController(view).navigate(R.id.navigation_vehicle, bundle)
+        // Set a listener to handle switch state change
+        notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
+            // Update notification state
+            setNotificationState(isChecked)
+
+            // Update the UI
+            if (isChecked) {
+                toggleNotificationText.text = "Notifications Enabled"
+                updateDatabaseAndCreateNotifs()
+            } else {
+                toggleNotificationText.text = "Notifications Disabled"
+                val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val sharedPreferences = requireContext().getSharedPreferences("notification_request_codes", Context.MODE_PRIVATE)
+                val requestCodesJson = sharedPreferences.getString("request_codes", null)
+                val requestCodes = Gson().fromJson(requestCodesJson, Array<Int>::class.java)
+
+                requestCodes?.forEach { requestCode ->
+                    val notificationIntent = Intent(context, NotificationBroadcastReceiver::class.java)
+                    val pendingIntent = PendingIntent.getBroadcast(
+                        context,
+                        requestCode,
+                        notificationIntent,
+                        PendingIntent.FLAG_IMMUTABLE
+                    )
+
+                    pendingIntent?.let {
+                        alarmManager.cancel(it)
+                        it.cancel()
+                    }
+                }
+
+                cancelNotifications()
+
+
+            }
         }
+
+        buttonBack.setOnClickListener {
+            val navController = findNavController()
+            navController.navigate(R.id.navigation_home)
+        }
+        notif.setOnClickListener {
+            // Check if notifications are enabled
+            if (getNotificationState()) {
+                // Send immediate notification
+                NotificationHelper.sendNotification(
+                    requireContext(),
+                    "My Notification",
+                    "This is a notification from my app"
+                )
+            }
+        }
+
+        delayedNotif.setOnClickListener {
+            if (getNotificationState()) {
+                scheduleNotificationTest(requireContext())
+            }
+
+        }
+
         return view
     }
 
-    private fun displayUserVehicles() {
+    fun cancelNotifications() {
+        val notificationIntent = Intent(context, NotificationBroadcastReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            notificationIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(pendingIntent)
+    }
+
+    private fun scheduleNotificationTest(context: Context) {
+
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val notificationIntent = Intent(context, NotificationBroadcastReceiver::class.java)
+        notificationIntent.putExtra("title", "Scheduled Notification")
+        notificationIntent.putExtra("message", "The is is a scheduled notification from my app\n:)")
+
+        val requestCode = Random.nextInt() // Generate a random request code
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,//or set fixed number: 0 ??
+            notificationIntent,
+            PendingIntent.FLAG_IMMUTABLE // Use FLAG_IMMUTABLE here
+        )
+
+        // Schedule the alarm to trigger after an hour (3600 * 1000 milliseconds)
+        val triggerTime = Calendar.getInstance().timeInMillis + 10000
+        alarmManager.setExact(
+            AlarmManager.RTC_WAKEUP,
+            triggerTime,
+            pendingIntent
+        )
+
+
+    }
+
+
+    // Function to get the current notification state from MainActivity
+    private fun getNotificationState(): Boolean {
+        return (requireActivity() as MainActivity).getNotificationState()
+    }
+
+    // Function to update the notification state in MainActivity
+    private fun setNotificationState(enabled: Boolean) {
+        (requireActivity() as MainActivity).setNotificationState(enabled)
+    }
+
+
+    private fun updateDatabaseAndCreateNotifs() {
         // Get the UID of the currently authenticated user
         val uid = auth.currentUser?.uid
 
@@ -108,9 +225,6 @@ class GarageFragment : Fragment() {
                     val vehicleList = mutableListOf<VehicleInfo>()
 
                     val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-                    // Cancel all existing notifications
-                    cancelNotifications(requireContext(), alarmManager)
 
                     val requestCodes = mutableListOf<Int>()
 
@@ -144,12 +258,6 @@ class GarageFragment : Fragment() {
 
                     // Store request codes in SharedPreferences
                     saveRequestCodes(requireContext(), requestCodes)
-
-                    // Create a custom adapter to populate the ListView
-                    val adapter = VehicleAdapter(requireContext(), vehicleList)
-
-                    // Set the adapter to the ListView
-                    listViewVehicles.adapter = adapter
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -166,24 +274,55 @@ class GarageFragment : Fragment() {
         editor.apply()
     }
 
-    private fun cancelNotifications(context: Context, alarmManager: AlarmManager) {
-        val sharedPreferences = context.getSharedPreferences("notification_request_codes", Context.MODE_PRIVATE)
-        val requestCodesJson = sharedPreferences.getString("request_codes", null)
-        val requestCodes = Gson().fromJson(requestCodesJson, Array<Int>::class.java)
+    private fun isValidDateFormat(date: String): Boolean {
+        return try {
+            val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val parsedDate = sdf.parse(date)
+            val currentDate = Calendar.getInstance().time
 
-        requestCodes?.forEach { requestCode ->
+            parsedDate?.after(currentDate) ?: false
+        } catch (e: ParseException) {
+            false
+        }
+    }
+
+    private fun scheduleNotification(context: Context, dueDate: String, vrn: String, type: String, reqCode: Int) {
+
+        if (!getNotificationState()) {
+            return
+        }
+        if (isValidDateFormat(dueDate)) {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val notificationIntent = Intent(context, NotificationBroadcastReceiver::class.java)
+            notificationIntent.putExtra("title", "Vehicle $type Reminder")
+            notificationIntent.putExtra("message", "Vehicle: $vrn \nDue/Expires: $dueDate")
+
+            //val requestCode = Random.nextInt() // Generate a random request code
+
+            val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val date = sdf.parse(dueDate)
+            val calendar = Calendar.getInstance()
+            calendar.time = date!!
+
+            // Set the time to 9 am
+            calendar.set(Calendar.HOUR_OF_DAY, 9)
+            calendar.set(Calendar.MINUTE, 0)
+            calendar.set(Calendar.SECOND, 0)
+
+
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
-                requestCode,
+                reqCode,//requestCode,//or set fixed number: 0 ??
                 notificationIntent,
-                PendingIntent.FLAG_IMMUTABLE
+                PendingIntent.FLAG_IMMUTABLE // Use FLAG_IMMUTABLE here
             )
-
-            pendingIntent?.let {
-                alarmManager.cancel(it)
-                it.cancel()
-            }
+            // Schedule the alarm to trigger after an hour (3600 * 1000 milliseconds)
+            //val triggerTime = Calendar.getInstance().timeInMillis + 30000
+            alarmManager.setExact(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            )
         }
     }
 
@@ -211,17 +350,13 @@ class GarageFragment : Fragment() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                if (!response.isSuccessful) {
-                    // Handle unsuccessful response
-                    return
-                }
-
                 val responseBody = response.body?.string()
                 val gson = Gson()
                 val updatedVehicleInfo = gson.fromJson(responseBody, VehicleInfo::class.java)
 
                 updatedVehicleInfo.insuranceExpiry = vehicle.insuranceExpiry
                 updatedVehicleInfo.serviceDue = vehicle.serviceDue
+
 
                 var motTestDueDate = ""
                 var vehicleModel = ""
@@ -251,11 +386,6 @@ class GarageFragment : Fragment() {
                     }
 
                     override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-                        // Check if the fragment is still attached to the activity
-                        if (!isAdded) {
-                            return
-                        }
-
                         // Check if the response is successful
                         if (!response.isSuccessful) {
                             // Handle unsuccessful response, e.g., show error message
@@ -271,6 +401,7 @@ class GarageFragment : Fragment() {
                             if (!responseBody.isNullOrEmpty()) {
                                 // Parse the JSON response
                                 val jsonArray = JSONArray(responseBody)
+
 
                                 if (jsonArray.length() > 0) {
                                     val jsonObject = jsonArray.getJSONObject(0)
@@ -309,64 +440,10 @@ class GarageFragment : Fragment() {
                 //firstRegDate.time = formatter.parse(updatedVehicleInfo.monthOfFirstRegistration)
                 //firstRegDate.add(Calendar.YEAR, 3)
                 //val formattedExpiryDate = formatter.format(firstRegDate.time)
+
+
+
             }
-
         })
-    }
-
-    private fun isValidDateFormat(date: String): Boolean {
-        return try {
-            val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            val parsedDate = sdf.parse(date)
-            val currentDate = Calendar.getInstance().time
-
-            parsedDate?.after(currentDate) ?: false
-        } catch (e: ParseException) {
-            false
-        }
-    }
-
-    // Function to get the current notification state from MainActivity
-    private fun getNotificationState(): Boolean {
-        return (requireActivity() as MainActivity).getNotificationState()
-    }
-    private fun scheduleNotification(context: Context, dueDate: String, vrn: String, type: String, reqCode: Int) {
-
-        if (!getNotificationState()) {
-            return
-        }
-if (isValidDateFormat(dueDate)) {
-    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    val notificationIntent = Intent(context, NotificationBroadcastReceiver::class.java)
-    notificationIntent.putExtra("title", "Vehicle $type Reminder")
-    notificationIntent.putExtra("message", "Vehicle: $vrn \nDue/Expires: $dueDate")
-
-    //val requestCode = Random.nextInt() // Generate a random request code
-
-    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    val date = sdf.parse(dueDate)
-    val calendar = Calendar.getInstance()
-    calendar.time = date!!
-
-    // Set the time to 9 am
-    calendar.set(Calendar.HOUR_OF_DAY, 9)
-    calendar.set(Calendar.MINUTE, 0)
-    calendar.set(Calendar.SECOND, 0)
-
-
-    val pendingIntent = PendingIntent.getBroadcast(
-        context,
-        reqCode,//requestCode,//or set fixed number: 0 ??
-        notificationIntent,
-        PendingIntent.FLAG_IMMUTABLE // Use FLAG_IMMUTABLE here
-    )
-    // Schedule the alarm to trigger after an hour (3600 * 1000 milliseconds)
-    //val triggerTime = Calendar.getInstance().timeInMillis + 30000
-    alarmManager.setExact(
-        AlarmManager.RTC_WAKEUP,
-        calendar.timeInMillis,
-        pendingIntent
-    )
-}
     }
 }

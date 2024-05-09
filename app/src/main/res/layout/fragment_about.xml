@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:padding="16dp">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutAbout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
+            android:background="@drawable/rounded_background">
+
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:text="AUTO CONNECT"
+                android:textColor="#FFFFFF"
+                android:layout_centerHorizontal="true"
+                android:textSize="46sp"
+                android:textStyle="bold" />
+
+            <!-- Subheading -->
+            <TextView
+                android:id="@+id/textViewAboutTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewTitle"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="0dp"
+                android:text="ABOUT THE APP"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:layout_below="@id/relativeLayoutAbout"
+            android:background="@drawable/rounded_background"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:id="@+id/relativeLayoutDetails">
+
+
+            <!-- EditText for Comments -->
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/aboutApp"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:text="This application has been designed and created as part of my final year project for my Computer Science BSc at De Montfort University.\nThe aim of this app to make vehicle management easier and more streamlined by providing a hassle free way to view and manage vehicles. Usera of the app can communicate in the social hub with other app users to provide help and guidance for others. The app uses the DVLA VES API to extract details about vehicles fron a registration (VRN) number. It also extracts and gets information regarding vehicles MOT history using the DVLA MOT API.\nThe app requires users to create an account or sign in, in order to access the home page. Once signed in the user can view their garage, add new vehicles, manage expiry/due dates and much more. The user can visit the social hub to chat with others. This application has been designed to automatically setup reminder notifications for vehicles you add to your garage. You will be notified for any dates relating to your owned vehicles so that you can ensure you are up to date.\n\nReferences/credits:\nApp created by: Luqman Master\nApp icon/logo: (Insert link)\nApp background: (Insert Link)\nVehicle Brand Logos: (Insert Link)\n\nPlease to report any bugs and errors to help make this app better. Your feedback is very much appreciated.\n\n\n\App Version: Pre-release (V-1.0.0.3)"
+                    android:padding="8dp"
+                    android:textColor="#FFFFFF"/>
+            </ScrollView>
+
+
+        </RelativeLayout>
+
+        <!-- Button to Submit Review -->
+        <Button
+            android:id="@+id/buttonBack"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="BACK"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:background="@drawable/rounded_button"
+            android:layout_below="@id/relativeLayoutDetails"
+            android:layout_marginTop="16dp"/>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

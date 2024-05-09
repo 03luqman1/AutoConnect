@@ -2,11 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
+    android:paddingTop="5dp"
+    android:layout_marginTop="5dp"
     android:paddingLeft="20dp"
-    android:paddingBottom="10dp"
+    android:paddingBottom="5dp"
     android:paddingRight="20dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/MessageBubble">
 
 
     <TextView
@@ -23,10 +25,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_background"
-        android:backgroundTint="#000000"
+        android:backgroundTint="#00000000"
         android:padding="8dp"
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="#FFFFFF"
         android:layout_gravity="start"/>
+
+    <TextView
+        android:id="@+id/textViewAddOn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_background"
+        android:backgroundTint="#00000000"
+        android:padding="8dp"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:visibility="gone"
+        android:textColor="#FFFFFF"
+        android:layout_gravity="start"/>
+
+    <TextView
+        android:id="@+id/textViewMessageId"
+        android:visibility="gone"
+        android:layout_height="0dp"
+        android:layout_width="0dp"/>
+
 
 </LinearLayout>

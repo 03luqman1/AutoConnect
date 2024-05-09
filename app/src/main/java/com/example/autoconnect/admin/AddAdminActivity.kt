@@ -1,44 +1,63 @@
-package com.example.autoconnect
+package com.example.autoconnect.admin
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.autoconnect.databinding.ActivityRegisterBinding
+import com.example.autoconnect.admin.AdminActivity
+import com.example.autoconnect.MainActivity
+import com.example.autoconnect.R
+import com.example.autoconnect.UserDetails
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 
-class RegisterActivity : AppCompatActivity() {
+class AddAdminActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityRegisterBinding
+    private lateinit var editTextEmail: EditText
+    private lateinit var editTextFullName: EditText
+    private lateinit var editTextPhoneNumber: EditText
+    private lateinit var editTextUserName: EditText
+    private lateinit var editTextPassword: EditText
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var database: FirebaseDatabase
     private lateinit var usernamesRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRegisterBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_add_admin)
 
         firebaseAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
         usernamesRef = database.getReference("Usernames")
 
-        binding.textViewSignIn.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
+        editTextFullName = findViewById(R.id.editTextFullName)
+        editTextUserName = findViewById(R.id.editTextUserName)
+        editTextEmail = findViewById(R.id.editTextEmail)
+        editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber)
+        editTextPassword = findViewById(R.id.editTextPassword)
+
+        val backButton = findViewById<Button>(R.id.buttonBackFromAddAdmin)
+        backButton.setOnClickListener {
+            // Handle the button click to go to the AdminActivity
+            val intent = Intent(this, AdminActivity::class.java)
             startActivity(intent)
         }
 
-        binding.buttonRegister.setOnClickListener {
-            val fullName = binding.editTextFullName.text.toString().trim()
-            val userName = binding.editTextUsername.text.toString().trim()
-            val email = binding.editTextEmail.text.toString().trim()
-            val phoneNumber = binding.editTextPhoneNumber.text.toString().trim()
-            val password = binding.editTextNewPassword.text.toString().trim()
+        val addAdmin = findViewById<Button>(R.id.buttonAddAdmin)
+        addAdmin.setOnClickListener {
+
+            val fullName = editTextFullName.text.toString().trim()
+            val userName = editTextUserName.text.toString().trim()
+            val email = editTextEmail.text.toString().trim()
+            val phoneNumber = editTextPhoneNumber.text.toString().trim()
+            val password = editTextPassword.text.toString().trim()
 
             if (validateInputs(fullName, userName, email, phoneNumber, password)) {
                 // Inputs are valid, check if the username is available
-                checkUsernameAvailability(userName, email, password, fullName, phoneNumber)
+                checkUsernameAvailability(email, password, fullName, userName, phoneNumber)
             }
         }
     }
@@ -81,10 +100,10 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun checkUsernameAvailability(
-        userName: String,
         email: String,
         password: String,
         fullName: String,
+        userName: String,
         phoneNumber: String
     ) {
         usernamesRef.child(userName).addListenerForSingleValueEvent(object : ValueEventListener {
@@ -93,8 +112,8 @@ class RegisterActivity : AppCompatActivity() {
                     // Username already exists
                     showToast("Username is already taken.")
                 } else {
-                    // Username is available, register the user
-                    registerUser(email, password, fullName, userName, phoneNumber)
+                    // Username is available, register the admin
+                    registerAdmin(email, password, fullName, userName, phoneNumber)
                 }
             }
 
@@ -104,7 +123,7 @@ class RegisterActivity : AppCompatActivity() {
         })
     }
 
-    private fun registerUser(
+    private fun registerAdmin(
         email: String,
         password: String,
         fullName: String,
@@ -116,10 +135,9 @@ class RegisterActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Registration success
                     val user = firebaseAuth.currentUser
-                    addUserDetailsToDatabase(user?.uid, fullName, userName, email, phoneNumber)
-                    addUserToUsernamesNode(userName)
-                    showToast("Registration successful.")
-                    startActivity(Intent(this, MainActivity::class.java))
+                    addAdminDetailsToDatabase(user, fullName, userName, email, phoneNumber)
+                    showToast("Admin Added")
+                    startActivity(Intent(this, AdminActivity::class.java))
                     finish()
                 } else {
                     // Registration failed
@@ -128,17 +146,18 @@ class RegisterActivity : AppCompatActivity() {
             }
     }
 
-    private fun addUserDetailsToDatabase(
-        userId: String?,
+    private fun addAdminDetailsToDatabase(
+        user: FirebaseUser?,
         fullName: String,
         userName: String,
         email: String,
         phoneNumber: String
     ) {
-        userId?.let {
-            val usersRef = database.getReference("Users")
-            val userDetails = UserDetails("", fullName, userName, email, phoneNumber)
-            usersRef.child(userId).setValue(userDetails)
+        user?.let {
+            val adminRef = database.getReference("Admin")
+            val userDetails = UserDetails(user.uid, fullName, userName, email, phoneNumber)
+            adminRef.child(user.uid).setValue(userDetails)
+            addUserToUsernamesNode(userName)
         }
     }
 

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutViewFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
+            android:background="@drawable/rounded_background">
+
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:text="AUTO CONNECT"
+                android:textColor="#FFFFFF"
+                android:layout_centerHorizontal="true"
+                android:textSize="46sp"
+                android:textStyle="bold" />
+
+            <!-- Subheading -->
+            <TextView
+                android:id="@+id/textViewFeedbackTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewTitle"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="0dp"
+                android:text="View App Feedback"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp" />
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewRatings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relativeLayoutViewFeedback"
+            android:layout_above="@id/buttonBackFromViewFeedback"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_background"
+            android:divider="#CCCCCC"
+            android:dividerHeight="1dp"
+            android:textColor="#000000"
+            android:padding="8dp"
+            android:clipToPadding="false" />
+
+
+        <!-- Button -->
+        <Button
+            android:id="@+id/buttonBackFromViewFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="80dp"
+            android:background="@drawable/rounded_button"
+            android:text="Go Back To Admin Panel"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

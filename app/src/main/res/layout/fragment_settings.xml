@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:padding="16dp">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
+            android:background="@drawable/rounded_background">
+
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:text="AUTO CONNECT"
+                android:textColor="#FFFFFF"
+                android:layout_centerHorizontal="true"
+                android:textSize="46sp"
+                android:textStyle="bold" />
+
+            <!-- Subheading -->
+            <TextView
+                android:id="@+id/textViewSettingsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewTitle"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="0dp"
+                android:text="SETTINGS"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp" />
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relativeLayoutSettings"
+            android:background="@drawable/rounded_background"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:id="@+id/linearLayoutToggle">
+
+            <!-- TextView for Notification Check Comment -->
+            <TextView
+                android:id="@+id/toggleNotificationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enable Notifications:"
+                android:padding="8dp"
+                android:textColor="#FFFFFF"/>
+
+            <!-- Switch for enabling/disabling notifications -->
+            <Switch
+                android:id="@+id/notificationSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/toggleNotificationText"
+                android:layout_alignBaseline="@id/toggleNotificationText"
+                android:layout_gravity="center_vertical|end"
+                android:minWidth="100dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_background"
+            android:layout_marginTop="16dp"
+            android:layout_below="@id/linearLayoutToggle"
+            android:padding="16dp"
+            android:id="@+id/linearNotif">
+
+            <!-- TextView for Notification Check Comment -->
+            <TextView
+                android:id="@+id/notificationCheckComment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Press the button to test notification:"
+                android:padding="8dp"
+                android:textColor="#FFFFFF"/>
+
+            <!-- Button for testing notification -->
+            <Button
+                android:id="@+id/testNotificationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Notification"
+                android:layout_gravity="center_vertical|end"
+                android:minWidth="100dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_background"
+            android:layout_marginTop="16dp"
+            android:layout_below="@id/linearNotif"
+            android:padding="16dp"
+            android:id="@+id/linearDelayedNotif">
+
+            <!-- TextView for Delayed Notification Check Comment -->
+            <TextView
+                android:id="@+id/delayedNotificationCheckComment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Press the button to test 10 sec delayed notification:"
+                android:padding="8dp"
+                android:textColor="#FFFFFF"/>
+
+            <!-- Button for testing delayed notification -->
+            <Button
+                android:id="@+id/testDelayedNotificationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Notification"
+                android:layout_gravity="center_vertical|end"
+                android:minWidth="100dp"/>
+
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_background"
+            android:layout_marginTop="16dp"
+            android:layout_below="@id/linearDelayedNotif"
+            android:padding="16dp"
+            android:id="@+id/linearSettingsSoon">
+
+            <!-- TextView for Delayed Notification Check Comment -->
+            <TextView
+                android:id="@+id/soonComment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="New settings coming soon!"
+                android:padding="8dp"
+                android:textColor="#FFFFFF"/>
+
+            <!-- Button for testing delayed notification -->
+            <Button
+                android:id="@+id/soonButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Okay"
+                android:layout_gravity="center_vertical|end"
+                android:minWidth="100dp"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonBack2"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="BACK"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:background="@drawable/rounded_button"
+            android:layout_below="@id/linearSettingsSoon"
+            android:layout_marginTop="16dp"/>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

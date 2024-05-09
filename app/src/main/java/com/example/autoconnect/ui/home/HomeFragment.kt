@@ -5,21 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.example.autoconnect.LoginActivity
+import android.Manifest
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import com.example.autoconnect.NotificationBroadcastReceiver
+import com.example.autoconnect.NotificationHelper
 import com.example.autoconnect.R
-import com.example.autoconnect.ReviewActivity
 import com.example.autoconnect.StartActivity
 import com.example.autoconnect.databinding.FragmentHomeBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 
 class HomeFragment : Fragment() {
 
@@ -36,33 +37,49 @@ class HomeFragment : Fragment() {
 
         val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
+        // Request notification policy access permission
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.ACCESS_NOTIFICATION_POLICY),
+            0
+        )
+
+        NotificationHelper.createNotificationChannel(requireContext())
+
+
         binding.buttonSignOut.setOnClickListener {
+            val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val sharedPreferences = requireContext().getSharedPreferences("notification_request_codes", Context.MODE_PRIVATE)
+            val requestCodesJson = sharedPreferences.getString("request_codes", null)
+            val requestCodes = Gson().fromJson(requestCodesJson, Array<Int>::class.java)
+
+            requestCodes?.forEach { requestCode ->
+                val notificationIntent = Intent(context, NotificationBroadcastReceiver::class.java)
+                val pendingIntent = PendingIntent.getBroadcast(
+                    context,
+                    requestCode,
+                    notificationIntent,
+                    PendingIntent.FLAG_IMMUTABLE
+                )
+
+                pendingIntent?.let {
+                    alarmManager.cancel(it)
+                    it.cancel()
+                }
+            }
+
             Firebase.auth.signOut()
             startActivity(Intent(requireContext(), StartActivity::class.java))
             requireActivity().finish()
         }
 
+        binding.buttonSettings.setOnClickListener {
+            findNavController().navigate(R.id.navigation_settings)
+        }
+
         binding.buttonAbout.setOnClickListener {
-            findNavController().navigate(R.id.navigation_search)
+            findNavController().navigate(R.id.navigation_about)
         }
-/*
-        binding.buttonGarage.setOnClickListener {
-            findNavController().popBackStack(R.id.navigation_home, false)
-            findNavController().navigate(R.id.navigation_garage)
-        }*/
-
-        binding.buttonLeaveReview.setOnClickListener {
-            startActivity(Intent(requireContext(), ReviewActivity::class.java))
-           // requireActivity()
-        }
-        // Uncomment the following lines if you need to observe ViewModel data
-        /*
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        */
-
         return root
     }
 

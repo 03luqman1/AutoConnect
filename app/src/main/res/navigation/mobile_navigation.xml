@@ -40,6 +40,24 @@
         tools:layout="@layout/fragment_add" />
 
     <fragment
+        android:id="@+id/navigation_about"
+        android:name="com.example.autoconnect.ui.about.AboutFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_about" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.autoconnect.ui.settings.SettingsFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/navigation_feedback"
+        android:name="com.example.autoconnect.ui.review.ReviewFragment"
+        android:label="Feedback"
+        tools:layout="@layout/fragment_review" />
+
+    <fragment
         android:id="@+id/navigation_search"
         android:name="com.example.autoconnect.ui.search.SearchFragment"
         android:label="@string/title_search"

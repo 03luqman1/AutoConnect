@@ -1,5 +1,8 @@
 package com.example.autoconnect
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -18,6 +21,8 @@ import com.google.firebase.ktx.Firebase
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private val NOTIFICATION_CHANNEL_ID = "my_channel"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,11 +69,44 @@ class MainActivity : AppCompatActivity() {
                         navController.navigate(R.id.navigation_garage)
                         previousDestinationId = R.id.navigation_garage
                     }
+            } else if (destination.id == R.id.navigation_about) {
+                if (previousDestinationId != R.id.navigation_home) {
+                    navController.navigate(R.id.navigation_home)
+                    previousDestinationId = R.id.navigation_home
                 }
+            } else if (destination.id == R.id.navigation_settings) {
+                if (previousDestinationId != R.id.navigation_home) {
+                    navController.navigate(R.id.navigation_home)
+                    previousDestinationId = R.id.navigation_home
+                }
+            }
             else {
                 previousDestinationId = destination.id
             }
         }
 
     }
+    // Function to get the current notification state from SharedPreferences
+    fun getNotificationState(): Boolean {
+        val sharedPreferences = getSharedPreferences("notification_prefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("notifications_enabled", true) // Default to true if not found
+    }
+
+    // Function to update the notification state in SharedPreferences
+    fun setNotificationState(enabled: Boolean) {
+        val sharedPreferences = getSharedPreferences("notification_prefs", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putBoolean("notifications_enabled", enabled).apply()
+
+        // Cancel pending notifications if notifications are disabled
+        if (!enabled) {
+           // cancelNotifications()
+        }
+    }
+
+    // Function to cancel all pending notifications
+
+
+
+
+
 }

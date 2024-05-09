@@ -16,9 +16,9 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_community"
+        android:id="@+id/navigation_feedback"
         android:icon="@drawable/ic_community_black_24dp"
-        android:title="@string/title_community" />
+        android:title="Feedback" />
 
     <item
         android:id="@+id/navigation_social"

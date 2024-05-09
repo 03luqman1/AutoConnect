@@ -1,25 +1,37 @@
-package com.example.autoconnect
+package com.example.autoconnect.ui.review
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RatingBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.autoconnect.dataclasses.Review
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.autoconnect.MainActivity
+import com.example.autoconnect.R
+import com.example.autoconnect.databinding.FragmentGarageBinding
+import com.example.autoconnect.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class ReviewActivity : AppCompatActivity() {
+class ReviewFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private var currentToast: Toast? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_review)
+    private var _binding: FragmentHomeBinding? = null
+
+    private val binding get() = _binding!!
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(com.example.autoconnect.R.layout.fragment_review, container, false)
 
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
@@ -27,9 +39,9 @@ class ReviewActivity : AppCompatActivity() {
 
 
         // Get references to the views
-        val ratingBar: RatingBar = findViewById(R.id.ratingBar)
-        val editTextComments: EditText = findViewById(R.id.editTextComments)
-        val buttonSubmitReview: Button = findViewById(R.id.buttonSubmitReview)
+        val ratingBar: RatingBar = view.findViewById(R.id.ratingBar)
+        val editTextComments: EditText = view.findViewById(R.id.editTextComments)
+        val buttonSubmitReview: Button = view.findViewById(R.id.buttonSubmitReview)
 
         buttonSubmitReview.setOnClickListener {
             // Get the selected rating and comments
@@ -44,7 +56,8 @@ class ReviewActivity : AppCompatActivity() {
                     // Add review details to the Realtime Database
                     addReviewToDatabase(rating, comments)
 
-                    startActivity(Intent(this, MainActivity::class.java))
+                    val navController = findNavController()
+                    navController.navigate(R.id.navigation_home)
                 } else {
                     // Display a toast indicating that a rating must be selected
                     showToast("Please select a star rating before submitting your review.")
@@ -52,6 +65,7 @@ class ReviewActivity : AppCompatActivity() {
             }
         }
 
+        return view
     }
 
     private fun addReviewToDatabase(rating: Float, comments: String) {
@@ -78,7 +92,7 @@ class ReviewActivity : AppCompatActivity() {
 
     private fun showToast(message: String) {
         currentToast?.cancel()
-        currentToast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
+        currentToast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
         currentToast?.show()
     }
 }
