@@ -5,14 +5,15 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.autoconnect.databinding.ActivityRegisterBinding
-import com.example.autoconnect.UserDetails
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var database: FirebaseDatabase
+    private lateinit var usernamesRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +21,8 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         firebaseAuth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance()
+        usernamesRef = database.getReference("Usernames")
 
         binding.textViewSignIn.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
@@ -34,8 +37,8 @@ class RegisterActivity : AppCompatActivity() {
             val password = binding.editTextNewPassword.text.toString().trim()
 
             if (validateInputs(fullName, userName, email, phoneNumber, password)) {
-                // Inputs are valid, register the user in Firebase Authentication
-                registerUser(email, password, fullName, userName, phoneNumber)
+                // Inputs are valid, check if the username is available
+                checkUsernameAvailability(userName, email, password, fullName, phoneNumber)
             }
         }
     }
@@ -77,6 +80,30 @@ class RegisterActivity : AppCompatActivity() {
         return true
     }
 
+    private fun checkUsernameAvailability(
+        userName: String,
+        email: String,
+        password: String,
+        fullName: String,
+        phoneNumber: String
+    ) {
+        usernamesRef.child(userName).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    // Username already exists
+                    showToast("Username is already taken.")
+                } else {
+                    // Username is available, register the user
+                    registerUser(email, password, fullName, userName, phoneNumber)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                showToast("Error checking username availability.")
+            }
+        })
+    }
+
     private fun registerUser(
         email: String,
         password: String,
@@ -90,6 +117,7 @@ class RegisterActivity : AppCompatActivity() {
                     // Registration success
                     val user = firebaseAuth.currentUser
                     addUserDetailsToDatabase(user?.uid, fullName, userName, email, phoneNumber)
+                    addUserToUsernamesNode(userName)
                     showToast("Registration successful.")
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
@@ -108,11 +136,14 @@ class RegisterActivity : AppCompatActivity() {
         phoneNumber: String
     ) {
         userId?.let {
-            val database = FirebaseDatabase.getInstance()
             val usersRef = database.getReference("Users")
-            val userDetails = UserDetails("",fullName, userName, email, phoneNumber)
+            val userDetails = UserDetails("", fullName, userName, email, phoneNumber)
             usersRef.child(userId).setValue(userDetails)
         }
+    }
+
+    private fun addUserToUsernamesNode(userName: String) {
+        usernamesRef.child(userName).setValue(true)
     }
 
     private fun showToast(message: String) {
