@@ -3,7 +3,7 @@
     <style name="Base.Theme.AutoConnect" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="android:windowBackground">#CCCCCC</item>
+        <item name="android:windowBackground">@drawable/background2</item>
 
         <!-- Primary brand color. -->
         <item name="colorPrimary">#C60000</item>

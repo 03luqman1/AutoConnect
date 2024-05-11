@@ -105,6 +105,10 @@ class GarageFragment : Fragment() {
             // Listen for changes in the vehicles node
             vehiclesRef.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    if (!isAdded) {
+                        return
+                    }
+
                     val vehicleList = mutableListOf<VehicleInfo>()
 
                     val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
