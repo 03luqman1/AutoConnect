@@ -8,6 +8,7 @@ AutoConnect is an Android application that helps users manage their vehicles and
 - **Social Interaction**: Users can connect with other users, send messages, and share information about their vehicles.
 - **Notifications**: Users receive notifications about new messages and updates related to their vehicles.
 - **User Authentication**: Secure user authentication with Firebase Authentication.
+- **More App Details**: Visit the following link for more details about the app: https://autoconnect-74714.web.app/
 
 ## Installation
 
