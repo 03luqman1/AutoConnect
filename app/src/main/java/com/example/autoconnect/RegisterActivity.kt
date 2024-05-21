@@ -55,27 +55,22 @@ class RegisterActivity : AppCompatActivity() {
             showToast("Please enter a valid full name (1-50 characters).")
             return false
         }
-
         if (userName.isEmpty() || userName.length < 1 || userName.length > 50) {
             showToast("Please enter a valid username (1-50 characters).")
             return false
         }
-
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             showToast("Please enter a valid email address.")
             return false
         }
-
         if (phoneNumber.isEmpty() || !android.util.Patterns.PHONE.matcher(phoneNumber).matches() || phoneNumber.length > 15) {
             showToast("Please enter a valid phone number.")
             return false
         }
-
         if (password.length < 8 || password.length > 20 || password.contains(" ")) {
             showToast("Please enter a password between 8 and 20 characters without spaces.")
             return false
         }
-
         // All inputs are valid
         return true
     }

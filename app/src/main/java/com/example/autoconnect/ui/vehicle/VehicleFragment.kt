@@ -245,16 +245,13 @@ class VehicleFragment : Fragment() {
 
 
 
-
-
-
-// Create OkHttpClient instance
+            // Create OkHttpClient instance
             val client = OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS) // Set timeout if needed
                 .readTimeout(30, TimeUnit.SECONDS)    // Set timeout if needed
                 .build()
 
-// Define the request
+            // Define the request
             val request = Request.Builder()
                 .url("https://beta.check-mot.service.gov.uk/trade/vehicles/mot-tests?registration=${vehicleInfo.registrationNumber}")
                 .addHeader("Accept", "application/json+v6")
@@ -262,7 +259,7 @@ class VehicleFragment : Fragment() {
                 .addHeader("Cookie", "incap_ses_1184_1151098=itS6XtMCMUaXg5VCHmpuELwx32UAAAAAKyIy9B1xRP4sWGzRiHnDrA==; nlbi_1151098=SOXfUQF6iRyqGoTVsRy5CgAAAADFLSJLw2S1NE+mACTWYWfR; visid_incap_1151098=CnGlY4ygRb6EhBBj29MO5sgw32UAAAAAQUIPAAAAAAD1F/Q1H/OQRROuDR9AzOfw")
                 .build()
 
-// Make the API call asynchronously
+            // Make the API call asynchronously
             client.newCall(request).enqueue(object : okhttp3.Callback {
                 override fun onFailure(call: okhttp3.Call, e: IOException) {
                     // Handle failure, e.g., show error message
